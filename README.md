@@ -1,4 +1,4 @@
-![image](https://github.com/yongjingmao/ShoreModel_Benchmark/assets/32618033/79ac9411-0e19-490e-ad97-4865c52908f7)# Shoreshop_Benchmark
+# Shoreshop_Benchmark
 This repository is a testbed for shoreline modeling algorithms. It contains all benchmark datasets, input files, evaluation codes and evaluation results.
 
 ## Background and Objectives
