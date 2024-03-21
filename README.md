@@ -1,4 +1,4 @@
-# Shoreshop_Benchmark
+![image](https://github.com/yongjingmao/ShoreModel_Benchmark/assets/32618033/79ac9411-0e19-490e-ad97-4865c52908f7)# Shoreshop_Benchmark
 This repository is a testbed for shoreline modeling algorithms. It contains all benchmark datasets, input files, evaluation codes and evaluation results.
 
 ## Background and Objectives
@@ -32,6 +32,7 @@ Given the shoreline position data in 1950 and in the 1987-2018 period and as wel
 - ***Task2.Long-term prediction***: Predict shoreline position at the target dateimtes between 1950 and 1987 with timestep about 10 years interval.
 
 ### Modeling rules
+- Participants should not attempt to locate and retrieve the target shoreline data for Beach_X.
 - Participants may use any type of model including but not limited to hydrid and data-driven models.
 - Participants need to complete at least 1 task but it is encouraged to attempt both two tasks.
 - Participants must provide a short description to the method used. 
@@ -46,7 +47,7 @@ For each of these transects, the model prediction will be evaluated against the 
 
 ## Input data
 The following files are provided for shoreline prediction.
-- `shorelines_obs_short.csv`: Shoreline position between 1987 and 2018 for model calibration/training for each transect. 
+- `shorelines_obs.csv`: Shoreline position between 1987 and 2018 for model calibration/training for each transect. 
 - `shorelines_target_short.csv`: Target dates of short-term shoreline prediction, shoreline position values need to be filled with model prediction.
 - `shorelines_target_long.csv`: Target dates of long-term shoreline prediction including the shoreline position for 1950, other missing shoreline position values need to be filled with model prediction.
 - `Wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1979 and 2024 for each transect.
@@ -56,14 +57,17 @@ The following constants are also provided.
 
 
 ### Shoreline
-Shoreline data used in this workshop is derived from publich satellite (Landsat 5, 7, 8&9) images with [CoastSat](https://github.com/kvos/CoastSat) — a public toolbox. \
-The satellite derived shoreline (SDS) data for model calibration/training starts from 1987 and ends at 2018 with 455 inequal time steps. \
+The Shoreline data in `shorelines_obs.csv` used in this workshop is derived from publich satellite (Landsat 5, 7, 8&9) images with [CoastSat](https://github.com/kvos/CoastSat) — a public toolbox. \
+The satellite derived shoreline (SDS) data for model calibration/training starts from 1987 and ends at 2018 with 455 time steps. \
 The shoreline position (m) is defined as the distance between the landward end of a transect to the intersection of the shoreline and the transect. \
 The first colum shows the time of the record. Columns 2 to 10 are the shoreline position for each trasect respectively.
 
 Satellite derived shoreline position data matches the ground truth data in the Beach_X very well.
 <img src="figures/shorelines_temporal.jpg" width="800">
 
+For short-term shoreline prediction, The `shorelines_target_short.csv` contains the target dates from 2019 to 2023 for short-term shoreline prediction. All the shoreline position values are wiped out and will not be released before receiving all submissions. Participants need to fill these misssing values based on model results. In the evaluation stage, the predictions will be compared against the shoreline position data from the same source as the data used for calibration/training.
+
+For long-term shoreline prediction, `shorelines_target_long.csv` contains the shoreline data for 5/Jan/1951 as the context for long-term prediction. The shoreline data in other target dates need to be filled with the long-term shoreline prediction. In the evaluation stage, the predictions will be compared against the groud photogrammetry data at the target dates.
 
 ### Wave data
 The nearshore wave data used in this workshop was obtained by downscaling offshore directional wave spectra to nearshore areas.
@@ -93,7 +97,7 @@ To submit your results, please:
 6. Create a [Pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) to the original repository to submit your results.
 
 
-If you need any help with this submission, please post in the [GitHub Issues](https://github.com/SatelliteShorelines/SDS_Benchmark/issues) page.
+If you need any help with this submission, please post in the [GitHub Issues](https://github.com/yongjingmao/ShoreModel_Benchmark/issues) page.
 
 ### Deadline
 
