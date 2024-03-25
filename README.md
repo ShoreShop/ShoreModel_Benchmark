@@ -38,8 +38,10 @@ Given the shoreline position data in the 1987-2018 period, along with the shorel
 ### Evaluation
 - **Target Transects**: The target transects used for evaluation include ***Transects 1, 4 and 7*** in the North end, the middle and the South end of the beach respectively.
 - **Target shorelines**: For each of the target transects, the model prediction will be evaluated against the observed (hidden) shoreline data at target datetimes.
-- **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting NMSE, Correlation and STD) will be used to visualize and compare the model performance for each of the target transect.\
- ***(What is the exat scoring metrics? How to aggregate the Taylor diagram for all target transects? Need a discussion.)***
+- **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting NMSE, Correlation and STD) will be used to visualize and compare the model performance for each of the target transect.
+<img src="figures/TaylorDiagram.jpg" width="1200">
+
+  ***(What is the exat scoring metrics? How to aggregate the Taylor diagram for all target transects? Need a discussion.)***
 
 ### Modeling rules
 - Participants should refrain from attempting to locate or retrieve the actual shoreline data for Beach_X.
@@ -85,7 +87,7 @@ Participants should fill the missing values in the `shorelines_target_short.csv`
 `shorelines_target_long.csv`-->`shorelines_prediction_long.csv`.\
 All prediction submissions should be placed in the designated submission folder.
 The submission folder will house shoreline predictions from various participants.
-An illustrative example of a submission is provided in the ShoreFor folder for reference.
+Three illustrative examples of submission are provided in the submission folder for reference. ShoreFor model completes both short and long-term prediction tasks. [Chronos](https://github.com/amazon-science/chronos-forecasting) and [Lag-LLama](https://github.com/time-series-foundation-models/lag-llama) are the two benchmarks from LLM models which do not have long-term prediction capability.
 
 ## How to submit
 
