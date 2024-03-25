@@ -4,7 +4,7 @@
 - `shorelines_target_long.csv`: Target dates of long-term shoreline prediction including the shoreline position for 1950, other missing shoreline position values need to be filled with model prediction.
 - `shorelines_groundtruth.csv`: Groundtruth data from phtogrammetry.
 
-Each of these files follows the same structure:
+Each of these files follows the same structure, below is the example for `shorelines_obs.csv`:
 - **Datetime**: Datetime in UTC+00:00
 - **Transect#**: Shoreline positions for Transect#
 
