@@ -876,8 +876,8 @@ if __name__ == "__main__":
     END_TIME_TRAIN = '2019-01-01'
     END_TIME_PRED = '2024-01-01'
     
-    fp = "../../datasets/{}".format(SITE)
-    fp_out = r"../../submissions/ShoreFor/{}".format(SITE)
+    fp = "../../datasets"
+    fp_out = r"../../submissions/ShoreFor"
     
     # #Loading shoreline positions
     shorelines_obs = pd.read_csv(os.path.join(fp, 'shorelines_obs.csv'), index_col='Datetime')
@@ -898,6 +898,9 @@ if __name__ == "__main__":
             index_col = 'Datetime'
         )
         df_wave.index = pd.to_datetime(df_wave.index)
+        #df_wave.drop(columns=['aus0208-0001',  'aus0208-0002'], inplace=True)
+        #df_wave.columns = ['Transect{}'.format(i) for i in range(1, 10)]
+        #df_wave.to_csv(os.path.join(fp, 'waves' ,'{}.csv'.format(wave_param)))
         dfs_wave[wave_param] = df_wave
         
     
