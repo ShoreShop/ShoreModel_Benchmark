@@ -18,7 +18,7 @@ Join us at ShoreShop 2.0 to delve deeper into the latest advancements, share ins
 
 The following notebooks are available in this repo:
 - [1.data_explore.ipynb](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/1.data_explore.ipynb): explore the input transect, shoreline and wave data.
-- [2.model_compare.ipynb](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/2.model_compare.ipynb): compare and evaluate all the submitted model predictions against the shoreline position (unreleased).
+- [2.model_compare.ipynb](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/2.model_compare.ipynb): compare and evaluate all the submitted model predictions against the target shoreline positions.
 
 ## Task description
 ### Beach_X
