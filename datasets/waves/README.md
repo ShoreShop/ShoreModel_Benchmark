@@ -5,7 +5,7 @@
 
 Each of these files follows the same structure, below is the example for `Hs.csv`:
 - **Datetime**: Datetime in UTC+00:00
-- **Transect#**: Shoreline positions for Transect#
+- **Transect#**: Hs for Transect#
 
 | Datetime   | Transect1  | Transect2  | Transect3  | Transect4  | Transect5  | Transect6  | Transect7  | Transect8  | Transect9  |
 |------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
