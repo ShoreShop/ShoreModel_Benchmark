@@ -36,7 +36,7 @@ Given the shoreline position data in the 1987-2018 period, along with the shorel
 - ***Task2.Long-term prediction***: Predict the shoreline position at target datetimes between 1950 and 1987 with a timestep of approximately 10 years.
 
 ### Evaluation
-- **Target Transects**: The target transects used for evaluation include ***Transects 1, 4 and 7*** in the North end, the middle and the South end of the beach respectively.
+- **Target Transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
 - **Target shorelines**: For each of the target transects, the model prediction will be evaluated against the observed (hidden) shoreline data at target datetimes.
 - **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting NMSE, Correlation and STD) will be used to visualize and compare the model performance for each of the target transect.
 <img src="figures/TaylorDiagram.jpg" width="1200">
@@ -65,7 +65,7 @@ The following constants are also provided.
 The shoreline data (`shorelines_obs.csv`) utilized in the ShoreShop 2.0 workshop is derived from public satellite images captured by Landsat 5, 7, 8, and 9 satellites. This data has been processed using [CoastSat](https://github.com/kvos/CoastSat), a public toolbox specifically designed for coastline analysis. \
 The satellite derived shoreline (SDS) data for model calibration/training starts from 1987 and ends at 2018 with 455 time steps. \
 The shoreline position (m) is defined as the distance between the landward end of a transect to the intersection of the shoreline and the transect. \
-The first colum shows the time of the record. Columns 2 to 10 are the shoreline position for each trasect respectively.\
+All the shorelines have been corrected to reflect the instaneous position at Mean Sea Level.\
 The satellite-derived shoreline position data exhibits a high level of accuracy and closely aligns with the ground truth data for Beach_X, ensuring reliable model calibration and training.\
 <img src="figures/shorelines_temporal.jpg" width="800">
 
