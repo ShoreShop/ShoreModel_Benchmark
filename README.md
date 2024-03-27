@@ -9,8 +9,8 @@ Shoreline change prediction has witnessed the evolution of both hybrid and data-
 - **Blind Testing Element**: Drawing inspiration from ShoreShop 1.0, ShoreShop 2.0 retains its core feature of blind testing to provide unbiased evaluations of the predictive models.
 - **Key Focus Areas**:
   1. Assessing the performance of shoreline models using freely available datasets such as satellite-derived shorelines and wave hindcasts.
-  2. Evaluating the capabilities of shoreline models for both short-term (5 years) and long-term (50 years) predictions.
-  3. Investigating the variability in shoreline model accuracy along the coastlines.
+  2. Evaluating the capabilities of shoreline models for both short-term (5 years) and long-term (35 years) predictions.
+  3. Investigating the variability in shoreline model accuracy along the coastlines of a embayed beach.
 
 Join us at ShoreShop 2.0 to delve deeper into the latest advancements, share insights, and foster collaborative efforts in the field of shoreline change prediction.
 
@@ -23,7 +23,7 @@ The following notebooks are available in this repo:
 ## Task description
 ### Beach_X
 A real-world Beach_X serves as the target site for this workshop. To ensure a blind test, all geographical information regarding this beach has been intentionally removed. \
-What we do know is that Beach_X is an east-facing sandy beach with the mean grain size ***D50 ≈ 0.3 mm***.\
+What we do know is that Beach_X is an east-facing embayed sandy beach with the mean grain size ***D50 ≈ 0.3 mm***.\
 9 shore-normal transects are established from North to South with a 100-meter longshore distance to measure shoreline position. The coordinates for the landward and seaward ends of transects are provided in `transects_coords.csv`.
 These coordinates are in a local coordinate system, deliberately shifted (not distorted or rotated), and are expressed in easting and northing with a unit of meters. They do not reveal the actual geographical location of Beach_X.
 
@@ -32,8 +32,8 @@ These coordinates are in a local coordinate system, deliberately shifted (not di
 ### Tasks
 Given the shoreline position data in the 1987-2018 period, along with the shoreline position in 1950 and wave data spanning from 1950 to 2024, participants are tasked with:
 
-- ***Task1.Short-term prediction***: Predict the shoreline position at target datetimes between 2018 and 2024 with a timestep of approximately two weeks.
-- ***Task2.Long-term prediction***: Predict the shoreline position at target datetimes between 1950 and 1987 with a timestep of approximately 10 years.
+- ***Task1.Short-term prediction***: Predict the shoreline position at target datetimes between 2019-01-01 and 2023-12-31 with daily timestep.
+- ***Task2.Long-term prediction***: Predict the shoreline position at target datetimes between 1951-01-05 and 1986-12-31 with daily timestep.
 
 ### Evaluation
 - **Target Transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
