@@ -33,33 +33,34 @@ fn_target = 'shorelines_target.csv'
 fn_predict = 'shorelines_prediction.csv'
 
 
-def getCmdargs():
-    p = argparse.ArgumentParser()
-    p.add_argument("-fp_in", "--input", type=str, default=None,
-                   help="Work directory")
-    p.add_argument("-rd", "--ROI_dir", type=str, 
-                   default="/scratch/rsc8/yongjingm/Github/ground_cover_convlstm/Data/Shapefiles/GBRCA_grazing.zip",
-                   help="ROI directory")
-    p.add_argument("-gd", "--gc_dir", type=str, 
-                   default="/scratch/rsc3/fractionalcover3_cache/ground_cover_seasonal/qld",
-                   help="Ground cover directory")
-    p.add_argument("-ad", "--aux_dir", type=str, 
-                   default="/scratch/rsc8/yongjingm/Auxiliary data",
-                   help="Auxiliary data directory")
-    p.add_argument("-md", "--model_dir", type=str,
-                   default="/scratch/rsc8/yongjingm/Github/ground_cover_convlstm/trained_models/PredRNN_rs/predrnn.ckpt",
-                   help="Model directory")
-    p.add_argument("--config_dir", type=str,
-                   default="/scratch/rsc8/yongjingm/Github/ground_cover_convlstm/config",
-                   help="Config directory")
-    p.add_argument("-tw", "--tile_width", type=int, default=1280,
-                   help="Width of each tile")
-    p.add_argument("-th", "--tile_height", type=int, default=1280,
-                   help="Height of each tile")    
-    p.add_argument("-ce", "--clear_cache", action="store_true",
-                   help="Whether clear cache")
-    cmdargs = p.parse_args()
-    return cmdargs
+# def getCmdargs():
+#     p = argparse.ArgumentParser()
+#     p.add_argument("-fp_in", "--input", type=str, default=None,
+#                    help="Work directory")
+#     p.add_argument("-rd", "--ROI_dir", type=str, 
+#                    default="/scratch/rsc8/yongjingm/Github/ground_cover_convlstm/Data/Shapefiles/GBRCA_grazing.zip",
+#                    help="ROI directory")
+#     p.add_argument("-gd", "--gc_dir", type=str, 
+#                    default="/scratch/rsc3/fractionalcover3_cache/ground_cover_seasonal/qld",
+#                    help="Ground cover directory")
+#     p.add_argument("-ad", "--aux_dir", type=str, 
+#                    default="/scratch/rsc8/yongjingm/Auxiliary data",
+#                    help="Auxiliary data directory")
+#     p.add_argument("-md", "--model_dir", type=str,
+#                    default="/scratch/rsc8/yongjingm/Github/ground_cover_convlstm/trained_models/PredRNN_rs/predrnn.ckpt",
+#                    help="Model directory")
+#     p.add_argument("--config_dir", type=str,
+                   
+#                    default="/scratch/rsc8/yongjingm/Github/ground_cover_convlstm/config",
+#                    help="Config directory")
+#     p.add_argument("-tw", "--tile_width", type=int, default=1280,
+#                    help="Width of each tile")
+#     p.add_argument("-th", "--tile_height", type=int, default=1280,
+#                    help="Height of each tile")    
+#     p.add_argument("-ce", "--clear_cache", action="store_true",
+#                    help="Whether clear cache")
+#     cmdargs = p.parse_args()
+#     return cmdargs
 
 class ShoreFor(object):
     def __init__(self, g=9.81, ro=1025, gamma=0.78):
@@ -918,8 +919,8 @@ if __name__ == "__main__":
     
     fp_in = "../../datasets"
     fp_out = r"../../submissions/ShoreFor"
-    fn_train = 'shorelines_obs.csv'
-    fn_target = 'shorelines_target.csv'
+    fn_train = 'shorelines/shorelines_obs.csv'
+    fn_target = 'shorelines/shorelines_target_shortterm.csv'
     fn_predict = 'shorelines_prediction.csv'
     
     
@@ -949,7 +950,9 @@ if __name__ == "__main__":
         
     
     # Iterate over transects
-    for tran_id in shorelines_obs.columns:
+    
+    preds = []
+    for i, tran_id in enumerate(shorelines_obs.columns):
         shoreline_x = pd.Series(shorelines_obs[tran_id])
         
         dict_waves = {}
@@ -1001,18 +1004,23 @@ if __name__ == "__main__":
             fit_result=fit_result,
             b_zero = True)
         
+        preds.append(df_pred['shoreline_x_modelled'].resample('D').interpolate().rename(tran_id))
+        
         #shorefor.ShoreFor.plot_fit(fit_result, df_pred=df_pred)
         
         # shorelines_cali[tran_id] = df_pred['shoreline_x_modelled'].reindex(
         #     shorelines_cali.index, method='Nearest')
-        shorelines_targ[tran_id] = df_pred['shoreline_x_modelled'].reindex(
-            shorelines_targ.index, method='Nearest')
+        # shorelines_targ[tran_id] = df_pred['shoreline_x_modelled'].reindex(
+        #     shorelines_targ.index, method='Nearest')
+        
 
-    
+    df_pred = pd.concat(preds, axis=1)
     if not os.path.exists(fp_out):
         os.makedirs(fp_out)
-    shorelines_targ.to_csv(os.path.join(fp_out, fn_predict))
+    #shorelines_targ.to_csv(os.path.join(fp_out, fn_predict))
     #shorelines_cali.to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
+    df_pred[df_pred.index<=end_time_train].to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
+    df_pred[df_pred.index>end_time_train].to_csv(os.path.join(fp_out, 'shorelines_prediction.csv'))
     
     
     
