@@ -25,7 +25,7 @@ The following notebooks are available in this repo:
 A real-world Beach_X serves as the target site for this workshop. To ensure a blind test, all geographical information regarding this beach has been intentionally removed. \
 What we do know is that Beach_X is an east-facing embayed sandy beach with the mean grain size ***D50 ≈ 0.3 mm***.\
 9 shore-normal transects are established from North to South with a 100-meter longshore distance to measure shoreline position. The coordinates for the landward and seaward ends of transects are provided in `transects_coords.csv`.
-These coordinates are in a local coordinate system, deliberately shifted (not distorted or rotated), and are expressed in easting and northing with a unit of meters. They do not reveal the actual geographical location of Beach_X.
+These coordinates are in a local coordinate system, deliberately shifted (not distorted or rotated), and are expressed in easting (x) and northing (y) with a unit of meters. They do not reveal the actual geographical location of Beach_X.
 
 <img src="figures/transects.jpg" width="400">
 
@@ -37,11 +37,18 @@ Given the shoreline position data in the 1987-2018 period, along with the shorel
 
 ### Evaluation
 - **Target Transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
-- **Target shorelines**: For each of the target transects, the model prediction will be evaluated against the observed (hidden) shoreline data at target datetimes.
-- **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting NMSE, Correlation and STD) will be used to visualize and compare the model performance for each of the target transect.
-<img src="figures/TaylorDiagram.jpg" width="1200">
+- **Target shorelines**: For each of the target transects, the model prediction will be evaluated against the observed (hidden) shoreline data at target datetimes. The target datetimes for short-term and long-term task are in `shorelines_target_short.csv` and `shorelines_target_long.csv`.
+- **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting root-mean-square-error (RMSE), Correlation and standard deviation (STD)) will be used to visualize and compare the model performance for each of the target transect.\
+RMSE and STD of prediction are normalized by dividing them the STD of the observation (target). This ensures that all three statistical parameters in the diagram fall within the range of [0, 1]. The distance $Dist_{i}$ between the model points and the target point in the Taylor diagram is calculated for each target transect. The average of the distance $Dist_{avg}$ across all target transects serves as the final metric for ranking the model performance. A smaller distance indicates better model performance.
+  
+$$ RMSE_{norm} = \frac{RMSE}{STD_{targ}},   STD_{norm} = \frac{STD}{STD_{targ}}$$
 
-  ***(What is the exat scoring metrics? How to aggregate the Taylor diagram for all target transects? Need a discussion.)***
+$$ Dist_i = \sqrt{(0-RMSE_{norm})^2+(1-Corr)^2+(1-STD_{norm})^2} $$
+  
+$$ Dist_{avg} = \frac{1}{n} \sum_{i=1}^n Dist_i $$
+  
+  
+<img src="figures/TaylorDiagram.jpg" width="1500">
 
 ### Modeling rules
 - Participants should refrain from attempting to locate or retrieve the actual shoreline data for Beach_X.
@@ -53,8 +60,8 @@ Given the shoreline position data in the 1987-2018 period, along with the shorel
 ## Input data
 The following files are provided for shoreline prediction.
 - `shorelines_obs.csv`: Shoreline position between 1987 and 2018 for model calibration/training for each transect. 
-- `shorelines_target_short.csv`: Target dates of short-term shoreline prediction, shoreline position values need to be filled with model prediction.
-- `shorelines_target_long.csv`: Target dates of long-term shoreline prediction including the shoreline position for 1950, other missing shoreline position values need to be filled with model prediction.
+- `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
+- `shorelines_target_long.csv`: Target dates were long-term shoreline prediction will be evaluated. Shoreline position for 1950 is provided.
 - `Wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect.
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
@@ -82,11 +89,10 @@ The significant wave height (Hs), peak wave period (Tp) and peak wave direction 
 
 ## Outputs and Deliverables
 
-Participants should fill the missing values in the `shorelines_target_short.csv` and/or the `shorelines_target_long.csv` and rename these two files as:\
-`shorelines_target_short.csv`-->`shorelines_prediction_short.csv` and\
-`shorelines_target_long.csv`-->`shorelines_prediction_long.csv`.\
+Participants should provide short-term and long-term model predictions for **all transects** as `shorelines_prediction_short.csv` and `shorelines_prediction_long.csv`.\
+Both the short-term and long-term model predictions should be **daily**. For models which do not generate daily outputs, please interpolate the results to daily.\
 All prediction submissions should be placed in the designated submission folder.
-The submission folder will house shoreline predictions from various participants.
+The submission folder will have shoreline predictions from various participants.
 Three illustrative examples of submission are provided in the submission folder for reference. ShoreFor model completes both short and long-term prediction tasks. [Chronos](https://github.com/amazon-science/chronos-forecasting) and [Lag-LLama](https://github.com/time-series-foundation-models/lag-llama) are the two benchmarks from LLM models which do not have long-term prediction capability.
 
 ## How to submit
