@@ -3,7 +3,7 @@ This repository is a testbed for shoreline modeling algorithms. It contains all 
 
 ## Background and Objectives
 ### Background
-Shoreline change prediction has witnessed the evolution of both hybrid and data-driven models, offering valuable insights into how coastlines respond to varying wave conditions across different timeframes. Building on the success of the inaugural ShoreShop 1.0 ([Blind testing of shoreline evolution models](https://www.nature.com/articles/s41598-020-59018-y)) in 2018, which rigorously tested 19 shoreline models in predicting shoreline positions over a four-year period, ShoreShop 2.0 aims to further explore and showcase the evolving landscape of predictive methods.
+Shoreline change prediction has witnessed the evolution of both hybrid and data-driven models, offering valuable insights into how coastlines respond to varying wave conditions across different timeframes. Building on the success of the ShoreShop 1.0 ([Blind testing of shoreline evolution models](https://www.nature.com/articles/s41598-020-59018-y)) in 2018, which rigorously tested 19 shoreline models in predicting shoreline positions over a four-year period, ShoreShop 2.0 aims to further explore and showcase the evolving landscape of predictive methods.
 ### Objectives
 - **Diverse Methodology Showcase**: With the rapid advancements in data-driven models and the increasing availability of shoreline measurements, ShoreShop 2.0 intends to highlight the diversity of methods available for predicting shoreline changes.
 - **Blind Testing Element**: Drawing inspiration from ShoreShop 1.0, ShoreShop 2.0 retains its core feature of blind testing to provide unbiased evaluations of the predictive models.
@@ -37,11 +37,11 @@ Given the shoreline position data in the 1987-2018 period, along with the shorel
 
 ### Evaluation
 - **Target Transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
-- **Target shorelines**: For each of the target transects, the model prediction will be evaluated against the observed (hidden) shoreline data at target datetimes. The target datetimes for short-term and long-term task are in `shorelines_target_short.csv` and `shorelines_target_long.csv`.
+- **Target shorelines**: For each of the target transects, the model prediction will be evaluated against the observed shoreline data at target datetimes. The target datetimes for short-term and long-term task are in `shorelines_target_short.csv` and `shorelines_target_long.csv`. For blind testing, the observed shoreline data will be withheld for all participants.
 - **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting root-mean-square-error (RMSE), Correlation and standard deviation (STD)) will be used to visualize and compare the model performance for each of the target transect.\
-RMSE and STD of prediction are normalized by dividing them the STD of the observation (target). This ensures that all three statistical parameters in the diagram fall within the range of [0, 1]. The distance $Dist_{i}$ between the model points and the target point in the Taylor diagram is calculated for each target transect. The average of the distance $Dist_{avg}$ across all target transects serves as the final metric for ranking the model performance. A smaller distance indicates better model performance.
+RMSE and STD of prediction are normalized by dividing them by the STD of the observation (target). This ensures that all three statistical parameters in the diagram fall within the range of [0, 1]. The distance $Dist_{i}$ between the model points and the target point in the Taylor diagram is calculated for each target transect. The average of the distance $Dist_{avg}$ across all target transects serves as the final metric for ranking the model performance. A smaller distance indicates better model performance.
   
-$$ RMSE_{norm} = \frac{RMSE}{STD_{targ}},   STD_{norm} = \frac{STD}{STD_{targ}}$$
+$$ RMSE_{norm} = \frac{RMSE_{pred}}{STD_{targ}},   STD_{norm} = \frac{STD_{pred}}{STD_{targ}}$$
 
 $$ Dist_i = \sqrt{(0-RMSE_{norm})^2+(1-Corr)^2+(1-STD_{norm})^2} $$
   
