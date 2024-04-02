@@ -105,11 +105,13 @@ To submit your results, please:
    - Inside the submission folder, create a subfolder named ModelName_AuthorInitials. Replace ModelName with the name of your model and AuthorInitials with your initials.
 3. Place Your Prediction Files:
    - Copy your completed prediction files (shorelines_prediction_short.csv and/or shorelines_prediction_long.csv) into the subfolder created in Step 2.
-4. Include Your Code (Optional):
+4. Provide Your Model Description:
+   - Include a README.md file providing clear description about the model you used.
+5. Include Your Code (Optional):
    - Create another subfolder within the algorithm folder named ModelName_AuthorInitials.
    - Copy your commented code into this subfolder.
    - Include a README.md file providing clear instructions on how to run your code to reproduce the prediction outputs.
-5. Submit Your Results:
+6. Submit Your Results:
    - Create a [Pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) to the original workshop repository to submit your prediction results and optional code.
 
 If you need any help with this submission, please post in the [GitHub Issues](https://github.com/yongjingmao/ShoreModel_Benchmark/issues) page.
