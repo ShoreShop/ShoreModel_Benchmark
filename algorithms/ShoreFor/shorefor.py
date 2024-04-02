@@ -22,45 +22,27 @@ from datetime import timedelta as timedelta
 import shorefor
 
 
-START_TIME = '1987-01-01'
-END_TIME_TRAIN = '2019-01-01'
-END_TIME_PRED = '2024-01-01'
 
-fp_in = "../../datasets"
-fp_out = r"../../submissions/ShoreFor"
-fn_train = 'shorelines_obs.csv'
-fn_target = 'shorelines_target.csv'
-fn_predict = 'shorelines_prediction.csv'
+def getCmdargs():
+    p = argparse.ArgumentParser()
+    p.add_argument("-fp_in", "--filepath_input", type=str, 
+                    default="../../datasets",
+                    help="Input file directory")
+    p.add_argument("-fp_out", "--filepath_output", type=str, 
+                    default="../../submissions/ShoreFor",
+                    help="Output file directory")
+    p.add_argument("-ST", "--start_time", type=str, 
+                    default='1979-01-01',
+                    help="Start time for model prediction")
+    p.add_argument("-ETT", "--end_time_train", type=str, 
+                    default='2019-01-01',
+                    help="End time for training")
+    p.add_argument("-ETP", "--end_time_pred", type=str, 
+                    default='2024-01-01',
+                    help="End time for prediction")    
 
-
-# def getCmdargs():
-#     p = argparse.ArgumentParser()
-#     p.add_argument("-fp_in", "--input", type=str, default=None,
-#                    help="Work directory")
-#     p.add_argument("-rd", "--ROI_dir", type=str, 
-#                    default="/scratch/rsc8/yongjingm/Github/ground_cover_convlstm/Data/Shapefiles/GBRCA_grazing.zip",
-#                    help="ROI directory")
-#     p.add_argument("-gd", "--gc_dir", type=str, 
-#                    default="/scratch/rsc3/fractionalcover3_cache/ground_cover_seasonal/qld",
-#                    help="Ground cover directory")
-#     p.add_argument("-ad", "--aux_dir", type=str, 
-#                    default="/scratch/rsc8/yongjingm/Auxiliary data",
-#                    help="Auxiliary data directory")
-#     p.add_argument("-md", "--model_dir", type=str,
-#                    default="/scratch/rsc8/yongjingm/Github/ground_cover_convlstm/trained_models/PredRNN_rs/predrnn.ckpt",
-#                    help="Model directory")
-#     p.add_argument("--config_dir", type=str,
-                   
-#                    default="/scratch/rsc8/yongjingm/Github/ground_cover_convlstm/config",
-#                    help="Config directory")
-#     p.add_argument("-tw", "--tile_width", type=int, default=1280,
-#                    help="Width of each tile")
-#     p.add_argument("-th", "--tile_height", type=int, default=1280,
-#                    help="Height of each tile")    
-#     p.add_argument("-ce", "--clear_cache", action="store_true",
-#                    help="Whether clear cache")
-#     cmdargs = p.parse_args()
-#     return cmdargs
+    cmdargs = p.parse_args()
+    return cmdargs
 
 class ShoreFor(object):
     def __init__(self, g=9.81, ro=1025, gamma=0.78):
@@ -911,27 +893,31 @@ class ShoreFor(object):
 
 if __name__ == "__main__":
     
+    cmdargs = getCmdargs()
+    
+    fp_in = cmdargs.filepath_input
+    fp_out = cmdargs.filepath_output
+    
+    START_TIME = cmdargs.start_time
+    END_TIME_TRAIN = cmdargs.end_time_train
+    END_TIME_PRED = cmdargs.end_time_pred
+    
     SITE = 'Beach_X'
     WAVE_PARAMS = ['Hs', 'Tp', 'Dp']
-    START_TIME = '1987-01-01'
-    END_TIME_TRAIN = '2019-01-01'
-    END_TIME_PRED = '2024-01-01'
     
-    fp_in = "../../datasets"
-    fp_out = r"../../submissions/ShoreFor"
-    fn_train = 'shorelines/shorelines_obs.csv'
-    fn_target = 'shorelines/shorelines_target_shortterm.csv'
-    fn_predict = 'shorelines_prediction.csv'
+    # fn_target = 'shorelines/shorelines_target_short.csv'
+    #fn_predict = 'shorelines_prediction.csv'
     
     
     # #Loading shoreline positions
-    shorelines_obs = pd.read_csv(os.path.join(fp_in, fn_train), index_col='Datetime')
+    shorelines_obs = pd.read_csv(
+        os.path.join(fp_in, 'shorelines', 'shorelines_obs.csv'), 
+        index_col='Datetime')
     shorelines_obs.index = pd.to_datetime(shorelines_obs.index)
-    shorelines_cali = shorelines_obs.copy()
     shorelines_obs.index = shorelines_obs.index.round('H')
     
-    shorelines_targ = pd.read_csv(os.path.join(fp_in, fn_target), index_col='Datetime')
-    shorelines_targ.index = pd.to_datetime(shorelines_targ.index)
+    # shorelines_targ = pd.read_csv(os.path.join(fp_in, fn_target), index_col='Datetime')
+    # shorelines_targ.index = pd.to_datetime(shorelines_targ.index)
     
 
     
@@ -1014,13 +1000,18 @@ if __name__ == "__main__":
         #     shorelines_targ.index, method='Nearest')
         
 
-    df_pred = pd.concat(preds, axis=1)
+    df_preds = pd.concat(preds, axis=1)
     if not os.path.exists(fp_out):
         os.makedirs(fp_out)
     #shorelines_targ.to_csv(os.path.join(fp_out, fn_predict))
     #shorelines_cali.to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
-    df_pred[df_pred.index<=end_time_train].to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
-    df_pred[df_pred.index>end_time_train].to_csv(os.path.join(fp_out, 'shorelines_prediction.csv'))
+    #df_pred[df_pred.index<=end_time_train].to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
+    df_preds[df_pred.index>end_time_train].to_csv(
+        os.path.join(fp_out, 'shorelines_prediction_short.csv')
+        )
+    df_preds[df_pred.index<shorelines_obs.index[0]].to_csv(
+        os.path.join(fp_out, 'shorelines_prediction_long.csv')
+        )
     
     
     
