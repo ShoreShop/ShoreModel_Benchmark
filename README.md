@@ -107,6 +107,7 @@ To submit your results, please:
    - Copy your completed prediction files (shorelines_prediction_short.csv and/or shorelines_prediction_long.csv) into the subfolder created in Step 2.
 4. Provide Your Model Description:
    - Include a README.md file providing a clear description of the model you used.
+   - Copy and complete the labelling checkbox to the README.md.
 5. Include Your Code (Optional):
    - Create another subfolder within the algorithm folder named ModelName_AuthorInitials.
    - Copy your commented code into this subfolder.
