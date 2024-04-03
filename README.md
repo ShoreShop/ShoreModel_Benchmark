@@ -32,8 +32,8 @@ These coordinates are in a local coordinate system, deliberately shifted (not di
 ### Tasks
 Given the shoreline position data in the 1987-2018 period, along with the shoreline position in 1950 and wave data spanning from 1950 to 2024, participants are tasked with:
 
-- ***Task1.Short-term prediction***: Predict the shoreline position at target datetimes between **2019-01-01 and 2023-12-31** with **daily** timestep.
-- ***Task2.Long-term prediction***: Predict the shoreline position at target datetimes between **1951-01-05 and 1986-12-31** with **daily** timestep.
+- ***Task1.Short-term prediction***: Predict the shoreline position between **2019-01-01 and 2023-12-31** with **daily** timestep.
+- ***Task2.Long-term prediction***: Predict the shoreline position between **1951-01-05 and 1986-12-31** with **daily** timestep.
 
 ### Evaluation
 - **Target transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
