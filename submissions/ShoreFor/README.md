@@ -1,4 +1,5 @@
 ## ShoreFor model
+### Model description
 ShoreFor is an equilibrium-based cross-shore model first presented in Davidson et al. [[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)]. 
 The model formulation used in this work follows the modifications of Splinter et al. [[2](https://doi.org/10.1002/2014JF003106)] allowing for a more general equilibrium model with inter-site variability of model coefficients. 
 The model formulation follows:
@@ -15,6 +16,8 @@ performing a weighted average of the antecedent dimensionless fall velocity and 
 The model contains two constants, $r=(\sum{F^+})⁄(\sum{F^-})$ and $\sigma$ which is the standard deviation of $\Omega_\phi-\Omega$  , both computed over the calibration segment of the wave data. 
 The linear trend parameter, b, has been included to simplistically account for longer-term processes (e.g. longshore sediment transport, sediment supply, etc) not explicitly accounted in the model. 
 The model is calibrated by choosing the minimum normalized mean square error (NMSE) of a least-squares regression solving for c, and b for different values of ∅ in the range of 5 to 1000 days.
+### Model implementation
+The ShoreFor model was applied to both ***Task1.Short-term prediction*** and ***Task2.Long-term prediction***. The coefficients were calibrated based on the wave and shoreline data between 1987 and 2018 in `shoreline_obs.csv` with daily time interval. The fitted model was then applied to predict the shoreline position between 1950 and 2023 with daily interval given the wave data in the same period and with the same frequency. Shoreline prediction in 1951-1986 and 2019-2023 were submitted as long-term and short-term shoreline predictions respectively.
 ### References
 [[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)]
 Davidson, M.A., Splinter, K.D. and Turner, I.L. (2013), A simple equilibrium model for predicting shoreline change. *Coastal Engineering*, 73, pp.191-202.\
