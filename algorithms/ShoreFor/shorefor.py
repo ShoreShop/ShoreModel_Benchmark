@@ -13,7 +13,7 @@ from scipy.signal import detrend
 from sklearn.metrics import r2_score, mean_squared_error, brier_score_loss
 from scipy.spatial.distance import euclidean
 import os
-from fastdtw import fastdtw
+# from fastdtw import fastdtw
 import plot_params
 import scipy
 #from datetime import datetime
