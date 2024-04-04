@@ -13,11 +13,21 @@ $$ F=P^{0.5}((\Omega_\phi-\Omega))⁄\sigma $$
 where P is the breaking wave energy flux and $\Omega$ is the dimensionless fall velocity. 
 The model includes two coefficients. The first one, c which is the rate parameter accounting for the efficiency of cross-shore sediment transport and $\phi$ which defines the window width of a filter function, 
 performing a weighted average of the antecedent dimensionless fall velocity and is a proxy for the ‘beach memory’. 
-The model contains two constants, $r=(\sum{F^+})⁄(\sum{F^-})$ and $\sigma$ which is the standard deviation of $\Omega_\phi-\Omega$  , both computed over the calibration segment of the wave data. 
+The model contains two constants, $r=(\sum{F^+})⁄(\sum{F^-})$ and $\sigma$ which is the standard deviation of $\Omega_\phi-\Omega$, both computed over the calibration segment of the wave data. 
 The linear trend parameter, b, has been included to simplistically account for longer-term processes (e.g. longshore sediment transport, sediment supply, etc) not explicitly accounted in the model. 
 The model is calibrated by choosing the minimum normalized mean square error (NMSE) of a least-squares regression solving for c, and b for different values of ∅ in the range of 5 to 1000 days.
 ### Model implementation
-The ShoreFor model was applied to both ***Task1.Short-term prediction*** and ***Task2.Long-term prediction***. The coefficients were calibrated based on the wave and shoreline data between 1987 and 2018 in `shoreline_obs.csv` with daily time interval. The fitted model was then applied to predict the shoreline position between 1950 and 2023 with daily interval given the wave data in the same period and with the same frequency. Shoreline prediction in 1951-1986 and 2019-2023 were submitted as long-term and short-term shoreline predictions respectively.
+The ShoreFor model was applied to both ***Task1.Short-term prediction*** and ***Task2.Long-term prediction***. For each transect, the coefficients for the equilibrium configuration were calibrated using wave ($H_s$ and $T_p$) and shoreline data from 1987 to 2018 provided in shoreline_obs.csv, with a daily time interval. Subsequently, the calibrated model was employed to predict shoreline positions from 1950 to 2023, maintaining the daily interval and utilizing wave data from the same period. Shoreline projections from 1951 to 1986 and from 2019 to 2023 were categorized as long-term and short-term predictions, respectively. The long-term shoreline prediction was adjusted to align with the context value provided for 1951-01-05. These procedures were iteratively applied across all nine transects.
+
+### Model classification
+#### Model mechanics
+- [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
+- [x] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
+- [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
+#### Model elements
+- [x] Cross-shore: model the shoreline position for each transect independently.
+- [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
+
 ### References
 [[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)]
 Davidson, M.A., Splinter, K.D. and Turner, I.L. (2013), A simple equilibrium model for predicting shoreline change. *Coastal Engineering*, 73, pp.191-202.\
