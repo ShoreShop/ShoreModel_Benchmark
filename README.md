@@ -95,6 +95,13 @@ All prediction submissions should be placed in the designated submission folder.
 The submission folder will have shoreline predictions from various participants.
 Three illustrative examples of submission are provided in the submission folder for reference. ShoreFor model completes both short and long-term prediction tasks. [Chronos](https://github.com/amazon-science/chronos-forecasting) and [Lag-LLama](https://github.com/time-series-foundation-models/lag-llama) are the two benchmarks from LLM models which do not have long-term prediction capability.
 
+## Model classification
+### 
+- [ ] Process-Based Models (PBM): couple hydrodynamics, waves, sediment transport and morphology through mass and momentum conservation laws.
+- [ ] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
+- [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
+ 
+
 ## How to submit
 
 To submit your results, please:
