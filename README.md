@@ -96,10 +96,16 @@ The submission folder will have shoreline predictions from various participants.
 Three illustrative examples of submission are provided in the submission folder for reference. ShoreFor model completes both short and long-term prediction tasks. [Chronos](https://github.com/amazon-science/chronos-forecasting) and [Lag-LLama](https://github.com/time-series-foundation-models/lag-llama) are the two benchmarks from LLM models which do not have long-term prediction capability.
 
 ## Model classification
-### 
-- [ ] Process-Based Models (PBM): couple hydrodynamics, waves, sediment transport and morphology through mass and momentum conservation laws.
+
+Participants should copy and check the boxes below in the model description to assist in classifying the submitted model. An example of model description can be found [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md).
+
+### Model mechanics
+- [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
 - [ ] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
 - [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
+### Model elements
+- [ ] Cross-shore: model the shoreline position for each transect independently.
+- [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
  
 
 ## How to submit
@@ -112,9 +118,9 @@ To submit your results, please:
    - Inside the submission folder, create a subfolder named ModelName_AuthorInitials. Replace ModelName with the name of your model and AuthorInitials with your initials.
 3. Place Your Prediction Files:
    - Copy your completed prediction files (shorelines_prediction_short.csv and/or shorelines_prediction_long.csv) into the subfolder created in Step 2.
-4. Provide Your Model Description:
+4. Provide Your Model Description (example is [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md)):
    - Include a README.md file providing a clear description of the model you used.
-   - Copy and complete the labelling checkbox to the README.md.
+   - Copy and complete the model classification checkboxes to the README.md.
 5. Include Your Code (Optional):
    - Create another subfolder within the algorithm folder named ModelName_AuthorInitials.
    - Copy your commented code into this subfolder.
