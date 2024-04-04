@@ -99,11 +99,11 @@ Three illustrative examples of submission are provided in the submission folder 
 
 Participants should copy and check the boxes below in the model description to assist in classifying the submitted model. An example of model description can be found [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md).
 
-### Model mechanics
+#### Model mechanics
 - [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
 - [ ] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
 - [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
-### Model elements
+#### Model elements
 - [ ] Cross-shore: model the shoreline position for each transect independently.
 - [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
  
