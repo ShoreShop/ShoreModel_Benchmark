@@ -96,7 +96,7 @@ Participants should provide short-term and long-term model predictions for **all
 Both the short-term and long-term model predictions should have **daily interval**. For models that do not generate daily outputs, please interpolate the results to daily.\
 All prediction submissions should be placed in the designated submission folder.
 The submission folder will have shoreline predictions from various participants.
-An illustrative example of submission is provided in the submissions/ShoreFor folder for reference. 
+An illustrative example of submission is provided in the `submissions/ShoreFor` folder for reference. 
 
 ## Model classification
 
