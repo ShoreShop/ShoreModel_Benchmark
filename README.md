@@ -87,13 +87,16 @@ The [BinWaves](https://www.sciencedirect.com/science/article/pii/S14635003240003
 The significant wave height (Hs), peak wave period (Tp) and peak wave direction (Dp) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1979 to 2023. Wave roses for the three target transects are shown below to demonstrate the minimal longshore variation of wave conditions.
 <img src="figures/wave_roses.jpg" width="800">
 
+### Bathymetry data
+Similar to the vast majority of beaches worldwide, there is no nearshore bathymetry data available for Beach_X. Therefore, participants are challenged to adapt their models accordingly, as this workshop emphasizes evaluating shoreline model performance using freely accessible datasets.
+
 ## Outputs and Deliverables
 
 Participants should provide short-term and long-term model predictions for **all transects** as `shorelines_prediction_short.csv` and `shorelines_prediction_long.csv`.\
 Both the short-term and long-term model predictions should have **daily interval**. For models that do not generate daily outputs, please interpolate the results to daily.\
 All prediction submissions should be placed in the designated submission folder.
 The submission folder will have shoreline predictions from various participants.
-Three illustrative examples of submission are provided in the submission folder for reference. ShoreFor model completes both short and long-term prediction tasks. [Chronos](https://github.com/amazon-science/chronos-forecasting) and [Lag-LLama](https://github.com/time-series-foundation-models/lag-llama) are the two benchmarks from LLM models which do not have long-term prediction capability.
+An illustrative example of submission is provided in the submissions/ShoreFor folder for reference. 
 
 ## Model classification
 
