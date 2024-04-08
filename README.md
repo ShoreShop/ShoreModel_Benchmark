@@ -3,7 +3,7 @@ This repository is a testbed for shoreline modelling algorithms. It contains all
 
 ## Background and Objectives
 ### Background
-Shoreline change prediction has witnessed the evolution of both hybrid and data-driven models, offering valuable insights into how coastlines respond to varying wave conditions across different timescales. Building on the success of the ShoreShop 1.0 ([Blind testing of shoreline evolution models](https://www.nature.com/articles/s41598-020-59018-y)) in 2018, which rigorously tested 19 shoreline models in predicting shoreline positions over a four-year period, ShoreShop 2.0 aims to further explore and showcase the evolution of predictive methods.
+Shoreline change prediction has witnessed the evolution of both hybrid and data-driven models, offering valuable insights into how coastlines respond to varying wave conditions across different timescales. Building on the success of the ShoreShop 1.0 ([Blind testing of shoreline evolution models](https://www.nature.com/articles/s41598-020-59018-y)) in 2018, which tested 19 shoreline models in predicting shoreline positions over a four-year period, ShoreShop 2.0 aims to further explore and showcase the evolution of predictive methods.
 ### Objectives
 - **Diverse Methodology Showcase**: With the rapid advancements in data-driven models and the increasing availability of shoreline measurements, ShoreShop 2.0 intends to highlight the diversity of methods available for predicting shoreline changes.
 - **Blind Testing Element**: Drawing inspiration from ShoreShop 1.0, ShoreShop 2.0 retains its core feature of blind testing to provide unbiased evaluations of the predictive models.
@@ -33,7 +33,7 @@ These coordinates are in a local coordinate system, deliberately shifted (not di
 Given the shoreline position data in the 1987-2018 period, along with the shoreline position in 1950 and wave data spanning from 1950 to 2024, participants are tasked with:
 
 - ***Task1.Short-term prediction***: Predict the shoreline position between **2019-01-01 and 2023-12-31** with **daily** timestep.
-- ***Task2.Long-term prediction***: Predict the shoreline position between **1951-01-05 and 1986-12-31** with **daily** timestep.
+- ***Task2.Long-term prediction***: Predict the shoreline position between **1951-05-01 and 1986-12-31** with **daily** timestep.
 
 ### Evaluation
 - **Target transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
@@ -78,13 +78,13 @@ The satellite-derived shoreline position data exhibits a high level of accuracy 
 
 For short-term shoreline prediction, The `shorelines_target_short.csv` contains the target dates from 2019 to 2023 for short-term shoreline prediction. All shoreline position values are intentionally withheld for all participants. During the evaluation phase, participants' predictions will be compared against the withheld shoreline position data sourced from the same dataset used for calibration and training.
 
-For long-term shoreline prediction, `shorelines_target_long.csv` provides shoreline data for the date 5th January 1951, serving as the context data for the long-term prediction task. Additional target dates are included for long-term prediction. For evaluation, participants' predictions will be compared against ground photogrammetry data available for the respective target dates.
+For long-term shoreline prediction, `shorelines_target_long.csv` provides shoreline data for the date 1st May 1951, serving as the context data for the long-term prediction task. Additional target dates are included for long-term prediction. Participants' predictions will be evaluated against ground photogrammetry data available for the respective target dates.
 
 ### Wave data
 The nearshore wave data used in this workshop was obtained by downscaling offshore directional wave spectra to nearshore areas.
 The offshore wave data is from the [CAWCR Wave Hindcast](https://data.csiro.au/collection/csiro:39819) produced by CSIRO. 
 The [BinWaves](https://www.sciencedirect.com/science/article/pii/S1463500324000337) approach was applied for wave downscaling.
-The significant wave height (Hs), peak wave period (Tp) and peak wave direction (Dp) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1979 to 2023.
+The significant wave height (Hs), peak wave period (Tp) and peak wave direction (Dp) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1979 to 2023. Wave roses for the three target transects are shown below to demonstrate the minimal longshore variation of wave conditions.
 <img src="figures/wave_roses.jpg" width="800">
 
 ## Outputs and Deliverables
@@ -132,7 +132,7 @@ If you need any help with this submission, please post on the [GitHub Issues](ht
 
 ### Deadline
 
-The deadline for this first round of analysis is the end of the year (**01/10/2024**).
+The deadline for the submission is the end of the year (**01/10/2024**).
 
 ## Questions and Comments
 
