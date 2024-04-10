@@ -95,6 +95,7 @@ The significant wave height (Hs), peak wave period (Tp) and peak wave direction 
 
 ### Longterm Wave data
 Short introduction to forecast wave data\
+The historical data in the long-term folder is slightly different from the hindcast wave data in the same period. Therefore, re-train/re-calibration can be necessary for data-driven and hybrid models to predict long-term shoreline position.
 
 
 ### Sea level rise data
