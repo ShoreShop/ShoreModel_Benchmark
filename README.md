@@ -9,7 +9,7 @@ Shoreline change prediction has witnessed the evolution of both hybrid and data-
 - **Blind Testing Element**: Drawing inspiration from ShoreShop 1.0, ShoreShop 2.0 retains its core feature of blind testing to provide unbiased evaluations of the predictive models.
 - **Key Focus Areas**:
   1. Assessing the performance of shoreline models using freely available datasets such as satellite-derived shorelines and modelled wave conditions.
-  2. Evaluating the capabilities of shoreline models for both short-term (5 years) and medium-term (35 years) predictions.
+  2. Evaluating the capabilities of shoreline models for both short-term (5 years), medium-term (35 years) and long-term (80 years) predictions.
   3. Investigating the variability in shoreline model accuracy along the coastlines of an embayed beach.
 
 Join us at ShoreShop 2.0 to delve deeper into the latest advancements, share insights, and foster collaborative efforts in the field of shoreline change prediction.
@@ -30,14 +30,15 @@ These coordinates are in a local coordinate system, deliberately shifted (not di
 <img src="figures/transects.jpg" width="400">
 
 ### Tasks
-Given the shoreline position data in the 1987-2018 period, along with the shoreline position in 1950 and wave data spanning from 1950 to 2024, participants are tasked with:
+Given the shoreline position data in the 1987-2018 period, along with the shoreline position in 1950 and wave data spanning from 1950 to 2100, participants are tasked with:
 
 - ***Task1.Short-term prediction***: Predict the shoreline position between **2019-01-01 and 2023-12-31** with **daily** timestep.
 - ***Task2.Medium-term prediction***: Predict the shoreline position between **1951-05-01 and 1986-12-31** with **daily** timestep.
+- ***Task3.Long-term prediction***: Predict the shoreline position between **2019-01-01 and 2100-12-31** with **daily** timestep.
 
 ### Evaluation
 - **Target transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
-- **Target shorelines**: For each target transect, the model prediction will be evaluated against the observed shoreline data at target datetimes. The target datetimes for short-term and medium-term tasks are in `shorelines_target_short.csv` and `shorelines_target_medium.csv`. For blind testing, the observed shoreline data in the target window will be withheld for all participants.
+- **Target shorelines**: For each target transect, the model prediction will be evaluated against the observed shoreline data at target datetimes. The target datetimes for short-term and medium-term tasks are in `shorelines_target_short.csv` and `shorelines_target_medium.csv`. For blind testing, the observed shoreline data in the target window will be withheld for all participants. The long-term prediction will **not** be evaluated, and the results are only for discussion.
 - **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting of root-mean-square-error (RMSE), Correlation and standard deviation (STD)) will be used to visualize and compare the model performance for each of the target transect.\
 RMSE and STD of prediction are normalized by dividing them by the STD of the observation (target). This ensures that all three statistical parameters in the diagram fall within the range of [0, 1]. The distance $Dist_{i}$ between the model points and the target point (the black triangle) in the Taylor diagram is calculated for each target transect. The average of the distance across all target transects $Dist_{avg}$ serves as the final metric for ranking the model performance. A smaller distance indicates better model performance.
   
@@ -62,7 +63,8 @@ The following files are provided for shoreline prediction.
 - `shorelines_obs.csv`: Shoreline position between 1987 and 2018 for model calibration/training for each transect. 
 - `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
 - `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1950 is also provided as context for prediction.
-- `Wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect.
+- `Hindcast wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect.
+- `Forecast wave data (Hs.csv, Tp.csv, Dp.csv)`: RCP 8.5 forecast significant wave height, peak wave period and peak wave direction between 2005 and 2100 for each transect.
 - `Sea level data (SLR.csv)`: Annually mean of sea level between 1980 and 2100 including the gauge measurement (pre-2020) and the RCP 8.5 projection (post-2020).
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
