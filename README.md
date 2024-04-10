@@ -63,6 +63,7 @@ The following files are provided for shoreline prediction.
 - `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
 - `shorelines_target_long.csv`: Target dates where long-term shoreline prediction will be evaluated. The shoreline position for 1950 is also provided as context for prediction.
 - `Wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect.
+- `Sea level data (SLR.csv)`: Annually mean of sea level between 1980 and 2100 including the gauge measurement (pre-2020) and the RCP 8.5 projection (post-2020).
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
 - `Mean grain size D50`: 0.3 (mm)
@@ -87,6 +88,11 @@ The [BinWaves](https://www.sciencedirect.com/science/article/pii/S14635003240003
 The significant wave height (Hs), peak wave period (Tp) and peak wave direction (Dp) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1979 to 2023. Wave roses for the three target transects are shown below to demonstrate the minimal longshore variation of wave conditions.
 <img src="figures/wave_roses.jpg" width="800">
 
+### Sea level rise data
+`SLR.csv` contains the annual sea level data, including the gauge measurement (pre-2020) and the projection under the RCP 8.5 scenario (post-2020). Both the measurement and the projection are relative to the mean of the observation. 
+The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.nasa.gov/ipcc-ar6-sea-level-projection-tool), which is based on the regional sea level projections provided in the IPCC 6th Assessment Report (AR6).
+<img src="figures/SLR_ts.jpg" width="500">
+
 ### Bathymetry data
 Similar to the vast majority of beaches worldwide, there is no nearshore bathymetry data available for Beach_X. Therefore, participants are challenged to adapt their models accordingly, as this workshop emphasizes evaluating shoreline model performance using freely accessible datasets.
 
@@ -109,6 +115,7 @@ Participants should copy and check the boxes below in the model description to a
 #### Model elements
 - [ ] Cross-shore: model the shoreline position for each transect independently.
 - [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
+- [ ] Sea level: consider the impact of sea level rise on shoreline position.
  
 
 ## How to submit
