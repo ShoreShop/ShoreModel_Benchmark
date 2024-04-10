@@ -64,7 +64,7 @@ The following files are provided for shoreline prediction.
 - `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
 - `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1950 is also provided as context for prediction.
 - `Hindcast wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
-- `Forecast wave data (Hs.csv, Tp.csv, Dp.csv)`: RCP 8.5 forecast significant wave height, peak wave period and peak wave direction between 2005 and 2100 for each transect. Forecast wave data can be used for long-term shoreline modelling.
+- `Longterm wave data (Hs.csv, Tp.csv, Dp.csv)`: Historical (1980-2005) and RCP 8.5 forecast (2006-2100) significant wave height, peak wave period and peak wave direction between 2005 and 2100 for each transect. Longterm wave data can be used for long-term shoreline modelling.
 - `Sea level data (SLR_obs.csv, SLR_proj.csv)`: Annually mean of sea level between 1980 and 2100, including the gauge measurement (1980-2018) and the RCP 8.5 projection (2019-2100).
   
 The following constants are also provided.
@@ -93,7 +93,7 @@ The significant wave height (Hs), peak wave period (Tp) and peak wave direction 
 
 <img src="figures/wave_roses.jpg" width="800">
 
-### Forecast Wave data
+### Longterm Wave data
 Short introduction to forecast wave data\
 
 
