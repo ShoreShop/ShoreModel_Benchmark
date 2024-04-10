@@ -77,7 +77,8 @@ The shoreline data (`shorelines_obs.csv`) utilized in the ShoreShop 2.0 workshop
 The satellite-derived shoreline (SDS) data for model calibration/training starts from 1987 and ends at 2018 with 455 time steps. \
 The shoreline position (m) is defined as the distance between the landward end of a transect to the intersection of the shoreline and the transect. \
 All the shorelines have been corrected to reflect the instantaneous position at Mean Sea Level.\
-The satellite-derived shoreline position data exhibits a high level of accuracy and closely aligns with the ground truth data for Beach_X, ensuring reliable model calibration and training.\
+The satellite-derived shoreline position data exhibits a high level of accuracy and closely aligns with the ground truth data for Beach_X, ensuring reliable model calibration and training.
+
 <img src="figures/shorelines_temporal.jpg" width="800">
 
 For short-term shoreline prediction, The `shorelines_target_short.csv` contains the target dates from 2019 to 2023. All shoreline position values are intentionally withheld for all participants. During the evaluation phase, participants' predictions will be compared against the withheld shoreline position data sourced from the same dataset used for calibration and training.
@@ -89,6 +90,7 @@ The nearshore wave data used in this workshop was obtained by downscaling offsho
 The offshore wave data is from the [CAWCR Wave Hindcast](https://data.csiro.au/collection/csiro:39819) produced by CSIRO. 
 The [BinWaves](https://www.sciencedirect.com/science/article/pii/S1463500324000337) approach was applied for wave downscaling.
 The significant wave height (Hs), peak wave period (Tp) and peak wave direction (Dp) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1979 to 2023. Wave roses for the three target transects are shown below to demonstrate the minimal longshore variation of wave conditions.
+
 <img src="figures/wave_roses.jpg" width="800">
 
 ### Forecast Wave data
@@ -98,6 +100,7 @@ Short introduction to forecast wave data\
 ### Sea level rise data
 `SLR_obs.csv` contains the annual sea level data from gauge measurement (1980-2018). `SLR_proj.csv` contains the projection under the RCP 8.5 scenario (2019-2100). Both the measurement and the projection are relative to the mean of the observation. 
 The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.nasa.gov/ipcc-ar6-sea-level-projection-tool), which is based on the regional sea level projections provided in the IPCC 6th Assessment Report (AR6). Sea level is the same for all transects.
+
 <img src="figures/SLR_ts.jpg" width="500">
 
 ### Bathymetry data
@@ -105,7 +108,7 @@ Similar to the vast majority of beaches worldwide, Beach_X does not have nearsho
 
 ## Outputs and Deliverables
 
-Participants should provide short-term, medium-term and long-term model predictions for **all transects** as `shorelines_prediction_short.csv` and `shorelines_prediction_medium.csv`.\
+Participants should provide short-term, medium-term and long-term model predictions for **all transects** as `shorelines_prediction_short.csv`, `shorelines_prediction_medium.csv`, and `shorelines_prediction_long.csv`.\
 Both the short-term and medium-term model predictions should have **daily interval**. For models that do not generate daily outputs, please interpolate the results to daily.\
 All prediction submissions should be placed in the designated submission folder.
 The submission folder will have shoreline predictions from various participants.
