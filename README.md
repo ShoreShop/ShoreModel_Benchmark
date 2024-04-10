@@ -1,5 +1,5 @@
 # ShoreShop 2.0: Advancements in Shoreline Change Prediction Models
-This repository is a testbed for shoreline modelling algorithms. It contains all benchmark datasets, input files, evaluation codes and evaluation results.
+This repository is a testbed for shoreline modelling algorithms. It contains all benchmark datasets, input files, codes, and results.
 
 ## Background and Objectives
 ### Background
@@ -9,10 +9,10 @@ Shoreline change prediction has witnessed the evolution of both hybrid and data-
 - **Blind Testing Element**: Drawing inspiration from ShoreShop 1.0, ShoreShop 2.0 retains its core feature of blind testing to provide unbiased evaluations of the predictive models.
 - **Key Focus Areas**:
   1. Assessing the performance of shoreline models using freely available datasets such as satellite-derived shorelines and modelled wave conditions.
-  2. Evaluating the capabilities of shoreline models for both short-term (5 years), medium-term (35 years) and long-term (80 years) predictions.
+  2. Evaluating the capabilities of shoreline models for short-term (5 years) and medium-term (35 years) predictions while discussing their potential long-term predictions (80 years).
   3. Investigating the variability in shoreline model accuracy along the coastlines of an embayed beach.
 
-Join us at ShoreShop 2.0 to delve deeper into the latest advancements, share insights, and foster collaborative efforts in the field of shoreline change prediction.
+Join us at ShoreShop 2.0 to learn about the latest advancements, share insights, and foster collaborative efforts in shoreline change prediction.
 
 ### Notebooks
 
@@ -30,17 +30,17 @@ These coordinates are in a local coordinate system, deliberately shifted (not di
 <img src="figures/transects.jpg" width="400">
 
 ### Tasks
-Given the shoreline position data in the 1987-2018 period, along with the shoreline position in 1950 and wave data spanning from 1950 to 2100, participants are tasked with:
+Given the shoreline position data in the 1987-2018 period, along with the shoreline position in 1950 as well as wave and sea level data spanning from 1950 to 2100, participants are tasked with:
 
 - ***Task1.Short-term prediction***: Predict the shoreline position between **2019-01-01 and 2023-12-31** with **daily** timestep.
 - ***Task2.Medium-term prediction***: Predict the shoreline position between **1951-05-01 and 1986-12-31** with **daily** timestep.
-- ***Task3.Long-term prediction***: Predict the shoreline position between **2019-01-01 and 2100-12-31** with **daily** timestep.
+- ***Task3.Long-term prediction***: Predict the shoreline position between **2019-01-01 and 2100-12-31** with **daily** timestep (no evaluation).
 
 ### Evaluation
 - **Target transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
 - **Target shorelines**: For each target transect, the model prediction will be evaluated against the observed shoreline data at target datetimes. The target datetimes for short-term and medium-term tasks are in `shorelines_target_short.csv` and `shorelines_target_medium.csv`. For blind testing, the observed shoreline data in the target window will be withheld for all participants. The long-term prediction will **not** be evaluated, and the results are only for discussion.
 - **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting of root-mean-square-error (RMSE), Correlation and standard deviation (STD)) will be used to visualize and compare the model performance for each of the target transect.\
-RMSE and STD of prediction are normalized by dividing them by the STD of the observation (target). This ensures that all three statistical parameters in the diagram fall within the range of [0, 1]. The distance $Dist_{i}$ between the model points and the target point (the black triangle) in the Taylor diagram is calculated for each target transect. The average of the distance across all target transects $Dist_{avg}$ serves as the final metric for ranking the model performance. A smaller distance indicates better model performance.
+RMSE and STD of prediction are normalized by dividing them by the STD of the observation (target). This ensures that all three statistical parameters in the diagram fall within the range of [0, 1]. The distance $Dist_{i}$ between the model points and the target point (the black triangle) in the Taylor diagram is calculated for each target transect. The average distance across all target transects $Dist_{avg}$ serves as the final metric for ranking the model performance. A smaller distance indicates better model performance.
   
 $$ RMSE_{norm} = \frac{RMSE_{pred}}{STD_{targ}},   STD_{norm} = \frac{STD_{pred}}{STD_{targ}}$$
 
@@ -52,8 +52,8 @@ $$ Dist_{avg} = \frac{1}{n} \sum_{i=1}^n Dist_i $$
 <img src="figures/TaylorDiagram.jpg" width="1500">
 
 ### Modeling rules
-- Participants should not attempt to locate and retrieve extra shoreline information beyond provided for Beach_X.
-- Participants may use any type of model including but not limited to hybrid and data-driven models.
+- Participants should not attempt to locate and retrieve extra shoreline information beyond that provided for Beach_X.
+- Participants may use any type of model, including but not limited to hybrid and data-driven models.
 - Participants must complete at least one task, although attempting both is encouraged.
 - Participants must provide a brief description of the methodology used. 
 - Code submission is optional.
@@ -63,9 +63,10 @@ The following files are provided for shoreline prediction.
 - `shorelines_obs.csv`: Shoreline position between 1987 and 2018 for model calibration/training for each transect. 
 - `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
 - `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1950 is also provided as context for prediction.
-- `Hindcast wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect.
-- `Forecast wave data (Hs.csv, Tp.csv, Dp.csv)`: RCP 8.5 forecast significant wave height, peak wave period and peak wave direction between 2005 and 2100 for each transect.
-- `Sea level data (SLR.csv)`: Annually mean of sea level between 1980 and 2100 including the gauge measurement (pre-2020) and the RCP 8.5 projection (post-2020).
+- `Hindcast wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
+- `Forecast wave data (Hs.csv, Tp.csv, Dp.csv)`: RCP 8.5 forecast significant wave height, peak wave period and peak wave direction between 2005 and 2100 for each transect. Forecast wave data can be used for long-term shoreline modelling.
+- `Sea level data (SLR_obs.csv, SLR_proj.csv)`: Annually mean of sea level between 1980 and 2100, including the gauge measurement (1980-2018) and the RCP 8.5 projection (2019-2100).
+  
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
 - `Mean grain size D50`: 0.3 (mm)
@@ -79,28 +80,32 @@ All the shorelines have been corrected to reflect the instantaneous position at 
 The satellite-derived shoreline position data exhibits a high level of accuracy and closely aligns with the ground truth data for Beach_X, ensuring reliable model calibration and training.\
 <img src="figures/shorelines_temporal.jpg" width="800">
 
-For short-term shoreline prediction, The `shorelines_target_short.csv` contains the target dates from 2019 to 2023 for short-term shoreline prediction. All shoreline position values are intentionally withheld for all participants. During the evaluation phase, participants' predictions will be compared against the withheld shoreline position data sourced from the same dataset used for calibration and training.
+For short-term shoreline prediction, The `shorelines_target_short.csv` contains the target dates from 2019 to 2023. All shoreline position values are intentionally withheld for all participants. During the evaluation phase, participants' predictions will be compared against the withheld shoreline position data sourced from the same dataset used for calibration and training.
 
-For medium-term shoreline prediction, `shorelines_target_medium.csv` provides shoreline data for the date 1st May 1951, serving as the context data for the medium-term prediction task. Additional target dates are included for medium-term prediction. Participants' predictions will be evaluated against ground photogrammetry data available for the respective target dates.
+For medium-term shoreline prediction, `shorelines_target_medium.csv` provides shoreline data for the date 1st May 1951, serving as the context data for the medium-term prediction task. Additional target dates are included for medium-term prediction. Participants' predictions will be evaluated against photogrammetry data available for the respective target dates.
 
-### Wave data
+### Hindcast Wave data
 The nearshore wave data used in this workshop was obtained by downscaling offshore directional wave spectra to nearshore areas.
 The offshore wave data is from the [CAWCR Wave Hindcast](https://data.csiro.au/collection/csiro:39819) produced by CSIRO. 
 The [BinWaves](https://www.sciencedirect.com/science/article/pii/S1463500324000337) approach was applied for wave downscaling.
 The significant wave height (Hs), peak wave period (Tp) and peak wave direction (Dp) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1979 to 2023. Wave roses for the three target transects are shown below to demonstrate the minimal longshore variation of wave conditions.
 <img src="figures/wave_roses.jpg" width="800">
 
+### Forecast Wave data
+Short introduction to forecast wave data\
+
+
 ### Sea level rise data
-`SLR.csv` contains the annual sea level data, including the gauge measurement (pre-2020) and the projection under the RCP 8.5 scenario (post-2020). Both the measurement and the projection are relative to the mean of the observation. 
-The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.nasa.gov/ipcc-ar6-sea-level-projection-tool), which is based on the regional sea level projections provided in the IPCC 6th Assessment Report (AR6).
+`SLR_obs.csv` contains the annual sea level data from gauge measurement (1980-2018). `SLR_proj.csv` contains the projection under the RCP 8.5 scenario (2019-2100). Both the measurement and the projection are relative to the mean of the observation. 
+The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.nasa.gov/ipcc-ar6-sea-level-projection-tool), which is based on the regional sea level projections provided in the IPCC 6th Assessment Report (AR6). Sea level is the same for all transects.
 <img src="figures/SLR_ts.jpg" width="500">
 
 ### Bathymetry data
-Similar to the vast majority of beaches worldwide, there is no nearshore bathymetry data available for Beach_X. Therefore, participants are challenged to adapt their models accordingly, as this workshop emphasizes evaluating shoreline model performance using freely accessible datasets.
+Similar to the vast majority of beaches worldwide, Beach_X does not have nearshore bathymetry data available. Therefore, participants are challenged to adapt their models accordingly, as this workshop emphasizes evaluating shoreline model performance using freely accessible datasets.
 
 ## Outputs and Deliverables
 
-Participants should provide short-term and medium-term model predictions for **all transects** as `shorelines_prediction_short.csv` and `shorelines_prediction_medium.csv`.\
+Participants should provide short-term, medium-term and long-term model predictions for **all transects** as `shorelines_prediction_short.csv` and `shorelines_prediction_medium.csv`.\
 Both the short-term and medium-term model predictions should have **daily interval**. For models that do not generate daily outputs, please interpolate the results to daily.\
 All prediction submissions should be placed in the designated submission folder.
 The submission folder will have shoreline predictions from various participants.
@@ -129,8 +134,8 @@ To submit your results, please:
 2. Create a Submission Folder:
    - Inside the submission folder, create a subfolder named ModelName_AuthorInitials. Replace ModelName with the name of your model and AuthorInitials with your initials.
 3. Place Your Prediction Files:
-   - Copy your completed prediction files (shorelines_prediction_short.csv and/or shorelines_prediction_medium.csv) into the subfolder created in Step 2.
-4. Provide Your Model Description (example is [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md)):
+   - Copy your completed prediction files (`shorelines_prediction_short.csv`, `shorelines_prediction_medium.csv` and/or `shorelines_prediction_long.csv`) into the subfolder created in Step 2.
+4. Provide Your Model Description (an example is [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md)):
    - Include a README.md file providing a clear description of the model you used.
    - Copy and complete the model classification checkboxes to the README.md.
 5. Include Your Code (Optional):
