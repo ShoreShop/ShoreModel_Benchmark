@@ -9,7 +9,7 @@ Shoreline change prediction has witnessed the evolution of both hybrid and data-
 - **Blind Testing Element**: Drawing inspiration from ShoreShop 1.0, ShoreShop 2.0 retains its core feature of blind testing to provide unbiased evaluations of the predictive models.
 - **Key Focus Areas**:
   1. Assessing the performance of shoreline models using freely available datasets such as satellite-derived shorelines and modelled wave conditions.
-  2. Evaluating the capabilities of shoreline models for short-term (5 years) and medium-term (35 years) predictions while discussing their potential long-term predictions (80 years).
+  2. Evaluating the capabilities of shoreline models for short-term (5 years) and medium-term (50 years) predictions while discussing their potential long-term predictions (80 years).
   3. Investigating the variability in shoreline model accuracy along the coastlines of an embayed beach.
 
 Join us at ShoreShop 2.0 to learn about the latest advancements, share insights, and foster collaborative efforts in shoreline change prediction.
@@ -33,7 +33,7 @@ These coordinates are in a local coordinate system, deliberately shifted (not di
 Given the shoreline position data in the 1987-2018 period, along with the shoreline position in 1950 as well as wave and sea level data spanning from 1950 to 2100, participants are tasked with:
 
 - ***Task1.Short-term prediction***: Predict the shoreline position between **2019-01-01 and 2023-12-31** with **daily** timestep.
-- ***Task2.Medium-term prediction***: Predict the shoreline position between **1951-05-01 and 1986-12-31** with **daily** timestep.
+- ***Task2.Medium-term prediction***: Predict the shoreline position between **1951-05-01 and 1999-12-31** with **daily** timestep.
 - ***Task3.Long-term prediction***: Predict the shoreline position between **2019-01-01 and 2100-12-31** with **daily** timestep (no evaluation).
 
 ### Evaluation
@@ -60,12 +60,12 @@ $$ Dist_{avg} = \frac{1}{n} \sum_{i=1}^n Dist_i $$
 
 ## Input data
 The following files are provided for shoreline prediction.
-- `shorelines_obs.csv`: Shoreline position between 1987 and 2018 for model calibration/training for each transect. 
+- `shorelines_obs.csv`: Shoreline position between 2000 and 2018 for model calibration/training for each transect. 
 - `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
 - `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1950 is also provided as context for prediction.
 - `Hindcast wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
-- `Longterm wave data (Hs.csv, Tp.csv, Dp.csv)`: Historical (1980-2005) and RCP 8.5 forecast (2006-2100) significant wave height, peak wave period and peak wave direction between 2005 and 2100 for each transect. Longterm wave data can be used for long-term shoreline modelling.
-- `Sea level data (SLR_obs.csv, SLR_proj.csv)`: Annually mean of sea level between 1980 and 2100, including the gauge measurement (1980-2018) and the RCP 8.5 projection (2019-2100).
+- `Longterm wave data (Hs.csv, Tp.csv, Dp.csv)`: Historical (1980-2005) and forecast (2006-2100) significant wave height, peak wave period and peak wave direction between 2005 and 2100 for each transect. Longterm wave data can be used for long-term shoreline modelling.
+- `Sea level data (SLR_obs.csv, SLR_proj.csv)`: Annually mean of sea level between 1980 and 2100, including the gauge measurement (1980-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
   
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
@@ -74,16 +74,16 @@ The following constants are also provided.
 
 ### Shoreline
 The shoreline data (`shorelines_obs.csv`) utilized in the ShoreShop 2.0 workshop is derived from public satellite images captured by Landsat 5, 7, 8, and 9 satellites. This data has been processed using [CoastSat](https://github.com/kvos/CoastSat), a public toolbox specifically designed for coastline analysis. \
-The satellite-derived shoreline (SDS) data for model calibration/training starts from 1987 and ends at 2018 with 455 time steps. \
-The shoreline position (m) is defined as the distance between the landward end of a transect to the intersection of the shoreline and the transect. \
+The satellite-derived shoreline (SDS) data for model calibration/training starts from 2000 and ends at 2018 with 336 time steps. \
+The shoreline position (m) is defined as the distance from the landward end of a transect to the intersection of the shoreline and the transect. \
 All the shorelines have been corrected to reflect the instantaneous position at Mean Sea Level.\
 The satellite-derived shoreline position data exhibits a high level of accuracy and closely aligns with the ground truth data for Beach_X, ensuring reliable model calibration and training.
 
 <img src="figures/shorelines_temporal.jpg" width="800">
 
-For short-term shoreline prediction, The `shorelines_target_short.csv` contains the target dates from 2019 to 2023. All shoreline position values are intentionally withheld for all participants. During the evaluation phase, participants' predictions will be compared against the withheld shoreline position data sourced from the same dataset used for calibration and training.
+For short-term shoreline prediction, The `shorelines_target_short.csv` contains the target dates from 2019 to 2023. All shoreline position values are intentionally withheld for all participants. During the evaluation phase, participants' predictions will be compared against the withheld shoreline position data from the SDS dataset.
 
-For medium-term shoreline prediction, `shorelines_target_medium.csv` provides shoreline data for the date 1st May 1951, serving as the context data for the medium-term prediction task. Additional target dates are included for medium-term prediction. Participants' predictions will be evaluated against photogrammetry data available for the respective target dates.
+For medium-term shoreline prediction, `shorelines_target_medium.csv` provides shoreline data for the date 1st May 1951, serving as the context data for the medium-term prediction task. Additional target dates are included for medium-term prediction. Participants' predictions will be evaluated against photogrammetry (pre-1989) and SDS (1989-1999) data available for the respective target dates.
 
 ### Hindcast Wave data
 The nearshore wave data used in this workshop was obtained by downscaling offshore directional wave spectra to nearshore areas.
@@ -94,12 +94,12 @@ The significant wave height (Hs), peak wave period (Tp) and peak wave direction 
 <img src="figures/wave_roses.jpg" width="800">
 
 ### Longterm Wave data
-Short introduction to forecast wave data\
+A short introduction to forecast wave data\
 The historical data in the long-term folder is slightly different from the hindcast wave data in the same period. Therefore, re-train/re-calibration can be necessary for data-driven and hybrid models to predict long-term shoreline position.
 
 
 ### Sea level rise data
-`SLR_obs.csv` contains the annual sea level data from gauge measurement (1980-2018). `SLR_proj.csv` contains the projection under the RCP 8.5 scenario (2019-2100). Both the measurement and the projection are relative to the mean of the observation. 
+`SLR_obs.csv` contains the annual sea level data from gauge measurement (1980-2018). `SLR_proj.csv` contains the projection under the RCP 4.5 and 8.5 scenarios (2019-2100). Both the measurement and the projection are relative to the mean of the observation. 
 The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.nasa.gov/ipcc-ar6-sea-level-projection-tool), which is based on the regional sea level projections provided in the IPCC 6th Assessment Report (AR6). Sea level is the same for all transects.
 
 <img src="figures/SLR_ts.jpg" width="500">
@@ -117,7 +117,7 @@ An illustrative example of submission is provided in the `submissions/ShoreFor` 
 
 ## Model classification
 
-Participants should copy and check the boxes below in the model description to assist in classifying the submitted model. An example of model description can be found [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md).
+Participants should copy and check the boxes below in the model description to assist in classifying the submitted model. An example of a model description can be found [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md).
 
 #### Model mechanics
 - [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
