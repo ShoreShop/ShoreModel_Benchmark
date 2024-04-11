@@ -30,10 +30,10 @@ These coordinates are in a local coordinate system, deliberately shifted (not di
 <img src="figures/transects.jpg" width="400">
 
 ### Tasks
-Given the shoreline position data in the 1987-2018 period, along with the shoreline position in 1950 as well as wave and sea level data spanning from 1950 to 2100, participants are tasked with:
+Given two years shoreline position data in the 1999-2018 period, along with the shoreline position in 1950 as well as wave and sea level data spanning from 1950 to 2100, participants are tasked with:
 
 - ***Task1.Short-term prediction***: Predict the shoreline position between **2019-01-01 and 2023-12-31** with **daily** timestep.
-- ***Task2.Medium-term prediction***: Predict the shoreline position between **1951-05-01 and 1999-12-31** with **daily** timestep.
+- ***Task2.Medium-term prediction***: Predict the shoreline position between **1951-05-01 and 1998-12-31** with **daily** timestep.
 - ***Task3.Long-term prediction***: Predict the shoreline position between **2019-01-01 and 2100-12-31** with **daily** timestep (no evaluation).
 
 ### Evaluation
@@ -60,7 +60,7 @@ $$ Dist_{avg} = \frac{1}{n} \sum_{i=1}^n Dist_i $$
 
 ## Input data
 The following files are provided for shoreline prediction.
-- `shorelines_obs.csv`: Shoreline position between 2000 and 2018 for model calibration/training for each transect. 
+- `shorelines_obs.csv`: Shoreline position between 1999 and 2018 for model calibration/training for each transect. 
 - `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
 - `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1950 is also provided as context for prediction.
 - `Hindcast wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
@@ -74,7 +74,7 @@ The following constants are also provided.
 
 ### Shoreline
 The shoreline data (`shorelines_obs.csv`) utilized in the ShoreShop 2.0 workshop is derived from public satellite images captured by Landsat 5, 7, 8, and 9 satellites. This data has been processed using [CoastSat](https://github.com/kvos/CoastSat), a public toolbox specifically designed for coastline analysis. \
-The satellite-derived shoreline (SDS) data for model calibration/training starts from 2000 and ends at 2018 with 336 time steps. \
+The satellite-derived shoreline (SDS) data for model calibration/training starts from 1999 and ends at 2018 with 347 time steps. \
 The shoreline position (m) is defined as the distance from the landward end of a transect to the intersection of the shoreline and the transect. \
 All the shorelines have been corrected to reflect the instantaneous position at Mean Sea Level.\
 The satellite-derived shoreline position data exhibits a high level of accuracy and closely aligns with the ground truth data for Beach_X, ensuring reliable model calibration and training.
@@ -83,7 +83,7 @@ The satellite-derived shoreline position data exhibits a high level of accuracy 
 
 For short-term shoreline prediction, The `shorelines_target_short.csv` contains the target dates from 2019 to 2023. All shoreline position values are intentionally withheld for all participants. During the evaluation phase, participants' predictions will be compared against the withheld shoreline position data from the SDS dataset.
 
-For medium-term shoreline prediction, `shorelines_target_medium.csv` provides shoreline data for the date 1st May 1951, serving as the context data for the medium-term prediction task. Additional target dates are included for medium-term prediction. Participants' predictions will be evaluated against photogrammetry (pre-1989) and SDS (1989-1999) data available for the respective target dates.
+For medium-term shoreline prediction, `shorelines_target_medium.csv` provides shoreline data for the date 1st May 1951, serving as the context data for the medium-term prediction task. Additional target dates are included for medium-term prediction. Participants' predictions will be evaluated against photogrammetry (pre-1989) and SDS (1989-1998) data available for the respective target dates.
 
 ### Hindcast Wave data
 The nearshore wave data used in this workshop was obtained by downscaling offshore directional wave spectra to nearshore areas.
