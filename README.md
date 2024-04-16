@@ -63,8 +63,8 @@ The following files are provided for shoreline prediction.
 - `shorelines_obs.csv`: Shoreline position between 1999 and 2018 for model calibration/training for each transect. 
 - `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
 - `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1950 is also provided as context for prediction.
-- `Hindcast wave data (Hs.csv, Tp.csv, Dp.csv)`: Hindcast significant wave height, peak wave period and peak wave direction between 1950 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
-- `Longterm wave data (Hs.csv, Tp.csv, Dp.csv)`: Historical (1980-2005) and forecast (2006-2100) significant wave height, peak wave period and peak wave direction between 2005 and 2100 for each transect. Longterm wave data can be used for long-term shoreline modelling.
+- `Hindcast wave data (Hs.csv, Tp.csv, Dir.csv)`: Hindcast significant wave height, peak wave period and mean wave direction between 1950 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
+- `Longterm wave data (Hs.csv, Tp.csv, Dir.csv)`: Historical (1980-2005) and forecast (2006-2100) significant wave height, peak wave period and mean wave direction between 2005 and 2100 for each transect. Longterm wave data can be used for long-term shoreline modelling.
 - `Sea level data (SLR_obs.csv, SLR_proj.csv)`: Annually mean of sea level between 1980 and 2100, including the gauge measurement (1980-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
   
 The following constants are also provided.
@@ -89,7 +89,7 @@ For medium-term shoreline prediction, `shorelines_target_medium.csv` provides sh
 The nearshore wave data used in this workshop was obtained by downscaling offshore directional wave spectra to nearshore areas.
 The offshore wave data is from the [CAWCR Wave Hindcast](https://data.csiro.au/collection/csiro:39819) produced by CSIRO. 
 The [BinWaves](https://www.sciencedirect.com/science/article/pii/S1463500324000337) approach was applied for wave downscaling.
-The significant wave height (Hs), peak wave period (Tp) and peak wave direction (Dp) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1979 to 2023. Wave roses for the three target transects are shown below to demonstrate the minimal longshore variation of wave conditions.
+The significant wave height (Hs), peak wave period (Tp) and mean wave direction (Dir) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1979 to 2023. Wave roses for the three target transects are shown below to demonstrate the minimal longshore variation of wave conditions.
 
 <img src="figures/wave_roses.jpg" width="800">
 
