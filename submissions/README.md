@@ -5,6 +5,7 @@ This folder contains the shoreline prediction results from the different partici
 Examples of submission are provided in the `ShoreFor`, `Chronos` and  `lag-llama` folders. There is one folder per model and each folder contains the files below:
 - `README.md`: contains the description of the model
 - `shorelines_prediction_short.csv`: contains the short-term shoreline prediction.
+- `shorelines_prediction_medium.csv`: contains the medium-term shoreline prediction.
 - `shorelines_prediction_long.csv`: contains the long-term shoreline prediction.
 
 
@@ -21,6 +22,7 @@ The `README.md` file contains the model description which includes three main pa
 #### Model elements
 - [ ] Cross-shore: model the shoreline position for each transect independently.
 - [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
+- [ ] Sea level: consider the impact of sea level rise on shoreline position.
 
 An example of README file is provided for ShoreFor under `/submissions/ShoreFor/README.md`.
 
