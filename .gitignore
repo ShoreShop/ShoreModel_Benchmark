@@ -4,3 +4,7 @@ datasets/shorelines/shorelines_target_hidden.csv
 algorithms/ShoreFor/__pycache__/shorefor.cpython-311.pyc
 datasets/shorelines/shorelines_hidden_long.csv
 datasets/shorelines/shorelines_hidden_short.csv
+/algorithms/ShoreFor/figures
+/submissions/ShoreFor/retrain
+/datasets/hindcast_waves/ERA5
+/datasets/hindcast_waves/CAWCR

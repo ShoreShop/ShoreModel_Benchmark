@@ -31,15 +31,30 @@ def getCmdargs():
     p.add_argument("-fp_out", "--filepath_output", type=str, 
                     default="../../submissions/ShoreFor",
                     help="Output file directory")
-    p.add_argument("-ST", "--start_time", type=str, 
-                    default='1979-01-01',
+    p.add_argument("-STT", "--start_time_train", type=str, 
+                    default='1999-01-01',
                     help="Start time for model prediction")
     p.add_argument("-ETT", "--end_time_train", type=str, 
-                    default='2019-01-01',
+                    default='2018-12-31',
                     help="End time for training")
-    p.add_argument("-ETP", "--end_time_pred", type=str, 
-                    default='2024-01-01',
-                    help="End time for prediction")    
+    p.add_argument("-STSP", "--start_time_short_pred", type=str, 
+                    default='2018-12-31',
+                    help="Start time for short-term prediction")        
+    p.add_argument("-ETSP", "--end_time_short_pred", type=str, 
+                    default='2023-12-31',
+                    help="End time for short-term prediction")    
+    p.add_argument("-STMP", "--start_time_medium_pred", type=str, 
+                    default='1951-05-01',
+                    help="Start time for medium-term prediction")        
+    p.add_argument("-ETMP", "--end_time_medium_pred", type=str, 
+                    default='1998-12-31',
+                    help="End time for medium-term prediction")
+    p.add_argument("-STLP", "--start_time_long_pred", type=str, 
+                    default='2018-12-31',
+                    help="Start time for long-term prediction")        
+    p.add_argument("-ETLP", "--end_time_long_pred", type=str, 
+                    default='2100-12-31',
+                    help="End time for long-term prediction")   
 
     cmdargs = p.parse_args()
     return cmdargs
@@ -426,7 +441,7 @@ class ShoreFor(object):
         if df_pred is not None:
             
             #EDIT RAI: to plot only after the calibration period
-            df_pred =  df_pred[df_pred.index > fit_result['df_fit'].index[-1]]
+            #df_pred =  df_pred[df_pred.index > fit_result['df_fit'].index[-1]]
             
             m = df_pred.shoreline_measurement_flag == True
             
@@ -494,14 +509,12 @@ class ShoreFor(object):
         
         plt.tight_layout()
 
-        if output_path:
-                fig.savefig(os.path.join(output_path,output_file), dpi=300, bbox_inches="tight", pad_inches=0.01)
-                print('\nSaved plot to {}'.format(os.path.join(output_path,output_file)))
-        else:
-                fig.savefig(output_file, dpi=300, bbox_inches="tight", pad_inches=0.01)
-                print('Saved plot to {}'.format(output_file))
-
-                
+        # if output_path:
+        #         fig.savefig(os.path.join(output_path,output_file), dpi=300, bbox_inches="tight", pad_inches=0.01)
+        #         print('\nSaved plot to {}'.format(os.path.join(output_path,output_file)))
+        # else:
+        #         fig.savefig(output_file, dpi=300, bbox_inches="tight", pad_inches=0.01)
+        #         print('Saved plot to {}'.format(output_file))
 
         return fig
 
@@ -898,12 +911,17 @@ if __name__ == "__main__":
     fp_in = cmdargs.filepath_input
     fp_out = cmdargs.filepath_output
     
-    START_TIME = cmdargs.start_time
+    START_TIME_TRAIN = cmdargs.start_time_train
     END_TIME_TRAIN = cmdargs.end_time_train
-    END_TIME_PRED = cmdargs.end_time_pred
+    START_TIME_SHORT_PRED = cmdargs.start_time_short_pred
+    END_TIME_SHORT_PRED = cmdargs.end_time_short_pred
+    START_TIME_MEDIUM_PRED = cmdargs.start_time_medium_pred
+    END_TIME_MEDIUM_PRED = cmdargs.end_time_medium_pred
+    START_TIME_LONG_PRED = cmdargs.start_time_long_pred
+    END_TIME_LONG_PRED = cmdargs.end_time_long_pred
     
     SITE = 'Beach_X'
-    WAVE_PARAMS = ['Hs', 'Tp', 'Dp']
+    WAVE_PARAMS = ['Hs', 'Tp', 'Dir']
     
     # fn_target = 'shorelines/shorelines_target_short.csv'
     #fn_predict = 'shorelines_prediction.csv'
@@ -916,40 +934,89 @@ if __name__ == "__main__":
     shorelines_obs.index = pd.to_datetime(shorelines_obs.index)
     shorelines_obs.index = shorelines_obs.index.round('H')
     
-    # shorelines_targ = pd.read_csv(os.path.join(fp_in, fn_target), index_col='Datetime')
+    shorelines_medium_targ = pd.read_csv(
+        os.path.join(fp_in, 'shorelines/shorelines_target_medium.csv'), 
+        parse_dates=['Datetime'], index_col='Datetime')
     # shorelines_targ.index = pd.to_datetime(shorelines_targ.index)
     
 
     
     
-    dfs_wave = {}
+    dfs_wave_hindcast = {}
+    dfs_wave_RCP45 = {}
+    dfs_wave_RCP85 = {}
     for wave_param in WAVE_PARAMS:
-        df_wave = pd.read_csv(
-            os.path.join(fp_in, 'waves' ,'{}.csv'.format(wave_param)),
+        df_wave_hindcast = pd.read_csv(
+            os.path.join(fp_in, 'hindcast_waves','{}.csv'.format(wave_param)),
             index_col = 'Datetime'
         )
-        df_wave.index = pd.to_datetime(df_wave.index)
-        #df_wave.drop(columns=['aus0208-0001',  'aus0208-0002'], inplace=True)
-        #df_wave.columns = ['Transect{}'.format(i) for i in range(1, 10)]
-        #df_wave.to_csv(os.path.join(fp, 'waves' ,'{}.csv'.format(wave_param)))
-        dfs_wave[wave_param] = df_wave
-        
+        df_wave_RCP45 = pd.read_csv(
+            os.path.join(fp_in, 'forecast_waves', 'RCP45', '{}.csv'.format(wave_param)),
+            index_col = 'Datetime'
+        )
+        df_wave_RCP85 = pd.read_csv(
+            os.path.join(fp_in, 'forecast_waves', 'RCP85', '{}.csv'.format(wave_param)),
+            index_col = 'Datetime'
+        )
+        df_wave_hindcast.index = pd.to_datetime(df_wave_hindcast.index)
+        df_wave_RCP45.index = pd.to_datetime(df_wave_RCP45.index)
+        df_wave_RCP85.index = pd.to_datetime(df_wave_RCP85.index)
+        dfs_wave_hindcast[wave_param] = df_wave_hindcast
+        dfs_wave_RCP45[wave_param] = df_wave_RCP45
+        dfs_wave_RCP85[wave_param] = df_wave_RCP85
+     
+    # Set params for train and pred
+    #time_scales = ['short', 'medium', 'RCP45', 'RCP85']
+    time_scales = ['medium']
+    preds = dict(zip(time_scales, [[] for _ in range(len(time_scales))]))
+    start_time_train = datetime.datetime.strptime(START_TIME_TRAIN, '%Y-%m-%d')
+    end_time_train = datetime.datetime.strptime(END_TIME_TRAIN, '%Y-%m-%d')
+    start_time_preds = {
+        'short': shorelines_obs.index[~shorelines_obs.isna().any(axis=1)][-1], # Date for last obs without nan
+        'medium': shorelines_medium_targ.index[0],
+        'RCP45': shorelines_obs.index[~shorelines_obs.isna().any(axis=1)][-1], # Date for last obs without nan
+        'RCP85': shorelines_obs.index[~shorelines_obs.isna().any(axis=1)][-1] # Date for last obs without nan
+        }
+    end_time_preds = {
+        'short': datetime.datetime.strptime(END_TIME_SHORT_PRED, '%Y-%m-%d'), 
+        'medium': datetime.datetime.strptime(END_TIME_MEDIUM_PRED, '%Y-%m-%d'), 
+        'RCP45': datetime.datetime.strptime(END_TIME_LONG_PRED, '%Y-%m-%d'),
+        'RCP85': datetime.datetime.strptime(END_TIME_LONG_PRED, '%Y-%m-%d')
+        }
+    
+    refs = {
+        'short': shorelines_obs[~shorelines_obs.isna().any(axis=1)].iloc[-1], # Last obs without nan
+        'medium': shorelines_medium_targ.iloc[0], # Context data provided in medium target
+        'RCP45': shorelines_obs[~shorelines_obs.isna().any(axis=1)].iloc[-1], # Last obs without nan
+        'RCP85': shorelines_obs[~shorelines_obs.isna().any(axis=1)].iloc[-1]
+        }
+
     
     # Iterate over transects
     
-    preds = []
     for i, tran_id in enumerate(shorelines_obs.columns):
         shoreline_x = pd.Series(shorelines_obs[tran_id])
         
-        dict_waves = {}
+        
+        dict_waves_hindcast = {}
+        dict_waves_RCP45 = {}
+        dict_waves_RCP85 = {}
         for wave_param in WAVE_PARAMS:
-            dict_waves[wave_param] = dfs_wave[wave_param][tran_id]
-        df_waves = pd.DataFrame(dict_waves)
+            dict_waves_hindcast[wave_param] = dfs_wave_hindcast[wave_param][tran_id]
+            dict_waves_RCP45[wave_param] = dfs_wave_RCP45[wave_param][tran_id]
+            dict_waves_RCP85[wave_param] = dfs_wave_RCP85[wave_param][tran_id]
+        df_waves_hindcast = pd.DataFrame(dict_waves_hindcast)
+        df_waves_RCP45 = pd.DataFrame(dict_waves_RCP45)
+        df_waves_RCP85 = pd.DataFrame(dict_waves_RCP85)
     
         # #There are some negative values around
-        df_waves.loc[df_waves['Tp'] < 0, 'Tp'] = np.nan
+        df_waves_hindcast.loc[df_waves_hindcast['Tp'] < 0, 'Tp'] = np.nan
+        df_waves_RCP45.loc[df_waves_RCP45['Tp'] < 0, 'Tp'] = np.nan
+        df_waves_RCP85.loc[df_waves_RCP85['Tp'] < 0, 'Tp'] = np.nan
         # #############################
-        df_waves = df_waves.interpolate(method ='linear')
+        df_waves_hindcast = df_waves_hindcast.interpolate(method ='linear')
+        df_waves_RCP45 = df_waves_RCP45.interpolate(method ='linear')
+        df_waves_RCP85 = df_waves_RCP85.interpolate(method ='linear')
         
         depth = 10 #from gold coast buoy
         d50 = 0.3 # mm
@@ -961,57 +1028,91 @@ if __name__ == "__main__":
         # Model fit
         #======================================================================
         # Fit model based on data within the start and end times
-        start_time=datetime.datetime.strptime(START_TIME, '%Y-%m-%d')
-        end_time_train=datetime.datetime.strptime(END_TIME_TRAIN, '%Y-%m-%d')
-        
-        fit_result = model.fit(
-            Hs=df_waves.Hs,
-            Tp=df_waves.Tp,
+        fit_result_hindcast = model.fit(
+            Hs=df_waves_hindcast.Hs,
+            Tp=df_waves_hindcast.Tp,
             shoreline_x=shoreline_x,
             d50=d50,
             water_depth=depth,
-            start_time=start_time,
+            start_time=start_time_train,
             end_time=end_time_train)
+        
+        if 'RCP45' in time_scales:
+        
+            fit_result_RCP45 = model.fit(
+                Hs=df_waves_RCP45.Hs,
+                Tp=df_waves_RCP45.Tp,
+                shoreline_x=shoreline_x,
+                d50=d50,
+                water_depth=depth,
+                start_time=start_time_train,
+                end_time=end_time_train)
+        
+        if 'RCP85' in time_scales:
+        
+            fit_result_RCP85 = model.fit(
+                Hs=df_waves_RCP85.Hs,
+                Tp=df_waves_RCP85.Tp,
+                shoreline_x=shoreline_x,
+                d50=d50,
+                water_depth=depth,
+                start_time=start_time_train,
+                end_time=end_time_train)
         
         #======================================================================
         # Model predict
-        #======================================================================        
-        end_time_pred=datetime.datetime.strptime(END_TIME_PRED, '%Y-%m-%d')
+        #======================================================================
+        for time_scale in time_scales:
+            start_time_pred = start_time_preds[time_scale]      
+            end_time_pred = end_time_preds[time_scale]      
+            
+            #use b_zero = True if you want the forecast to be cross-shore dominated only (i.e. no long-term trend)
+            if time_scale == 'RCP45':
+                df_waves = df_waves_RCP45
+                fit_result = fit_result_RCP45
+            elif time_scale == 'RCP85':
+                df_waves = df_waves_RCP85
+                fit_result = fit_result_RCP85
+            else:
+                df_waves = df_waves_hindcast
+                fit_result = fit_result_hindcast
+            
+            df_pred = model.predict(
+                Hs=df_waves.Hs,
+                Tp=df_waves.Tp,
+                d50=d50,
+                water_depth=depth,
+                start_time=start_time_pred,
+                end_time= end_time_pred,
+                shoreline_x = shoreline_x,
+                fit_result=fit_result,
+                b_zero = True)
+            
+            df_pred['shoreline_x_modelled'] = df_pred['shoreline_x_modelled'] - df_pred['shoreline_x_modelled'].iloc[0] + refs[time_scale][tran_id]
+            pred = df_pred['shoreline_x_modelled'].resample('D').interpolate().rename(tran_id)
+            # Calibrate pred to ref
+            preds[time_scale].append(pred)
         
-        #use b_zero = True if you want the forecast to be cross-shore dominated only (i.e. no long-term trend)
-        df_pred = model.predict(
-            Hs=df_waves.Hs,
-            Tp=df_waves.Tp,
-            d50=d50,
-            water_depth=depth,
-            start_time=start_time,
-            end_time= end_time_pred,
-            shoreline_x = shoreline_x,
-            fit_result=fit_result,
-            b_zero = True)
-        
-        preds.append(df_pred['shoreline_x_modelled'].resample('D').interpolate().rename(tran_id))
-        
-        #shorefor.ShoreFor.plot_fit(fit_result, df_pred=df_pred)
+            fig = shorefor.ShoreFor.plot_fit(fit_result, df_pred=df_pred, start_time=start_time_pred)
+            fig.savefig('figures/{}_{}.jpg'.format(time_scale, tran_id),
+                        dpi=300)
+            plt.close(fig)
         
         # shorelines_cali[tran_id] = df_pred['shoreline_x_modelled'].reindex(
         #     shorelines_cali.index, method='Nearest')
         # shorelines_targ[tran_id] = df_pred['shoreline_x_modelled'].reindex(
         #     shorelines_targ.index, method='Nearest')
         
-
-    df_preds = pd.concat(preds, axis=1)
-    if not os.path.exists(fp_out):
-        os.makedirs(fp_out)
-    #shorelines_targ.to_csv(os.path.join(fp_out, fn_predict))
-    #shorelines_cali.to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
-    #df_pred[df_pred.index<=end_time_train].to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
-    df_preds[df_pred.index>end_time_train].to_csv(
-        os.path.join(fp_out, 'shorelines_prediction_short.csv')
-        )
-    df_preds[df_pred.index<shorelines_obs.index[0]].to_csv(
-        os.path.join(fp_out, 'shorelines_prediction_long.csv')
-        )
+    for time_scale in time_scales:
+        df_preds = pd.concat(preds[time_scale], axis=1)
+        if not os.path.exists(fp_out):
+            os.makedirs(fp_out)
+        #shorelines_targ.to_csv(os.path.join(fp_out, fn_predict))
+        #shorelines_cali.to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
+        #df_pred[df_pred.index<=end_time_train].to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
+        df_preds.to_csv(
+            os.path.join(fp_out, 'shorelines_prediction_{}.csv'.format(time_scale))
+            )
     
     
     
