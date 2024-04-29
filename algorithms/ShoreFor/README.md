@@ -21,9 +21,14 @@ python shorefor.py -h
 4. Run script with specific arguments
 -fp_in: Input file path\
 -fp_out: Output file path\
--ST: Start time\
+-STT: Start time for training\
 -ETT: End time for training\
--ETP: End time for prediction\
+-STSP: Start time for short-term prediction\
+-ETSP: End time for short-term prediction\
+-STMP: Start time for medium-term prediction\
+-ETMP: End time for medium-term prediction\
+-STLP: Start time for long-term prediction\
+-ETLP: End time for long-term prediction
 ```
 python shorefor.py -fp_in {} -fp_out {} -ST {} -ETT {} -ETP {}
 ```
