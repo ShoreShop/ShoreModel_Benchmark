@@ -30,5 +30,5 @@ python shorefor.py -h
 -STLP: Start time for long-term prediction\
 -ETLP: End time for long-term prediction
 ```
-python shorefor.py -fp_in {} -fp_out {} -ST {} -ETT {} -ETP {}
+python shorefor.py -fp_in {} -fp_out {} -STT {} -ETT {} -STSP {} -ETSP {} -STMP {} -ETMP {} -STLP {} -ETLP {}
 ```
