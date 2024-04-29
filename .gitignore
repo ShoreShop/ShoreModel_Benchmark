@@ -3,6 +3,7 @@ Notes.docx
 datasets/shorelines/shorelines_target_hidden.csv
 algorithms/ShoreFor/__pycache__/shorefor.cpython-311.pyc
 datasets/shorelines/shorelines_hidden_long.csv
+datasets/shorelines/shorelines_hidden_medium.csv
 datasets/shorelines/shorelines_hidden_short.csv
 /algorithms/ShoreFor/figures
 /submissions/ShoreFor/retrain
