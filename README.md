@@ -85,17 +85,18 @@ For short-term shoreline prediction, The `shorelines_target_short.csv` contains 
 
 For medium-term shoreline prediction, `shorelines_target_medium.csv` provides shoreline data for the date 1st May 1951, serving as the context data for the medium-term prediction task. Additional target dates are included for medium-term prediction. Participants' predictions will be evaluated against photogrammetry (pre-1989) and SDS (1989-1998) data available for the respective target dates.
 
-### Hindcast Wave data
+### Hindcast wave data
 The nearshore wave data used in this workshop was obtained by downscaling offshore directional wave spectra to nearshore areas.
 The offshore wave data is from the [ERA5 Wave Hindcast](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview). 
-The [BinWaves](https://www.sciencedirect.com/science/article/pii/S1463500324000337) approach was applied for wave downscaling.
+The [BinWaves](https://www.sciencedirect.com/science/article/pii/S1463500324000337) approach was applied to transform the offshore wave data to nearshore.
 The significant wave height (Hs), peak wave period (Tp) and mean wave direction (Dir) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1940 to 2023. Wave roses for the three target transects are shown below to demonstrate the minimal longshore variation of wave conditions.
 
 <img src="figures/wave_roses.jpg" width="800">
 
-### Forecast Wave data
-A short introduction to forecast wave data\
-The historical data in the long-term folder is slightly different from the hindcast wave data in the same period. Therefore, re-train/re-calibration can be necessary for data-driven and hybrid models to predict long-term shoreline position.
+### Forecast wave data
+Projections of future wave climates were made using the WAVEWATCH III wave model with surface wind data from the Australian Community Climate and Earth System Simulator (ACCESS) as inputs. Wave projections were made for two future representative concentration pathways including medium-low emission RCP4.5 and high emission RCP8.5, throughout 2006-2100.
+The offshore wave forecast was transformed to nearshore following the same approach applied to hindcast wave data.
+To ensure the consistency between the hindcast and forecast data, the forecast wave climates were calibrated to have the same seasonality and joint distribution of Hs, Tp and Dir over the period of 2006~2023 with the multivariate bias correction algorithm ([MBCn](https://link.springer.com/article/10.1007/s00382-017-3580-6)).
 
 
 ### Sea level rise data
