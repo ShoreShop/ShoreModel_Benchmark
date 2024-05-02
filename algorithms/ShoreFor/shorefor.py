@@ -55,6 +55,8 @@ def getCmdargs():
     p.add_argument("-ETLP", "--end_time_long_pred", type=str, 
                     default='2100-12-31',
                     help="End time for long-term prediction")   
+    p.add_argument("-retrain", action='store_true',
+                    help="End time for long-term prediction")   
 
     cmdargs = p.parse_args()
     return cmdargs
@@ -923,6 +925,8 @@ if __name__ == "__main__":
     SITE = 'Beach_X'
     WAVE_PARAMS = ['Hs', 'Tp', 'Dir']
     
+    retrain = cmdargs.retrain
+    
     # fn_target = 'shorelines/shorelines_target_short.csv'
     #fn_predict = 'shorelines_prediction.csv'
     
@@ -966,8 +970,8 @@ if __name__ == "__main__":
         dfs_wave_RCP85[wave_param] = df_wave_RCP85
      
     # Set params for train and pred
-    #time_scales = ['short', 'medium', 'RCP45', 'RCP85']
-    time_scales = ['medium']
+    time_scales = ['short', 'medium', 'RCP45', 'RCP85']
+    #time_scales = ['medium']
     preds = dict(zip(time_scales, [[] for _ in range(len(time_scales))]))
     start_time_train = datetime.datetime.strptime(START_TIME_TRAIN, '%Y-%m-%d')
     end_time_train = datetime.datetime.strptime(END_TIME_TRAIN, '%Y-%m-%d')
@@ -1037,7 +1041,7 @@ if __name__ == "__main__":
             start_time=start_time_train,
             end_time=end_time_train)
         
-        if 'RCP45' in time_scales:
+        if ('RCP45' in time_scales)&(retrain):
         
             fit_result_RCP45 = model.fit(
                 Hs=df_waves_RCP45.Hs,
@@ -1048,7 +1052,7 @@ if __name__ == "__main__":
                 start_time=start_time_train,
                 end_time=end_time_train)
         
-        if 'RCP85' in time_scales:
+        if ('RCP85' in time_scales)&(retrain):
         
             fit_result_RCP85 = model.fit(
                 Hs=df_waves_RCP85.Hs,
@@ -1069,10 +1073,18 @@ if __name__ == "__main__":
             #use b_zero = True if you want the forecast to be cross-shore dominated only (i.e. no long-term trend)
             if time_scale == 'RCP45':
                 df_waves = df_waves_RCP45
-                fit_result = fit_result_RCP45
+                if retrain:
+                    fit_result = fit_result_RCP45
+                else:
+                    fit_result = fit_result_hindcast
+                    
             elif time_scale == 'RCP85':
                 df_waves = df_waves_RCP85
-                fit_result = fit_result_RCP85
+                if retrain:
+                    fit_result = fit_result_RCP85
+                else:
+                    fit_result = fit_result_hindcast
+                    
             else:
                 df_waves = df_waves_hindcast
                 fit_result = fit_result_hindcast
@@ -1093,9 +1105,13 @@ if __name__ == "__main__":
             # Calibrate pred to ref
             preds[time_scale].append(pred)
         
-            fig = shorefor.ShoreFor.plot_fit(fit_result, df_pred=df_pred, start_time=start_time_pred)
-            fig.savefig('figures/{}_{}.jpg'.format(time_scale, tran_id),
-                        dpi=300)
+            fig = shorefor.ShoreFor.plot_fit(fit_result, df_pred=df_pred)
+            if retrain:
+                fig.savefig('figures/retrain/{}_{}.jpg'.format(time_scale, tran_id),
+                            dpi=300)
+            else:
+                fig.savefig('figures/{}_{}.jpg'.format(time_scale, tran_id),
+                            dpi=300)
             plt.close(fig)
         
         # shorelines_cali[tran_id] = df_pred['shoreline_x_modelled'].reindex(
@@ -1110,9 +1126,14 @@ if __name__ == "__main__":
         #shorelines_targ.to_csv(os.path.join(fp_out, fn_predict))
         #shorelines_cali.to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
         #df_pred[df_pred.index<=end_time_train].to_csv(os.path.join(fp_out, 'shorelines_calibration.csv'))
-        df_preds.to_csv(
-            os.path.join(fp_out, 'shorelines_prediction_{}.csv'.format(time_scale))
-            )
+        if retrain:
+            df_preds.to_csv(
+                os.path.join(fp_out, 'retrain', 'shorelines_prediction_{}.csv'.format(time_scale))
+                )
+        else:
+            df_preds.to_csv(
+                os.path.join(fp_out, 'shorelines_prediction_{}.csv'.format(time_scale))
+                )
     
     
     

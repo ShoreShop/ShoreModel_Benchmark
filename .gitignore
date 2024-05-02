@@ -9,3 +9,4 @@ datasets/shorelines/shorelines_hidden_short.csv
 /submissions/ShoreFor/retrain
 /datasets/hindcast_waves/ERA5
 /datasets/hindcast_waves/CAWCR
+algorithms/ShoreFor/check_results.py
