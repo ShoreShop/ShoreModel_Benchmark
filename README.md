@@ -9,8 +9,8 @@ Shoreline change prediction has witnessed the evolution of both hybrid and data-
 - **Blind Testing Element**: Drawing inspiration from ShoreShop 1.0, ShoreShop 2.0 retains its core feature of blind testing to provide unbiased evaluations of the predictive models.
 - **Key Focus Areas**:
   1. Assessing the performance of shoreline models using freely available datasets such as satellite-derived shorelines and modelled wave conditions.
-  2. Evaluating the capabilities of shoreline models for short-term (5 years) and medium-term (50 years) predictions while discussing their potential long-term predictions (80 years).
-  3. Investigating the variability in shoreline model accuracy along the coastlines of an embayed beach.
+  2. Evaluating the capabilities of shoreline models for short-term (5 years) and medium-term (50 years) predictions while discussing their potential for long-term predictions (80 years).
+  3. Investigating the variability in shoreline model accuracy along the coastline of an embayed beach.
 
 Join us at ShoreShop 2.0 to learn about the latest advancements, share insights, and foster collaborative efforts in shoreline change prediction.
 
@@ -30,7 +30,7 @@ These coordinates are in a local coordinate system, deliberately shifted (not di
 <img src="figures/transects.jpg" width="400">
 
 ### Tasks
-Given two years shoreline position data in the 1999-2018 period, along with the shoreline position in 1950 as well as wave and sea level data spanning from 1950 to 2100, participants are tasked with:
+Given 20 years shoreline position data in the 1999-2018 period, along with the shoreline position in 1951-05-01 as well as wave and sea level data spanning from 1940 to 2100, participants are tasked with:
 
 - ***Task1.Short-term prediction***: Predict the shoreline position between **2019-01-01 and 2023-12-31** with **daily** timestep.
 - ***Task2.Medium-term prediction***: Predict the shoreline position between **1951-05-01 and 1998-12-31** with **daily** timestep.
@@ -40,7 +40,7 @@ Given two years shoreline position data in the 1999-2018 period, along with the 
 - **Target transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
 - **Target shorelines**: For each target transect, the model prediction will be evaluated against the observed shoreline data at target datetimes. The target datetimes for short-term and medium-term tasks are in `shorelines_target_short.csv` and `shorelines_target_medium.csv`. For blind testing, the observed shoreline data in the target window will be withheld for all participants. The long-term prediction will **not** be evaluated, and the results are only for discussion.
 - **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting of root-mean-square-error (RMSE), Correlation and standard deviation (STD)) will be used to visualize and compare the model performance for each of the target transect.\
-RMSE and STD of prediction are normalized by dividing them by the STD of the observation (target). This ensures that all three statistical parameters in the diagram fall within the range of [0, 1]. The distance $Dist_{i}$ between the model points and the target point (the black triangle) in the Taylor diagram is calculated for each target transect. The average distance across all target transects $Dist_{avg}$ serves as the final metric for ranking the model performance. A smaller distance indicates better model performance.
+RMSE and STD of prediction are normalized by dividing them by the STD of the observation (target). This ensures that all three statistical parameters in the diagram are normalized. The distance $Dist_{i}$ between the model points and the target point (the black triangle) in the Taylor diagram is calculated for each target transect. The average distance across all target transects $Dist_{avg}$ serves as the final metric for ranking the model performance. A smaller distance indicates better model performance.
   
 $$ RMSE_{norm} = \frac{RMSE_{pred}}{STD_{targ}},   STD_{norm} = \frac{STD_{pred}}{STD_{targ}}$$
 
@@ -57,15 +57,16 @@ $$ Dist_{avg} = \frac{1}{n} \sum_{i=1}^n Dist_i $$
 - Participants must complete at least one task, although attempting both is encouraged.
 - Participants must provide a brief description of the methodology used. 
 - Code submission is optional.
+- Each participant can have multiple submissions.
 
 ## Input data
-The following files are provided for shoreline prediction.
+The following files are provided for shoreline predictions.
 - `shorelines_obs.csv`: Shoreline position between 1999 and 2018 for model calibration/training for each transect. 
 - `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
-- `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1950 is also provided as context for prediction.
-- `Hindcast wave data (Hs.csv, Tp.csv, Dir.csv)`: Hindcast significant wave height, peak wave period and mean wave direction between 1950 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
+- `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1951-05-01 is also provided as context for prediction.
+- `Hindcast wave data (Hs.csv, Tp.csv, Dir.csv)`: Hindcast significant wave height, peak wave period and mean wave direction between 1940 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
 - `Forecast wave data (Hs.csv, Tp.csv, Dir.csv)`: Forecast (2006-2100) significant wave height, peak wave period and mean wave direction under RCP4.5 and 8.5 scenarios for each transect. Forecast wave data can be used for long-term shoreline modelling.
-- `Sea level data (SLR_obs.csv, SLR_proj.csv)`: Annually mean of sea level between 1980 and 2100, including the gauge measurement (1980-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
+- `Sea level data (SLR_obs.csv, SLR_proj.csv)`: Annual mean of sea level between 1980 and 2100, including the gauge measurement (1980-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
   
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
@@ -86,7 +87,7 @@ For short-term shoreline prediction, The `shorelines_target_short.csv` contains 
 For medium-term shoreline prediction, `shorelines_target_medium.csv` provides shoreline data for the date 1st May 1951, serving as the context data for the medium-term prediction task. Additional target dates are included for medium-term prediction. Participants' predictions will be evaluated against photogrammetry (pre-1989) and SDS (1989-1998) data available for the respective target dates.
 
 ### Hindcast wave data
-The nearshore wave data used in this workshop was obtained by downscaling offshore directional wave spectra to nearshore areas.
+The hindcast wave data used in this workshop was obtained by downscaling offshore directional wave spectra to nearshore areas.
 The offshore wave data is from the [ERA5 Wave Hindcast](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview). 
 The [BinWaves](https://www.sciencedirect.com/science/article/pii/S1463500324000337) approach was applied to transform the offshore wave data to nearshore.
 The significant wave height (Hs), peak wave period (Tp) and mean wave direction (Dir) were extracted along each shore-normal transect at 10 (m) depth contour with a daily interval from 1940 to 2023. Wave roses for the three target transects are shown below to demonstrate the minimal longshore variation of wave conditions.
@@ -94,21 +95,22 @@ The significant wave height (Hs), peak wave period (Tp) and mean wave direction 
 <img src="figures/wave_roses.jpg" width="800">
 
 ### Forecast wave data
-Projections of future wave climates were made using a nested WAVEWATCH III wave model with surface wind data from the Australian Community Climate and Earth System Simulator ([ACCESS](https://researchdata.edu.au/access1-0-climate-r2i1p1-ensemble/259215)) as inputs. Wave projections have been performed for medium range carbon (RCP4.5) and high range (RCP8.5) carbon emission scenarios throughout 2006-2100.
+The forecast wave data were made using a nested WAVEWATCH III wave model with surface wind data from the Australian Community Climate and Earth System Simulator ([ACCESS](https://researchdata.edu.au/access1-0-climate-r2i1p1-ensemble/259215)) as inputs. Wave projections have been performed for medium range carbon (RCP4.5) and high range (RCP8.5) carbon emission scenarios throughout 2006-2100.
 The offshore wave forecast was transformed to nearshore following the same approach applied to hindcast wave data.
-For each transect, to ensure the consistency between the hindcast and forecast data, the forecast wave climates were calibrated to have the same seasonality and joint distribution of Hs, Tp and Dir over the period of 2006~2023 with the multivariate bias correction algorithm ([MBCn](https://link.springer.com/article/10.1007/s00382-017-3580-6)). Calibration results with hindcast as reference for Transection1 under RCP4.5 scenario are shown below.
+For each transect, to ensure the consistency between the hindcast and forecast data, the forecast wave climates were calibrated to have the same seasonality and joint distribution of Hs, Tp and Dir over the period of 2006~2023 with the multivariate bias correction algorithm ([MBCn](https://link.springer.com/article/10.1007/s00382-017-3580-6)). Calibration results with hindcast data as reference for Transect1 under RCP4.5 scenario are shown below.
 
 <img src="figures/cali_eval_Transect1_Hs_RCP45.jpg" width="600">
 
 
 ### Sea level rise data
-`SLR_obs.csv` contains the annual sea level data from gauge measurement (1980-2018). `SLR_proj.csv` contains the projection under the RCP 4.5 and 8.5 scenarios (2019-2100). Both the measurement and the projection are relative to the mean of the observation. 
-The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.nasa.gov/ipcc-ar6-sea-level-projection-tool), which is based on the regional sea level projections provided in the IPCC 6th Assessment Report (AR6). Sea level is the same for all transects.
+`SLR_obs.csv` contains the annual sea level data from gauge measurement (1980-2018). `SLR_proj.csv` contains the sea level projection under the RCP 4.5 and 8.5 scenarios (2019-2100). 
+The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.nasa.gov/ipcc-ar6-sea-level-projection-tool), which is based on the regional sea level projections provided in the IPCC 6th Assessment Report (AR6). Sea level is **the same for all transects**.
+The sea level data in both the measurement and the projection are relative to the mean of the measurement. 
 
 <img src="figures/SLR_ts.jpg" width="500">
 
 ### Bathymetry data
-Similar to the vast majority of beaches worldwide, Beach_X does not have nearshore bathymetry data available. Therefore, participants are challenged to adapt their models accordingly, as this workshop emphasizes evaluating shoreline model performance using freely accessible datasets.
+Similar to the vast majority of beaches worldwide, Beach_X does not have nearshore bathymetry data available. Therefore, participants are challenged to adapt their models accordingly to address the model applicability under data poor scenarios with only freely accessible datasets.
 
 ## Outputs and Deliverables
 
@@ -125,8 +127,8 @@ Participants should copy and check the boxes below in the model description to a
 #### Model mechanics
 - [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
 - [ ] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
-- [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
-#### Model elements
+- [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning and statistical models).
+#### Model elements (multiple choice)
 - [ ] Cross-shore: model the shoreline position for each transect independently.
 - [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
@@ -139,7 +141,7 @@ To submit your results, please:
 1. [fork](https://github.com/yongjingmao/ShoreModel_Benchmark/fork) this repository;
    - Begin by forking the original workshop repository to your GitHub account.
 2. Create a Submission Folder:
-   - Inside the submission folder, create a subfolder named ModelName_AuthorInitials. Replace ModelName with the name of your model and AuthorInitials with your initials.
+   - Inside the submission folder, create a subfolder named **"ModelName_AuthorInitials"**. Replace ModelName with the name of your model and AuthorInitials with your initials.
 3. Place Your Prediction Files:
    - Copy your completed prediction files (`shorelines_prediction_short.csv`, `shorelines_prediction_medium.csv` and/or `shorelines_prediction_long.csv`) into the subfolder created in Step 2.
 4. Provide Your Model Description (an example is [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md)):
