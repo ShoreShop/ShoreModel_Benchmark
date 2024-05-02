@@ -24,7 +24,7 @@ The ShoreFor model was applied to ***Task1.Short-term prediction***, ***Task2.Me
 - [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
 - [x] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
 - [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
-#### Model elements
+#### Model elements (multiple choices)
 - [x] Cross-shore: model the shoreline position for each transect independently.
 - [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
