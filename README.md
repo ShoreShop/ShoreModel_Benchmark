@@ -96,7 +96,9 @@ The significant wave height (Hs), peak wave period (Tp) and mean wave direction 
 ### Forecast wave data
 Projections of future wave climates were made using a nested WAVEWATCH III wave model with surface wind data from the Australian Community Climate and Earth System Simulator ([ACCESS](https://researchdata.edu.au/access1-0-climate-r2i1p1-ensemble/259215)) as inputs. Wave projections have been performed for medium range carbon (RCP4.5) and high range (RCP8.5) carbon emission scenarios throughout 2006-2100.
 The offshore wave forecast was transformed to nearshore following the same approach applied to hindcast wave data.
-For each transect, to ensure the consistency between the hindcast and forecast data, the forecast wave climates were calibrated to have the same seasonality and joint distribution of Hs, Tp and Dir over the period of 2006~2023 with the multivariate bias correction algorithm ([MBCn](https://link.springer.com/article/10.1007/s00382-017-3580-6)).
+For each transect, to ensure the consistency between the hindcast and forecast data, the forecast wave climates were calibrated to have the same seasonality and joint distribution of Hs, Tp and Dir over the period of 2006~2023 with the multivariate bias correction algorithm ([MBCn](https://link.springer.com/article/10.1007/s00382-017-3580-6)). Calibration results with hindcast as reference for Transection1 under RCP4.5 scenario are shown below.
+
+<img src="figures/cali_eval_Transect1_Hs_RCP45.jpg" width="600">
 
 
 ### Sea level rise data
