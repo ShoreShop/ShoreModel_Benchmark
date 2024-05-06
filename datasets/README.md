@@ -2,6 +2,7 @@
 
 This folder contains all the input datasets for shoreline models. Each folder contains a README.md file that further describes the dataset
 
+### Coordinates
 The coordinates for the landward and seaward ends of transects are provided in `transects_coords.csv`.
 These coordinates are in a local coordinate system, deliberately shifted (not distorted or rotated), and are expressed in easting and northing with a unit of meters. \
 They do not reveal the actual geographical location of Beach_X.
@@ -23,3 +24,9 @@ Columns:
 | Transect7 | 87.900983   | 342.714416  | 441.075510  | 155.000819  |
 | Transect8 | 36.335441   | 234.596687  | 406.417477  | 82.993029   |
 | Transect9 | 0.000000    | 129.837061  | 378.240760  | 0.000000    |
+
+### Slope
+The beach-face slope along each transect is provided in `slope.csv`.
+Columns:
+- **ID**: ID of each transect
+- **Slope**: Beachface slope
