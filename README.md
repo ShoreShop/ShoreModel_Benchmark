@@ -166,4 +166,4 @@ Please put any questions on the [GitHub Issues](https://github.com/yongjingmao/S
 
 ## Acknowledgements
 
-We extend our gratitude to Dr. Killian Vos and Dr. Laura Cagigal for generously sharing the CoastSat and BinWaves codes, as well as to Aditya Deshmukh for supplying the forecast wave data.
+We extend our gratitude to Dr. Killian Vos, Dr. Laura Cagigal and Dr. Raimundo Ibaceta for generously sharing the CoastSat, BinWaves and ShoreFor codes, as well as to Aditya Deshmukh for supplying the forecast wave data.
