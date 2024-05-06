@@ -62,7 +62,7 @@ $$ Dist_{avg} = \frac{1}{n} \sum_{i=1}^n Dist_i $$
 ## Input data
 The following files are provided for shoreline predictions.
 - `transects_coords.csv`: Coordinates for transects.
-- `slopce.csv`: Beach-face slope for transects.
+- `slope.csv`: Beach-face slope for transects.
 - `shorelines_obs.csv`: Shoreline position between 1999 and 2018 for model calibration/training for each transect. 
 - `shorelines_target_short.csv`: Target dates where short-term shoreline prediction will be evaluated.
 - `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1951-05-01 is also provided as context for prediction.
