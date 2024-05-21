@@ -69,7 +69,7 @@ The following files are provided for shoreline predictions.
 - `Hindcast wave data (Hs.csv, Tp.csv, Dir.csv)`: Hindcast significant wave height, peak wave period and mean wave direction between 1940 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
 - `Forecast wave data (Hs.csv, Tp.csv, Dir.csv)`: Forecast (2006-2100) significant wave height, peak wave period and mean wave direction under RCP4.5 and 8.5 scenarios for each transect. Forecast wave data can be used for long-term shoreline modelling.
 - `Tide data (tide.csv)`: Tidal height between 1950 and 2100 with daily interval. 
-- `Sea level data (sealevel_obs.csv, sealevel_proj.csv)`: Annual mean of sea level between 1950 and 2100, including the gauge measurement (1980-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
+- `Sea level data (sealevel_obs.csv, sealevel_proj.csv)`: Annual mean of sea level between 1950 and 2100, including the gauge measurement (1950-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
   
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
