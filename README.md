@@ -68,7 +68,8 @@ The following files are provided for shoreline predictions.
 - `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1951-05-01 is also provided as context for prediction.
 - `Hindcast wave data (Hs.csv, Tp.csv, Dir.csv)`: Hindcast significant wave height, peak wave period and mean wave direction between 1940 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
 - `Forecast wave data (Hs.csv, Tp.csv, Dir.csv)`: Forecast (2006-2100) significant wave height, peak wave period and mean wave direction under RCP4.5 and 8.5 scenarios for each transect. Forecast wave data can be used for long-term shoreline modelling.
-- `Sea level data (SLR_obs.csv, SLR_proj.csv)`: Annual mean of sea level between 1980 and 2100, including the gauge measurement (1980-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
+- `Tide data (tide.csv)`: Tidal height between 1950 and 2100 with daily interval. 
+- `Sea level data (sealevel_obs.csv, sealevel_proj.csv)`: Annual mean of sea level between 1950 and 2100, including the gauge measurement (1980-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
   
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
@@ -103,11 +104,12 @@ For each transect, to ensure the consistency between the hindcast and forecast d
 
 <img src="figures/cali_eval_Transect1_Hs_RCP45.jpg" width="600">
 
+### Tide data
+`tide.csv` contains the daily average of tidal height from [FES2014]([https://www.aviso.altimetry.fr/es/data/products/auxiliary-products/global-tide-fes/description-fes2014.html](https://www.aviso.altimetry.fr/en/index.php?id=1279&L=1)) model. Tidal components M2, S2, K1 and O1 were used for reconstruction. Tidal height is **the same for all transects**.
 
-### Sea level rise data
-`SLR_obs.csv` contains the annual sea level data from gauge measurement (1980-2018). `SLR_proj.csv` contains the sea level projection under the RCP 4.5 and 8.5 scenarios (2019-2100). 
+### Sea level data
+`sealevel_obs.csv` contains the annual sea level data from gauge measurement (1950-2018). `sealevel_proj.csv` contains the sea level projection under the RCP 4.5 and 8.5 scenarios (2019-2100). 
 The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.nasa.gov/ipcc-ar6-sea-level-projection-tool), which is based on the regional sea level projections provided in the IPCC 6th Assessment Report (AR6). Sea level is **the same for all transects**.
-The sea level data in both the measurement and the projection are relative to the mean of the measurement. 
 
 <img src="figures/SLR_ts.jpg" width="500">
 
