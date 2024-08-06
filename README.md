@@ -23,7 +23,7 @@ The following notebooks are available in this repo:
 ## Task description
 ### Beach_X
 A real-world Beach_X serves as the target site for this workshop. To ensure a blind test, all geographical information regarding this beach has been intentionally removed. \
-What we do know is that Beach_X is an east-facing embayed sandy beach with a mean grain size ***D50 ≈ 0.3 mm***.\
+What we do know is that Beach_X is an east-facing embayed sandy beach with a mean grain size ***D50 ≈ 0.3 mm***. The depth of closure for this beach is 11 m and the corresponding slope of the active beach profile is about 0.022.\
 9 shore-normal transects are established from North to South with a 100-meter longshore distance to measure shoreline position. The coordinates for the landward and seaward ends of transects are provided in `transects_coords.csv`.
 These coordinates are in a local coordinate system, deliberately shifted (not distorted or rotated), and are expressed in easting (x) and northing (y) with a unit of meters. They do not reveal the actual geographical location of Beach_X.
 
@@ -40,7 +40,7 @@ Given 20 years shoreline position data in the 1999-2018 period, along with the s
 - **Target transects**: The target transects used for evaluation include ***Transects 2, 5 and 8*** in the North end, the middle and the South end of the beach respectively.
 - **Target shorelines**: For each target transect, the model prediction will be evaluated against the observed shoreline data at target datetimes. The target datetimes for short-term and medium-term tasks are in `shorelines_target_short.csv` and `shorelines_target_medium.csv`. For blind testing, the observed shoreline data in the target window will be withheld for all participants. The long-term prediction will **not** be evaluated, and the results are only for discussion.
 - **Evaluation metrics**: [Taylor diagram](https://en.wikipedia.org/wiki/Taylor_diagram) (consisting of centered root-mean-square error (CRMSE, bias excluded), Correlation and standard deviation (STD)) will be used to visualize and compare the model performance for each of the target transect.\
-For quantitative comparison, root-mean-square error (RMSE, bias included), Correlation and STD are integrated into a single metrics. RMSE and STD of prediction are normalized by dividing them by the STD of the observation (target). This ensures that all three statistical parameters in the diagram are normalized. The loss function $\mathcal{L_i}$ is then defined by intergrating the three parameters for each target transect. The average loss across all target transects $\mathcal{L_avg}$ serves as the final metric for ranking the model performance. Please note that due to the difference between CRMSE and RMSE, the $\mathcal{L_i}$ is similar but not the distance between the model points and the target point (the black triangle) in the Taylor diagram.
+For quantitative comparison, root-mean-square error (RMSE, bias included), Correlation and STD are integrated into a single metrics. RMSE and STD of prediction are normalized by dividing them by the STD of the observation (target). This ensures that all three statistical parameters in the diagram are normalized. The loss function $\mathcal{L_i}$ is then defined by intergrating the three parameters for each target transect. The average loss across all target transects $\mathcal{L_avg}$ serves as the final metric for ranking the model performance. Please note that due to the difference between CRMSE and RMSE, the $\mathcal{L_i}$ is indicative of, but not identical to, the distance between the model points and the target point (the black triangle) in the Taylor diagram.
   
 $$ RMSE_{norm} = \frac{RMSE_{pred}}{STD_{targ}},   STD_{norm} = \frac{STD_{pred}}{STD_{targ}}$$
 
@@ -68,11 +68,14 @@ The following files are provided for shoreline predictions.
 - `shorelines_target_medium.csv`: Target dates where medium-term shoreline prediction will be evaluated. The shoreline position for 1951-05-01 is also provided as context for prediction.
 - `Hindcast wave data (Hs.csv, Tp.csv, Dir.csv)`: Hindcast significant wave height, peak wave period and mean wave direction between 1940 and 2024 for each transect. Hindcast wave data can be used for short-term and medium-term shoreline modelling.
 - `Forecast wave data (Hs.csv, Tp.csv, Dir.csv)`: Forecast (2006-2100) significant wave height, peak wave period and mean wave direction under RCP4.5 and 8.5 scenarios for each transect. Forecast wave data can be used for long-term shoreline modelling.
-- `Sea level data (SLR_obs.csv, SLR_proj.csv)`: Annual mean of sea level between 1980 and 2100, including the gauge measurement (1980-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
+- `Tide data (tide.csv)`: Tidal height between 1950 and 2100 with daily interval. 
+- `Sea level data (sealevel_obs.csv, sealevel_proj.csv)`: Annual mean of sea level between 1950 and 2100, including the gauge measurement (1950-2018) and the projections (2019-2100) under RCP4.5 and 8.5 scenarios.
   
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
 - `Mean grain size D50`: 0.3 (mm)
+- `Depth of closure`: 11 (m)
+- `Slope of the active beach profile`: 0.022
 
 
 ### Shoreline
@@ -103,11 +106,12 @@ For each transect, to ensure the consistency between the hindcast and forecast d
 
 <img src="figures/cali_eval_Transect1_Hs_RCP45.jpg" width="600">
 
+### Tide data
+`tide.csv` contains the daily average of tidal height from [FES2014]([https://www.aviso.altimetry.fr/es/data/products/auxiliary-products/global-tide-fes/description-fes2014.html](https://www.aviso.altimetry.fr/en/index.php?id=1279&L=1)) model. Tidal components M2, S2, K1 and O1 were used for reconstruction. Tidal height is **the same for all transects**.
 
-### Sea level rise data
-`SLR_obs.csv` contains the annual sea level data from gauge measurement (1980-2018). `SLR_proj.csv` contains the sea level projection under the RCP 4.5 and 8.5 scenarios (2019-2100). 
+### Sea level data
+`sealevel_obs.csv` contains the annual sea level data from gauge measurement (1950-2018). `sealevel_proj.csv` contains the sea level projection under the RCP 4.5 and 8.5 scenarios (2019-2100). 
 The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.nasa.gov/ipcc-ar6-sea-level-projection-tool), which is based on the regional sea level projections provided in the IPCC 6th Assessment Report (AR6). Sea level is **the same for all transects**.
-The sea level data in both the measurement and the projection are relative to the mean of the measurement. 
 
 <img src="figures/SLR_ts.jpg" width="500">
 
