@@ -778,9 +778,9 @@ class ShoreFor(object):
         
 
         # Calculate the weights to multiply the omega term in the numerator
-        # weights = np.power(10, -np.arange(int(2 * phi * 24), 0, -1) / int(phi * 24))
-        i = np.arange(1, int(2 * phi * 24) + 1)
-        weights = np.power(10.0, -i / int(phi * 24))
+        weights = np.power(10, -np.arange(int(2 * phi * 24), 0, -1) / int(phi * 24))
+        # i = np.arange(1, int(2 * phi * 24) + 1)
+        # weights = np.power(10.0, -i / int(phi * 24))
 
         # The numerator term is just the convolution (rolling sum) of omega term
         # multipyled by the weights. We only want to return the values where we have
