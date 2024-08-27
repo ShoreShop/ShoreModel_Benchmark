@@ -1,13 +1,10 @@
 ## CNN-LSTM model
 ### Model description
 
-The CNN-LSTM hybrid neural network architecture can be viewed as an array of two submodels: a CNN unit followed by an LSTM one. The CNN component is used to extract features of the input data, while the LSTM component is used to learn how those features change with time. The architecture as presented in Gomez-de la Pena et al. [[1](https://doi.org/10.5194/esurf-11-1145-2023)] was used, where the CNN unit consists of two convolutional layers followed by a max-pooling layer. Dropout is then applied as a regularization techinique. The distilled feature vector obtained with the CNN unit is then used in the LSTM layer. The models are trained using the symmetric index of agreement derived in Duveiller et al. 2016 [[2](https://doi.org/10.1038/srep19401)] as the loss function.
+CNN-LSTM hybrid neural networks can be viewed as an array of two submodels: a CNN unit followed by an LSTM one. The CNN component is used to extract features of the input data, while the LSTM component is used to learn how those features change with time. The architecture as presented in Gomez-de la Pena et al. [[1](https://doi.org/10.5194/esurf-11-1145-2023)] was used, where the CNN unit consists of two convolutional layers followed by a max-pooling layer. Dropout was then applied as a regularization techinique. The distilled feature vector obtained with the CNN unit was then used in the LSTM layer. The models were trained using the symmetric index of agreement derived in Duveiller et al. 2016 [[2](https://doi.org/10.1038/srep19401)] as the loss function.
 
 ### Model implementation
-The CNN-LSTM models were applied to ***Task1.Short-term prediction***. For each transect, Look back period (corresponding to 75, 90, 120, 150 days), learning-rate (1e-4, 1e-5) , dropout (0.3-0.7). Inputs were resampled to daily frequency and linearly interpolated. For transects 3 and 4 a rolling average of 20 days period was further applied. Wave direction was transformed to x and y components. Hs + Wave dir x and y components were used as model inputs. Shoreline data was used as target. The models were trained for 15 epochs with an early stopping Policy. 
-
-Models were trained until 2014, evaluated until 2018. When performance was deemed appropiate, predictions where produced until 2023.
-
+The CNN-LSTM models were applied to ***Task1.Short-term prediction***. For each transect, shoreline data was resampled to daily frequency and used as the target data. Wave direction was transformed to x and y components and used along with wave height as model inputs. Data was split in train and development sets. Models were trained with an early stopping policy; when the development loss stopped improving, training was stopped. Once trained, models were applied to predict the shoreline position (2019-2023). 
 
 ### Model classification
 #### Model mechanics
