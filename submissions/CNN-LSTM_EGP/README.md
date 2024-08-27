@@ -31,5 +31,5 @@ The ShoreFor model was applied to ***Task1.Short-term prediction***. For each tr
 
 ### References
 [[1](https://doi.org/10.5194/esurf-11-1145-2023)]
-Gomez-de la Peña, E., Coco, G., Whittaker, C., & Montaño, J. (2023). On the use of convolutional deep learning to predict shoreline change. Earth Surface Dynamics, 11(6), 1145-1160.\
+Gomez-de la Peña, E., Coco, G., Whittaker, C., & Montaño, J. (2023). On the use of convolutional deep learning to predict shoreline change. Earth Surface Dynamics, 11(6), 1145-1160.
 
