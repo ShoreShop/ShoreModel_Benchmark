@@ -1,23 +1,13 @@
 ## CNN-LSTM model
 ### Model description
-ShoreFor is an equilibrium-based cross-shore model first presented in Davidson et al. [[1](https://doi.org/10.5194/esurf-11-1145-2023)]. 
-The model formulation used in this work follows the modifications of Splinter et al.  allowing for a more general equilibrium model with inter-site variability of model coefficients. 
-The model formulation follows:
 
-$$ dY/dt=c(F^++r F^- )+b $$
+TheCNN-LSTM hybrid neural network architecture can be viewed as an array of two submodels: a CNN unit followed by an LSTM one. The CNN component is used to extract features of the input data, while the LSTM component is used to learn how those features change with time. The architecture as presented in Gomez-de la Pena et al. [[1](https://doi.org/10.5194/esurf-11-1145-2023)] was used, where the CNN unit consists of two convolutional layers followed by a max-pooling layer. Dropout is then applied as a regularization techinique. The distilled feature vector obtained with the CNN unit is then used in the LSTM layer. The models are trained using the symmetric index of agreement derived in Duveiller et al. 2016 [[2](https://doi.org/10.1038/srep19401)].
 
-Where dY/dt is the rate of shoreline change, dependent on the magnitude of wave forcing F defined as:
-
-$$ F=P^{0.5}((\Omega_\phi-\Omega))⁄\sigma $$
-
-where P is the breaking wave energy flux and $\Omega$ is the dimensionless fall velocity. 
-The model includes two coefficients. The first one, c which is the rate parameter accounting for the efficiency of cross-shore sediment transport and $\phi$ which defines the window width of a filter function, 
-performing a weighted average of the antecedent dimensionless fall velocity and is a proxy for the ‘beach memory’. 
-The model contains two constants, $r=(\sum{F^+})⁄(\sum{F^-})$ and $\sigma$ which is the standard deviation of $\Omega_\phi-\Omega$, both computed over the calibration segment of the wave data. 
-The linear trend parameter, b, has been included to simplistically account for longer-term processes (e.g. longshore sediment transport, sediment supply, etc) not explicitly accounted in the model. 
-The model is calibrated by choosing the minimum normalized mean square error (NMSE) of a least-squares regression solving for c, and b for different values of ∅ in the range of 5 to 1000 days.
 ### Model implementation
-The ShoreFor model was applied to ***Task1.Short-term prediction***. For each transect, the coefficients for the equilibrium configuration were calibrated using wave ($H_s$ and $T_p$) and shoreline data from 1987 to 2018 with a daily time interval. Subsequently, the calibrated model was employed to predict shoreline positions from 1950 to 2023, maintaining the daily interval and utilizing wave data from the same period. Shoreline projections from 1951 to 1986 and from 2019 to 2023 were categorized as medium-term and short-term predictions, respectively. The medium-term shoreline prediction was adjusted to align with the context value provided for 1951-05-01. These procedures were iteratively applied across all nine transects. For long-term prediction, the model was re-calibrated based on the historical wave data from long-term waves and applied to predict the long-term shoreline data based on the long-term wave forecasts.
+The CNN-LSTM models were applied to ***Task1.Short-term prediction***. For each transect, Look back period (corresponding to 75, 90, 120, 150 days), learning-rate (1e-4, 1e-5) , dropout (0.3-0.7). Inputs were resampled to daily frequency and linearly interpolated. For transects 3 and 4 a rolling average of 20 days period was further applied. Wave direction was transformed to x and y components. Hs + Wave dir X and y components were used as model inputs. Shoreline data was used as target. The models were trained for 15 epochs with an early stopping Policy. 
+
+Models were trained until 2014, evaluated until 2018. When performance was deemed appropiate, predictions where produced until 2023.
+
 
 ### Model classification
 #### Model mechanics
@@ -31,5 +21,9 @@ The ShoreFor model was applied to ***Task1.Short-term prediction***. For each tr
 
 ### References
 [[1](https://doi.org/10.5194/esurf-11-1145-2023)]
-Gomez-de la Peña, E., Coco, G., Whittaker, C., & Montaño, J. (2023). On the use of convolutional deep learning to predict shoreline change. Earth Surface Dynamics, 11(6), 1145-1160.
+Gomez-de la Peña, E., Coco, G., Whittaker, C., & Montaño, J. (2023). On the use of convolutional deep learning to predict shoreline change. Earth Surface Dynamics, 11(6), 1145-1160.\
+[[2](https://doi.org/10.1038/srep19401)]
+Duveiller, G., Fasbender, D., & Meroni, M. (2016). Revisiting the concept of a symmetric index of agreement for continuous datasets. Scientific reports, 6(1), 19401.
+
+
 
