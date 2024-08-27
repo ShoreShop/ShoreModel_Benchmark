@@ -1,7 +1,7 @@
 ## CNN-LSTM model
 ### Model description
-ShoreFor is an equilibrium-based cross-shore model first presented in Davidson et al. [[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)]. 
-The model formulation used in this work follows the modifications of Splinter et al. [[2](https://doi.org/10.1002/2014JF003106)] allowing for a more general equilibrium model with inter-site variability of model coefficients. 
+ShoreFor is an equilibrium-based cross-shore model first presented in Davidson et al. [[1](https://doi.org/10.5194/esurf-11-1145-2023)]. 
+The model formulation used in this work follows the modifications of Splinter et al.  allowing for a more general equilibrium model with inter-site variability of model coefficients. 
 The model formulation follows:
 
 $$ dY/dt=c(F^++r F^- )+b $$
@@ -22,15 +22,14 @@ The ShoreFor model was applied to ***Task1.Short-term prediction***, ***Task2.Me
 ### Model classification
 #### Model mechanics
 - [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
-- [x] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
-- [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
+- [ ] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
+- [x] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
 #### Model elements (multiple choices)
 - [x] Cross-shore: model the shoreline position for each transect independently.
 - [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
 
 ### References
-[[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)]
-Davidson, M.A., Splinter, K.D. and Turner, I.L. (2013), A simple equilibrium model for predicting shoreline change. *Coastal Engineering*, 73, pp.191-202.\
-[[2](https://doi.org/10.1016/j.coastaleng.2012.11.002)]
-Splinter, K. D., I. L. Turner, M. A. Davidson, P. Barnard, B. Castelle, and J. Oltman-Shay (2014), A generalized equilibrium model for predicting daily to interannual shoreline response, *J. Geophys. Res. Earth Surf*., 119, 1936–1958,
+[[1](https://doi.org/10.5194/esurf-11-1145-2023)]
+Gomez-de la Peña, E., Coco, G., Whittaker, C., & Montaño, J. (2023). On the use of convolutional deep learning to predict shoreline change. Earth Surface Dynamics, 11(6), 1145-1160.\
+
