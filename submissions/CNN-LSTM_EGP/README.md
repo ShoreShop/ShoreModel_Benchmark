@@ -21,9 +21,9 @@ Models were trained until 2014, evaluated until 2018. When performance was deeme
 
 ### References
 [[1](https://doi.org/10.5194/esurf-11-1145-2023)]
-Gomez-de la Peña, E., Coco, G., Whittaker, C., & Montaño, J. (2023). On the use of convolutional deep learning to predict shoreline change. Earth Surface Dynamics, 11(6), 1145-1160.\
+Gomez-de la Peña, E., Coco, G., Whittaker, C., & Montaño, J. (2023). On the use of convolutional deep learning to predict shoreline change. *Earth Surface Dynamics*, 11(6), 1145-1160.\
 [[2](https://doi.org/10.1038/srep19401)]
-Duveiller, G., Fasbender, D., & Meroni, M. (2016). Revisiting the concept of a symmetric index of agreement for continuous datasets. Scientific reports, 6(1), 19401.
+Duveiller, G., Fasbender, D., & Meroni, M. (2016). Revisiting the concept of a symmetric index of agreement for continuous datasets. *Scientific reports*, 6(1), 19401.
 
 
 
