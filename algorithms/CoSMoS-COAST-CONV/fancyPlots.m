@@ -301,6 +301,10 @@ if 1
 
     legend('total shoreline position','observations','longshore component','cross-shore component','SLR component','residual trend','initial observation','Position',[0.850666669289273 0.561333337714275 0.113499997377396 0.153999995619059]);
 
+    if SAVE_FANCY_PLOTS
+        saveas(gcf,'figures\ShoreShop2_model_components_2100.jpg');
+    end
+
 end
 
 
@@ -391,6 +395,10 @@ if 1
     ylabel('shoreline position [m]');
 
     legend('total shoreline position','observations','longshore component','cross-shore component','SLR component','residual trend','Position',[0.824996945301692 0.61187483724325 0.113499997377396 0.132499996244907]);
+
+    if SAVE_FANCY_PLOTS
+        saveas(gcf,'figures\ShoreShop2_model_components.jpg');
+    end
 
 end
 
