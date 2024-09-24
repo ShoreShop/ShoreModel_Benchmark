@@ -277,6 +277,8 @@ if 1
 
     i=2; nplot=1; subplot('Position',[xp0 yp0-(nplot-1)*(height+ysep) width height]);  hold on; box on;
 
+    text(t(1)+500,25,['transect #',num2str(i)],'FontSize',14);
+
     han1=plot(t,Yfinal(:,i),'-b',t_obs_cal,Yobs(:,i),'bo'); set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','b','MarkerEdgeColor','b');
     han1=plot(t,YLST(:,i),'-r',t,YST(:,i),'-m',t,YBRU(:,i),'-c',t,YVLT(:,i),'-g'); datetick('x','keeplimits'); set(han1,'LineWidth',LINEWIDTH); axis tight;
     han1=plot(t_obs_cal(1),Yobs(1,i),'co'); set(han1,'MarkerSize',10,'MarkerFaceColor','c','MarkerEdgeColor','k'); set(gca,'Ylim',[-30 30],'XTickLabel',[],'FontSize',14)
@@ -285,6 +287,8 @@ if 1
 
     i=5; nplot=2; subplot('Position',[xp0 yp0-(nplot-1)*(height+ysep) width height]);  hold on; box on;
 
+    text(t(1)+500,25,['transect #',num2str(i)],'FontSize',14);
+
     han1=plot(t,Yfinal(:,i),'-b',t_obs_cal,Yobs(:,i),'bo'); set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','b','MarkerEdgeColor','b');
     han1=plot(t,YLST(:,i),'-r',t,YST(:,i),'-m',t,YBRU(:,i),'-c',t,YVLT(:,i),'-g'); datetick('x','keeplimits'); set(han1,'LineWidth',LINEWIDTH); axis tight;
     han1=plot(t_obs_cal(1),Yobs(1,i),'co'); set(han1,'MarkerSize',10,'MarkerFaceColor','c','MarkerEdgeColor','k'); set(gca,'Ylim',[-30 30],'XTickLabel',[],'FontSize',14)
@@ -292,6 +296,8 @@ if 1
     ylabel('shoreline position [m]');
 
     i=8; nplot=3; subplot('Position',[xp0 yp0-(nplot-1)*(height+ysep) width height]);  hold on; box on;
+
+    text(t(1)+500,25,['transect #',num2str(i)],'FontSize',14);
 
     han1=plot(t,Yfinal(:,i),'-b',t_obs_cal,Yobs(:,i),'bo'); set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','b','MarkerEdgeColor','b');
     han1=plot(t,YLST(:,i),'-r',t,YST(:,i),'-m',t,YBRU(:,i),'-c',t,YVLT(:,i),'-g'); datetick('x','keeplimits'); set(han1,'LineWidth',LINEWIDTH); axis tight;
