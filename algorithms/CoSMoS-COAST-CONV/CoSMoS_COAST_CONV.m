@@ -420,7 +420,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % save the output .csv files
-output_dir='../../submissions/CoSMoS-COAST_SV'; % output directory to save to
+output_dir='../../submissions/CoSMoS-COAST-CONV_SV'; % output directory to save to
 if ~exist(output_dir,'dir')                     % if the output directory doesn't exist ...
     mkdir(output_dir);                          % make it
 end
