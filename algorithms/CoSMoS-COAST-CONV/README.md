@@ -6,9 +6,9 @@ The experimental COSMOS-COAST-CONV model uses the same, well-known CoSMoS-COAST 
 
 $$ \frac{dY}{dt}=-\frac{1}{D_c} \frac{dQ}{dx}+\frac{Y_{eq}-Y}{\tau}-\frac{c}{\tan\beta}\frac{dS}{dt}+v_{\mathrm{lt}} $$
 
-where $$\frac{dY}{dt}$$ is the rate of change in the shoreline position $$Y$$, and the terms on the right-hand side represent (1) longshore transport, (2) wave-driven cross-shore (after Yates et al., 2009 [[5](https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/2009JC005359)] and Vitousek et al. 2021 [[2](https://doi.org/10.1029/2019JF005506)]), (3) sea-level driven profile recession (i.e., the "Bruun rule"), and (4) a residual (linear) trend, respectively.  See references [[1](https://doi.org/10.1002/2016JF004065)], [[2](https://doi.org/10.1029/2019JF005506)], & [[3](https://doi.org/10.1029/2022JF006936)] for details.
+where $$\frac{dY}{dt}$$ is the rate of change in the shoreline position $$Y$$, and the terms on the right-hand side represent (1) longshore transport, (2) wave-driven cross-shore (after Yates et al., 2009 [[5](https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/2009JC005359)] and Vitousek et al. 2021 [[2](https://doi.org/10.1029/2019JF005506)]), (3) sea-level driven profile recession (i.e., the "Bruun rule"), and (4) a residual (linear) trend, respectively.  See references [[1](https://doi.org/10.1002/2016JF004065)], [[2](https://doi.org/10.1029/2019JF005506)], & [[3](https://doi.org/10.1029/2022JF006936)] for details on each model component.  An example of the dynamics of each shoreline component is shown in the figure below.
 
-<img src="figures/ShoreShop2_model_components_2100.jpg" width="400">
+<img src="figures/ShoreShop2_model_components_2100.jpg" width="1200">
 
 ### Model implementation
 The code of the experimental CoSMoS-COAST-CONV model is included with the submission.  
