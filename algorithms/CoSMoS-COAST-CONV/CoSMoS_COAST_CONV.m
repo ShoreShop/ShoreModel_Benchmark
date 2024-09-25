@@ -267,7 +267,7 @@ f=@(p,t,Hs,alpha) f_cs(p,t,Hs)+f_ls(p,t,Hs,alpha);       % the convolution focri
 g=@(p,t)          (1-dt/p(1)).^(t/dt).*(t>=0);           % the convolution  memory function (written as a matlab anonymous function), which is related to the time scale parameter DT (i.e., p(1))   
 
 % the cross-shore shoreline change component only
-Yst=@(p,t,Hs,alpha) cat(1,0,dt*getfield(fconv2(f_cs(p,t,Hs),g(p,t-t(1))),{1:length(t)-1,1}));
+Yst=@(p,t,Hs) cat(1,0,dt*getfield(fconv2(f_cs(p,t,Hs),g(p,t-t(1))),{1:length(t)-1,1}));
 
 % the longshore shoreline change component only
 Ylst=@(p,t,Hs,alpha) cat(1,0,dt*getfield(fconv2(f_ls(p,t,Hs,alpha),g(p,t-t(1))),{1:length(t)-1,1}));

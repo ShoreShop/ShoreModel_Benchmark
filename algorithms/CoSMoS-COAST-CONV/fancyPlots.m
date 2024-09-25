@@ -105,19 +105,23 @@ dti=1; % we go from an irregularly spaced shoreline time series to a regularly s
 ti_obs=(min(t_obs):dti:max(t_obs))';
 Nobs=length(ti_obs); % number of observation times (many of which are NaN's)
 
+% split the time series into cross-shore and longshore components
+YCS=repmat(nanmedian(Ysmooth,2),1,Ntr); % take the moving-median of the time series (i.e., the median of all transects for each time) 
+YLS=Ysmooth-YCS;                        % find the longshore component by subtracting the cross-shore component from the full time series ... these variables are mostly just used for visualization 
+
 % interpolate the smoothed shoreline time series onto the new dt (e.g., daily) time step
 Yi=interp1(t_obs,Ysmooth,ti_obs,'makima');
 
 % split the time series into cross-shore and longshore components
-YCS=repmat(nanmedian(Yi,2),1,Ntr); % take the moving-median of the time series (i.e., the median of all transects for each time) 
-YLS=Yi-YCS;                        % find the longshore component by subtracting the cross-shore component from the full time series ... these variables are mostly just used for visualization 
+YCSi=repmat(nanmedian(Yi,2),1,Ntr); % take the moving-median of the time series (i.e., the median of all transects for each time) 
+YLSi=Yi-YCSi;                        % find the longshore component by subtracting the cross-shore component from the full time series ... these variables are mostly just used for visualization 
 
 % get rid of data outside of the simulation window
 id=(ti_obs<t0 | ti_obs>tstop);
 ti_obs(id)=[];
 Yi(id,:)=[];
-YCS(id,:)=[];
-YLS(id,:)=[];
+YCSi(id,:)=[];
+YLSi(id,:)=[];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% plot raw vs. smoothed shoreline time series for Beach X
@@ -130,8 +134,8 @@ if 0
 
     id_tr=5;
 
-    han1=fill([ti_obs; flipud(ti_obs)],[YCS(:,id_tr)+sat_RMSE; flipud(YCS(:,id_tr))-sat_RMSE],'c','FaceAlpha',0.4,'LineStyle','none');
-    han1=fill([ti_obs; flipud(ti_obs)],[YCS(:,id_tr)+2*sat_RMSE; flipud(YCS(:,id_tr))-2*sat_RMSE],'c','FaceAlpha',0.2,'LineStyle','none');
+    han1=fill([ti_obs; flipud(ti_obs)],[YCSi(:,id_tr)+sat_RMSE; flipud(YCSi(:,id_tr))-sat_RMSE],'c','FaceAlpha',0.4,'LineStyle','none');
+    han1=fill([ti_obs; flipud(ti_obs)],[YCSi(:,id_tr)+2*sat_RMSE; flipud(YCSi(:,id_tr))-2*sat_RMSE],'c','FaceAlpha',0.2,'LineStyle','none');
     han1=plot(t_obs,Yobs(2:end,id_tr),'-bo'); set(han1,'MarkerFaceColor','b','MarkerSize',4,'LineWidth',2);
     han1=plot(t_obs,Y(:,5),'-ro'); set(han1,'MarkerFaceColor','r','MarkerSize',4);
     plot([t0 tstop],[0 0],'k--',[t0 tstop],[-10 -10],'k--',[t0 tstop],[10 10],'k--','HandleVisibility','off'); datetick('x');
@@ -166,7 +170,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if 1
 
-    figure; set(gcf,'Position',[100 50 1000 1300]);
+    figure; set(gcf,'Position',[100 50 1000 950]);
 
     xp0=0.08;
     yp0=0.72;
@@ -186,7 +190,7 @@ if 1
 
     nsubplot=2; subplot('Position',[xp0 yp0-(nsubplot-1)*(height+ysep) width height]); hold on; box on;
 
-    imagesc(ti_obs,1:9,YCS'); shading flat; axis ij; colormap(redwhiteblue(-15,15,64)); colorbar; caxis([-20 20]);  axis tight;
+    imagesc(ti_obs,1:9,YCSi'); shading flat; axis ij; colormap(redwhiteblue(-15,15,64)); colorbar; caxis([-20 20]);  axis tight;
 
     datetick('x','keepticks','keeplimits');
     set(gca,'FontSize',16,'XTick',datenum(2000:2018,1,1),'layer','top'); han1=colorbar;
@@ -197,7 +201,7 @@ if 1
 
     nsubplot=3; subplot('Position',[xp0 yp0-(nsubplot-1)*(height+ysep) width height]); hold on; box on;
 
-    imagesc(ti_obs,1:9,YLS'); shading flat; axis ij; colormap(redwhiteblue(-15,15,64)); colorbar; caxis([-20 20]);  axis tight;
+    imagesc(ti_obs,1:9,YLSi'); shading flat; axis ij; colormap(redwhiteblue(-15,15,64)); colorbar; caxis([-20 20]);  axis tight;
     ylabel('transect #');
     title('Longshore shoreline anomaly [m] (total minus cross-shore)')
 
@@ -216,7 +220,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if 1
 
-    figure; set(gcf,'Position',[100 50 1000 1300]);
+    figure; set(gcf,'Position',[100 50 1000 950]);
 
     xp0=0.08;
     yp0=0.72;
@@ -318,19 +322,21 @@ end
 %% plot shoreline component time series for Beach X
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if 1
-    figure; set(gcf,'Position',[200 200 2000 1000]);
+    figure; set(gcf,'Position',[200 50 2000 900]);
 
     xp0=0.05;
     yp0=.68;
     width=.93;
     height=0.3;
     ysep=0.02;
-    MARKERSIZE=5;
+    MARKERSIZE=3;
     LINEWIDTH=2;
 
     i=2; nplot=1; subplot('Position',[xp0 yp0-(nplot-1)*(height+ysep) width height]);  hold on; box on;
     %han1=plot(t,Yfinal(:,i),'-b',t_obs_cal,Yobs(:,i),'bo'); set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','b','MarkerEdgeColor','b');
     han1=plot(t,YLST(:,i),'-r',t,YST(:,i),'-b'); datetick('x','keeplimits'); set(han1,'LineWidth',LINEWIDTH); axis tight;
+    han1=plot(t_obs,YLS(:,i),'ro'); set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','r','MarkerEdgeColor','r','HandleVisibility','off');
+    han1=plot(t_obs,YCS(:,i),'bo');  set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','b','MarkerEdgeColor','b','HandleVisibility','off');
     %han1=plot(t_obs_cal(1),Yobs(1,i),'co'); set(han1,'MarkerSize',10,'MarkerFaceColor','c','MarkerEdgeColor','k');
     han1=plot([t(1) t(end)],[0 0],'k--'); set(han1,'HandleVisibility','off');
     set(gca,'Ylim',[-27 27],'XTickLabel',[],'FontSize',14)
@@ -340,7 +346,8 @@ if 1
     i=5; nplot=2; subplot('Position',[xp0 yp0-(nplot-1)*(height+ysep) width height]);  hold on; box on;
     %han1=plot(t,Yfinal(:,i),'-b',t_obs_cal,Yobs(:,i),'bo'); set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','b','MarkerEdgeColor','b');
     han1=plot(t,YLST(:,i),'-r',t,YST(:,i),'-b'); datetick('x','keeplimits'); set(han1,'LineWidth',LINEWIDTH); axis tight;
-    %han1=plot(t_obs_cal(1),Yobs(1,i),'co'); set(han1,'MarkerSize',10,'MarkerFaceColor','c','MarkerEdgeColor','k');
+    han1=plot(t_obs,YLS(:,i),'ro'); set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','r','MarkerEdgeColor','r','HandleVisibility','off');
+    han1=plot(t_obs,YCS(:,i),'bo');  set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','b','MarkerEdgeColor','b','HandleVisibility','off');%han1=plot(t_obs_cal(1),Yobs(1,i),'co'); set(han1,'MarkerSize',10,'MarkerFaceColor','c','MarkerEdgeColor','k');
     han1=plot([t(1) t(end)],[0 0],'k--'); set(han1,'HandleVisibility','off');
     set(gca,'Ylim',[-27 27],'XTickLabel',[],'FontSize',14)
     set(gca,'XLim',[t_obs(2)-100 t_obs(end)+500],'layer','top','XTick',datenum(1998:2019,1,1),'XTickLabel',[]);
@@ -349,6 +356,8 @@ if 1
     i=8; nplot=3; subplot('Position',[xp0 yp0-(nplot-1)*(height+ysep) width height]);  hold on; box on;
     %han1=plot(t,Yfinal(:,i),'-b',t_obs_cal,Yobs(:,i),'bo'); set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','b','MarkerEdgeColor','b');
     han1=plot(t,YLST(:,i),'-r',t,YST(:,i),'-b'); datetick('x','keeplimits'); set(han1,'LineWidth',LINEWIDTH); axis tight;
+    han1=plot(t_obs,YLS(:,i),'ro'); set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','r','MarkerEdgeColor','r','HandleVisibility','off');
+    han1=plot(t_obs,YCS(:,i),'bo');  set(han1,'MarkerSize',MARKERSIZE,'MarkerFaceColor','b','MarkerEdgeColor','b','HandleVisibility','off');
     %han1=plot(t_obs_cal(1),Yobs(1,i),'co'); set(han1,'MarkerSize',10,'MarkerFaceColor','c','MarkerEdgeColor','k');
     han1=plot([t(1) t(end)],[0 0],'k--'); set(han1,'HandleVisibility','off');
     set(gca,'Ylim',[-27 27],'FontSize',14);
@@ -358,6 +367,7 @@ if 1
     legend('longshore component','cross-shore component','Position',[0.817014979229453 0.572963317969215 0.136999996677041 0.0584999983906747],'FontSize',16);
 
 end
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% plot shoreline component time series for Beach X
@@ -536,7 +546,6 @@ if 0
     legend('Ylst (conv)','Ylst (high-pass)');
 end
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% plot convolution animation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -548,14 +557,16 @@ if 1
     xsep=0.05;
     ysep=0.013;
 
-    MAKE_ANIMATION=1;
+    FONTSIZE=14;
+
+    MAKE_ANIMATION=0;
     if MAKE_ANIMATION % make gif animation
-        filename='convolution_animation.gif'; % make some filenames and other misc animation variables
+        filename='figures\convolution_animation.gif'; % make some filenames and other misc animation variables
         count=1;
         fps=35;
     end
 
-    han1=figure; set(han1,'Position',[400 50 1400 1300],'PaperPositionMode','auto','color','w'); % plot the data
+    han1=figure; set(han1,'Position',[400 50 1400 1200],'PaperPositionMode','auto','color','w'); % plot the data
 
     t0_plot=t_obs(2);
     tstop_plot=datenum(2024,1,1);
@@ -569,8 +580,8 @@ if 1
 
         clf;
 
-        % id=double((g(p,t1-t)>0.01));
-        % id=find(id);
+        id=double((g(p,t1-t)>0.01));
+        id=find(id);
 
         nsubplot=1; ax=subplot('position',[xp0 yp0-(nsubplot-1)*(height+ysep) width height]);  hold on; box on;
         plot(t,Hs,'b');  axis tight;
@@ -579,7 +590,7 @@ if 1
         axis([t0_plot tstop_plot 0 5.6]);
         set(gca,'XTick',datenum(YYYY0:YYYY1,1,1),'YTick',0:1:5,'FontSize',14,'XTickLabel',[]); datetick('x','keepticks','keeplimits'); set(gca,'XTickLabel',[]);
 
-        ylabel('Sig. wave height [m]','FontSize',16,'FontWeight','bold');
+        ylabel('Sig. wave height [m]','FontSize',FONTSIZE,'FontWeight','bold');
 
         title({'Equlibrium shoreline models as convolutions (f*g)'},'FontSize',16);
 
@@ -588,7 +599,7 @@ if 1
         han1=plot(t(id),Dir(id),'b');  axis tight; set(han1,'LineWidth',2);
         plot([t1 t1],[-50 50],'k--');
         axis([t0_plot tstop_plot -50 50]);
-        set(gca,'XTick',datenum(YYYY0:YYYY1,1,1),'YTick',-40:10:40,'FontSize',14,'XTickLabel',[]); datetick('x','keepticks','keeplimits'); set(gca,'XTickLabel',[]);
+        set(gca,'XTick',datenum(YYYY0:YYYY1,1,1),'YTick',-40:10:40,'FontSize',FONTSIZE,'XTickLabel',[]); datetick('x','keepticks','keeplimits'); set(gca,'XTickLabel',[]);
 
         ylabel({'(relative)           ','wave dir. [deg]'},'FontSize',16,'FontWeight','bold');
 
@@ -600,16 +611,18 @@ if 1
 
         yyaxis left
 
-        vmin=-1.7;
-        vmax=1.1;
+        vmin=-4.6;
+        vmax=2.5;
+        
+        f_cs1=f_cs(p,t,Hs);
 
-        han1=plot(t,f_cs(p,t,Hs),'b');  axis tight; set(han1,'color',left_color);
-        han1=plot(t(id),f_cs(p,t(id),Hs(id)),'b');  axis tight; set(han1,'color',left_color,'LineWidth',2);
+        han1=plot(t,f_cs1,'b-');  axis tight; set(han1,'color',left_color);
+        han1=plot(t(id),f_cs1(id),'b-');  axis tight; set(han1,'color',left_color,'LineWidth',2);
         plot([t1 t1],[vmin vmax],'k--');
         axis([t0_plot tstop_plot vmin vmax]);
-        set(gca,'XTick',datenum(YYYY0:YYYY1,1,1),'FontSize',14,'XTickLabel',[]); datetick('x','keepticks','keeplimits'); set(gca,'XTickLabel',[]);
+        set(gca,'XTick',datenum(YYYY0:YYYY1,1,1),'FontSize',FONTSIZE,'XTickLabel',[]); datetick('x','keepticks','keeplimits'); set(gca,'XTickLabel',[]);
 
-        ylabel({'(cross-shore)     ','forcing function'},'FontSize',16,'FontWeight','bold');
+        ylabel({'(cross-shore)  ','forcing func. (f)'},'FontSize',FONTSIZE,'FontWeight','bold');
 
         yyaxis right
 
@@ -619,20 +632,28 @@ if 1
         vmax=1.1;
         plot([t1 t1],[vmin vmax],'k--');
 
-        set(gca,'XTick',datenum(YYYY0:YYYY1,1,1),'FontSize',14,'XTickLabel',[]); datetick('x','keepticks','keeplimits'); set(gca,'XTickLabel',[]);
+        set(gca,'XTick',datenum(YYYY0:YYYY1,1,1),'FontSize',FONTSIZE,'XTickLabel',[]); datetick('x','keepticks','keeplimits'); set(gca,'XTickLabel',[]);
         axis([t0_plot tstop_plot vmin vmax]);
 
-        ylabel({'memory function (g)'},'FontSize',16,'FontWeight','bold');
+        ylabel({'memory func. (g)'},'FontSize',FONTSIZE,'FontWeight','bold');
 
         nsubplot=4; ax=subplot('position',[xp0 yp0-(nsubplot-1)*(height+ysep) width height]);  hold on; box on;
 
         yyaxis left
 
-        han1=plot(t,f_ls(p,t,Hs,Dir),'b');  axis tight; set(han1,'color',left_color);
-        han1=plot(t(id),f_ls(p,t(id),Hs(id),Dir(id)),'b');  axis tight; set(han1,'color',left_color,'LineWidth',2);
+        id_tr=8;
+        
+        %f_ls1=getfield(f_ls(p,t,Hs,Dir),{1:len,id_tr});
+        f_ls1=f_ls(P(:,id_tr),t,Hs,Dir);
 
-        ylabel({'(longshore)        ','forcing function'},'FontSize',16,'FontWeight','bold');
+        han1=plot(t    ,f_ls1    ,'b-');  axis tight; set(han1,'color',left_color);
+        han1=plot(t(id),f_ls1(id),'b-');  axis tight; set(han1,'color',left_color,'LineWidth',2);
 
+        ylabel({'(longshore) ','forcing func. (f)'},'FontSize',FONTSIZE,'FontWeight','bold');
+
+        vmin=-1.1;
+        vmax=1.1;
+        axis([t0_plot tstop_plot vmin vmax]);
 
         % plot([t1 t1],[-3.5 0.5],'k--');
         % axis([t0 tstop_plot -3.5 0.5]);
@@ -660,15 +681,13 @@ if 1
         %
         %         annotation('arrow', xp, yp);
 
-        ylabel({'memory function (g)'},'FontSize',16,'FontWeight','bold');
+        ylabel({'memory func. (g)'},'FontSize',FONTSIZE,'FontWeight','bold');
 
         nsubplot=5; ax=subplot('position',[xp0 yp0-(nsubplot-1)*(height+ysep) width height]); hold on; box on;
 
-        id_tr=8;
-
         %plot(ti,Yi,'bo','MarkerSize',6,'MarkerEdgeColor','k','MarkerFaceColor','c')
         %scatter1 = scatter(ti_obs,Yi(:,id_tr),'MarkerFaceColor',[125, 249, 255]/255,'MarkerEdgeColor','k');
-        scatter1 = scatter(t_obs,Y(:,id_tr),'MarkerFaceColor',[0.23 0.78 1.00],'MarkerEdgeColor','k');
+        scatter1 = scatter(t_obs,Ysmooth(:,id_tr),'MarkerFaceColor','c','MarkerEdgeColor','b');
         scatter1.MarkerFaceAlpha = .9;
 
         %han1=plot(t,Yst_conv,'c'); datetick('x','keepticks','keeplimits'); axis tight;
@@ -682,11 +701,11 @@ if 1
         plot([t1 t1],[vmin vmax],'k--');
 
         plot([t0_plot tstop_plot],[0 0],'k--')
-        set(gca,'XTick',datenum(YYYY0:YYYY1,1,1),'FontSize',14); datetick('x','keepticks','keeplimits');
+        set(gca,'XTick',datenum(YYYY0:YYYY1,1,1),'FontSize',FONTSIZE); datetick('x','keepticks','keeplimits');
         axis([t0_plot tstop_plot vmin vmax]);
-        ylabel('Shoreline pos. [m] (f*g)','FontSize',16,'FontWeight','bold');
+        ylabel('Shoreline pos. [m] (f*g)','FontSize',FONTSIZE,'FontWeight','bold');
 
-        han1=legend('observations','model'); set(han1,'Position',[0.792580544077902 0.199422924643398 0.122857140281371 0.0449999987620573],'FontSize',16);
+        han1=legend('(smoothed) observations','model'); set(han1,'Position',[0.691372327566237 0.202658489054167 0.204285709283182 0.0580933449758433],'FontSize',16);
 
         %         annotation(gcf,'arrow',[0.541041666666667-0.01 0.794791666666667-0.017],[0.619 0.619]);
         %         annotation(gcf,'arrow',[0.270625-0.01 0.524791666666667-0.017],[0.619 0.619]);
@@ -697,11 +716,13 @@ if 1
         %         annotation(gcf,'arrow',[0.5403-0.01 0.5403-0.01],[0.57037037037037 0.285]);
         %         annotation(gcf,'arrow',[0.809166666666667-0.01 0.809375-0.01],[0.564444444444444 0.162]);
 
-        annotation(gcf,'textbox',[0.0975714285714286 0.927692307692308 0.0217142857142857 0.0296678288602344],'string','A','FontSize',18,'FontWeight','bold','BackgroundColor','w');
-        annotation(gcf,'textbox',[0.0975714285714286 0.927692307692308-(height+ysep)+0.005 0.0217142857142857 0.0296678288602344],'string','B','FontSize',18,'FontWeight','bold','BackgroundColor','w');
-        annotation(gcf,'textbox',[0.0975714285714286 0.927692307692308-2*(height+ysep) 0.0217142857142857 0.0296678288602344],'string','C','FontSize',18,'FontWeight','bold','BackgroundColor','w');
-        annotation(gcf,'textbox',[0.0975714285714286 0.927692307692308-3*(height+ysep) 0.0217142857142857 0.0296678288602344],'string','D','FontSize',18,'FontWeight','bold','BackgroundColor','w');
-        annotation(gcf,'textbox',[0.0975714285714286 0.927692307692308-4*(height+ysep) 0.0217142857142857 0.0296678288602344],'string','E','FontSize',18,'FontWeight','bold','BackgroundColor','w');
+        annotation(gcf,'textbox',[0.0975714285714286 0.92 0.0217142857142857 0.04],'string','A','FontSize',18,'FontWeight','bold','BackgroundColor','w');
+        annotation(gcf,'textbox',[0.0975714285714286 0.92-(height+ysep)+0.005 0.0217142857142857 0.04],'string','B','FontSize',18,'FontWeight','bold','BackgroundColor','w');
+        annotation(gcf,'textbox',[0.0975714285714286 0.92-2*(height+ysep) 0.0217142857142857 0.04],'string','C','FontSize',18,'FontWeight','bold','BackgroundColor','w');
+        annotation(gcf,'textbox',[0.0975714285714286 0.92-3*(height+ysep) 0.0217142857142857 0.04],'string','D','FontSize',18,'FontWeight','bold','BackgroundColor','w');
+        annotation(gcf,'textbox',[0.0975714285714286 0.92-4*(height+ysep) 0.0217142857142857 0.04],'string','E','FontSize',18,'FontWeight','bold','BackgroundColor','w');
+
+        annotation(gcf,'textbox',[0.127857142857143 0.17901489572989 0.2 0.0499999999999999],'string',['transect #',num2str(id_tr)],'FontSize',18,'FontWeight','bold','LineStyle','none');
 
         drawnow
 
@@ -725,32 +746,6 @@ if 1
 
     end
 
-end
-
-
-if 0
-    figure;
-    for i=1:Ntr
-        subplot(Ntr,1,i); han1=plot(t,getfield(Ycal(p),{1:length(t),i}),'-r',t_obs_cal,Yobs(:,i),'-bo',t_obs_cal,Yobs(:,i),'-bo',t_obs,Yobs_raw(:,i),'-c.'); set(han1,'MarkerFaceColor','b','MarkerSize',5); set(gca,'XLim',[t(1) max(t_output)],'YLim',[-25 25],'FontSize',16); datetick('x','keeplimits','keepticks');
-    end
-
-    stop
-
-    figure; count=1;
-    for i=[2 5 8]
-        subplot(3,1,count); han1=plot(t,getfield(Ycal(p),{1:length(t),i}),'-r',t,getfield(Ylst_conv(p,t,Hs,Dir),{1:length(t),i}),'-b',t_obs_cal,Yobs(:,i),'-bo',t_obs_cal,Yobs_raw(:,i),'-c.'); set(han1,'MarkerFaceColor','b','MarkerSize',4); set(gca,'XLim',[t(1) max(t_output)],'YLim',[-25 25],'FontSize',16); datetick('x','keeplimits','keepticks');
-        count=count+1;
-    end
-
-    han1=legend('model','longshore transport only','obs'); set(han1,'location','northwest');
-
-    figure; count=1;
-    for i=[2 5 8]
-        subplot(3,1,count); han1=plot(t,Yst_ts(p,t,Hs),'-r',ti_obs,YCS(:,i),'-bo',t_obs_cal,Yobs_raw(:,i),'-c.'); set(han1,'MarkerFaceColor','b','MarkerSize',4); set(gca,'XLim',[t(1) max(t_output)],'YLim',[-25 25],'FontSize',16); datetick('x','keeplimits','keepticks');
-        count=count+1;
-    end
-
-    han1=legend('cross-shore transport only','obs (Longshore component only)'); set(han1,'location','northwest');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
