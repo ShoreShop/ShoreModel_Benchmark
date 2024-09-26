@@ -6,7 +6,7 @@ By feeding the output of an LSTM layer as input to the next time step, we can ge
 
 For instance, in shoreline change prediction, a LSTM network can capture both short-term shoreline changes due to waves and tidal cycles and long-term shoreline changes like erosion trend and retreat associated with sea-level rise.
 
-## Model implementation
+### Model implementation
 
 The LSTM networks was applied to ***Task1.Short-term prediction*** and ***Task2.Medium-term prediction***. The input data is waves, water levels, tides, previous shoreline positions and elapsed days from the previous measurement. The output data is the shoreline positions. All the transects were predicted together and the 1-year sequential data of waves and tides were used as input. In other words, the input data has 13516 dimensions (Hs: 9\*365, Tp:9\*365, θ(sin):9\*365, θ(cos):9\*365, tide: 365, water level: 1, previous shoreline position: 9, elapsed days: 1). The first 75% of historical data from 1999 to 2018 was used for training the network and the latter 25% data was used for the validation of the prediction skill. Here is the summary of the networks architecture and hyperparameters: LSTM layers=2, hidden units=400, dropout rate=0.1, Epochs=100. Dropout layers were inserted after each LSTM layer to prevent overlearning.
 
