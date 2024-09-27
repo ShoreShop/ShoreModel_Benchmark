@@ -164,7 +164,7 @@ If you need any help with this submission, please post on the [GitHub Issues](ht
 
 ### Deadline
 
-The deadline for the submission is the end of the year (**01/Oct/2024**).
+The deadline for the submission is **10/Oct/2024**  <s>01/Oct/2024</s>.
 
 ## Questions and Comments
 
