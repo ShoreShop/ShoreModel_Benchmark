@@ -1,9 +1,10 @@
 ## Catboost model
 ### Model description
 
-CatBoost is an advanced boosting algorithm specifically designed to handle categorical features effectively. CatBoost uses balanced symmetric trees for enhanced training and inference efficiency. The structure prevents overfitting and enhances generalization. CatBoost also uses advanced gradient descent techniques and optimization strategies to improve both its robustness and computational efficiency. CatBoost excels in attaining high accuracy and efficiency when dealing with large datasets characterized by numerous categorical features. It excels in predictive performance and ease of use when compared to other boosting algorithms. Due to its versatility in handling various data types and the reduced need for extensive preprocessing, it is widely used in practical applications.
+CatBoost [[1](https://doi.org/10.48550/arXiv.1810.11363)] is an advanced boosting algorithm specifically designed to handle categorical features effectively. CatBoost uses balanced symmetric trees for enhanced training and inference efficiency. The structure prevents overfitting and enhances generalization. CatBoost also uses advanced gradient descent techniques and optimization strategies to improve both its robustness and computational efficiency. CatBoost excels in attaining high accuracy and efficiency when dealing with large datasets characterized by numerous categorical features. It excels in predictive performance and ease of use when compared to other boosting algorithms. Due to its versatility in handling various data types and the reduced need for extensive preprocessing, it is widely used in practical applications.
 
-
+### Model implementation
+The CatBoost model was trained on the Shoreline position data between 1987 and 2018 in `shoreline_obs.csv`, as features for this model, the wave data, the sea level data, and the tide data were used. Also, one additional categorical data representing the ``Transect'' was used. Data was divided into train and development, and the best tree model was selected based on its performance on the development dataset.
 
 ### Model classification
 #### Model mechanics
@@ -16,7 +17,7 @@ CatBoost is an advanced boosting algorithm specifically designed to handle categ
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
 
 ### References
-[[1] (https://doi.org/10.48550/arXiv.1810.11363)]
+[[1](https://doi.org/10.48550/arXiv.1810.11363)]
 Dorogush, A. V., Ershov, V., & Valeev, A. (2018). CatBoost: Gradient boosting with categorical features support. Proceedings of the 32nd Conference on Neural Information Processing Systems (NeurIPS 2018).
 
 
