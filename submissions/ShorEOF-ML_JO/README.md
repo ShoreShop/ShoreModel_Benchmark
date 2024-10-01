@@ -1,6 +1,6 @@
 ## ShorEOF-ML model
 ### Model description
-This model is named **ShorEOF-ML** (pronounced "shore of ML") to reflect its focus on shoreline prediction using Empirical Orthogonal Functions (EOF) and Machine Learning (ML). 
+This model is named **ShorEOF-ML** (pronounced "shore of ML") to reflect its focus on shoreline prediction using Empirical Orthogonal Functions (EOF) and Machine Learning (ML). [Click here for the Rmarkdown code presenting the analysis.](https://htmlpreview.github.io/?https://github.com/JulianOG/ShoreModel_Benchmark/blob/main/submissions/ShorEOF-ML_JO/code/ShorEOF-ML.html) 
 
 In this analysis, we explore the use of [**Principal Component Analysis (PCA)**](https://www.coastalwiki.org/wiki/Analysis_of_coastal_processes_with_Empirical_Orthogonal_Functions#Applications_of_Empirical_Orthogonal_Functions_.28EOF.29), specifically through **Empirical Orthogonal Functions (EOFs)**, to model and predict **shoreline change** [Short and Trembanis 2004](https://bioone.org/journals/journal-of-coastal-research/volume-20/issue-2/1551-5036(2004)020%5b0523%3aDSPIBO%5d2.0.CO%3b2/Decadal-Scale-Patterns-in-Beach-Oscillation-and-Rotation-Narrabeen-Beach/10.2112/1551-5036(2004)020[0523:DSPIBO]2.0.CO;2.short). The goal is to identify key patterns in coastal variability—both spatial (e.g., entire beach retreat/advance or shoreline rotation) and temporal (e.g. changing ocean conditions)—and use these patterns to create a predictive model of shoreline change driven by ocean conditions.
 
@@ -39,7 +39,7 @@ Stay tuned as we continue to refine this method and explore its potential for co
 - [ ] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
 - [x] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
 #### Model elements (multiple choices)
-- [x] Cross-shore: model the shoreline position for each transect independently.
+- [ ] Cross-shore: model the shoreline position for each transect independently.
 - [x] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [x] Sea level: consider the impact of sea level rise on shoreline position.
 
