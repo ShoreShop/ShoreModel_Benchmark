@@ -1,7 +1,7 @@
 ## Shoreline Evolution Prediction Model (ShEPreMo)
 ### Model description
 
-ShEPreMo [1,2], a modified version of ShoreFor [3,4], integrates process-based longhore sediment transport and shoreline migration due to water level fluctuations in addition to cross-shore sediment transport. This is achieved by substituting the linear $b$ term in ShoreFor with these processes. The rate of shoreline position change, $dx/dt$, is given by
+ShEPreMo [1,2], a modified version of ShoreFor [3,4], integrates longhore sediment transport and shoreline migration due to water level fluctuations in addition to cross-shore sediment transport. This is achieved by substituting the linear $b$ term in ShoreFor with these processes. The rate of shoreline position change, $dx/dt$, is given by
 
 $$ \frac{dx}{dt} = a(F^++rF^-) + \frac{b}{h_c}\frac{\partial Q}{\partial y} + \frac{c}{tan \beta}\frac{\partial S}{\partial t} + d $$
 
