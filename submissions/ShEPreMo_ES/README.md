@@ -5,10 +5,10 @@ ShEPreMo [1,2], a modified version of ShoreFor [3,4], integrates longhore sedime
 
 $$ \frac{dx}{dt} = a(F^++rF^-) + \frac{b}{h_c}\frac{\partial Q}{\partial y} + \frac{c}{tan \beta}\frac{\partial S}{\partial t} + d $$
 
-where $x$ represents the position of shoreline, $t$ is time. The terms on the right hand side of the equation represent the rate of shoreline change, cross-shore sediment transport, longshore sediment transport, shoreline migration due to water level fluctuations, and unresolved processes, respectively. a, b, c, and d are the site specific coefficients that need to be calibrated.
+where $x$ represents the shoreline position, and $t$ is the time. The terms on the right hand side of the equation represent the cross-shore sediment transport, longshore sediment transport, shoreline migration due to water level fluctuations, and unresolved processes, respectively. a, b, c, and d are the site specific coefficients that need to be calibrated.
 
 ### Model implementation
-ShEPreMo was applied to ***Task1.Short-term prediction***, ***Task2.Medium-term prediction***, and ***Task3.Long-term prediction***. For all transects, the model coefficients were calibrated independently using breaking wave characteristics ($H_{sb}$, $T_p$, $\theta_{b}$) and smoothed historical shoreline data from 1999 to 2018 using gaussian smoothing. The calibrated model was then used to predict short-term (from 2019-01-01 to 2023-12-31), medium term (from 1951-05-01 to 1998-12-31), and longterm (2019-01-01 to 2100-12-31) shoreline positions with daily timestep.
+ShEPreMo was applied to ***Task1.Short-term prediction***, ***Task2.Medium-term prediction***, and ***Task3.Long-term prediction***. For all transects, the model coefficients were calibrated independently using breaking wave characteristics ($H_{sb}$, $T_p$, $\theta_{b}$) and historical shoreline data from 1999 to 2018 which is smoothed using gaussian smoothing. The calibrated model was then used to predict short-term (from 2019-01-01 to 2023-12-31), medium term (from 1951-05-01 to 1998-12-31), and longterm (2019-01-01 to 2100-12-31) shoreline positions with daily timestep.
 
 ### Model classification
 #### Model mechanics
