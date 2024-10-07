@@ -3,7 +3,7 @@
 
 ShEPreMo [1,2], a modified version of ShoreFor [3,4], integrates process-based longhore sediment transport and shoreline migration due to water level fluctuations in addition to cross-shore sediment transport. This is achieved by substituting the linear $b$ term in ShoreFor with these processes. The rate of shoreline position change, $dx/dt$, is given by
 
-$$ \underbrace{dx/dt}_{\text{1}} $$
+$$ \underbrace{\frac{dx}{dt}}_{\text{1}} $$
 
 where $x$ represents the position of shoreline, $t$ is time. The terms (1), (2), (3), (4), and (5) represent the rate of shoreline change, cross-shore sediment transport, longshore sediment transport, shoreline migration due to water level fluctuations, and unresolved processes, respectively. a, b, c, and d are calibration coefficients.
 
