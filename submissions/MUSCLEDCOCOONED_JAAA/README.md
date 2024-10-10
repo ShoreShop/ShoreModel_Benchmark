@@ -34,4 +34,5 @@ COCOONED was applied to **Task1.Short-term prediction**, **Task2.Medium-term pre
 
 ### References
 [[1](https://doi.org/10.1029/2018JF004790)] Antolínez, J., Méndez, F., Anderson, D., Ruggiero, P., Kaminsky, G. (2019), Predicting Climate-Driven Coastlines With a Simple and Efficient Multiscale Model. *Journal of Geophysical Research: EarthSurface*, 124, 1596-1624.
+
 [[2](https://doi.org/10.1002/2015JC011107)] Antolínez, J., Méndez, P. Camus, S. Vitousek, E. M. González, P. Ruggiero, and P. Barnard (2016), Predicting Climate-Driven Coastlines With a Simple and Efficient Multiscale Model. *Journal of Geophysical Research: Oceans*, 121, 1-16.
