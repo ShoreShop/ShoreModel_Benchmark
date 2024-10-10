@@ -19,7 +19,7 @@ y<sub>0</sub> ~ A<sup>-1.5</sup> = W<sub>\*</sub>/h<sub>\*</sub><sup>1.5</sup> ~
 where A = scale parameter (m<sup>0.33</sup>), h<sub>\*</sub> = wave base (m); and W<sub>*</sub> = seaward distance (m) at the wave base, β<sub>1</sub> to β<sub>4</sub> = model parameters. 
 The change in the equilibrium shoreline position due to a sea level rise, which is indicated by the term Δy<sub>SLR</sub>, is based on the Bruun rule. As well as the approximation in Eq. (3), the terms are approximated by a linear combination of the wave energy flux to simplify the model structure.
 
-ΔySLR = (W*S)/(h*+B) - S/tanα ~ (β<sub>5</sub>E<sub>f</sub><sup>0.5</sup>+β<sub>6</sub>)/(β<sub>1</sub>E<sub>f</sub><sup>0.5</sup>+β<sub>2</sub>)   (4)
+ΔySLR = (W*S)/(h*+B) - S/tanα ~ (β<sub>5</sub>E<sub>f</sub><sup>0.5</sup>+β<sub>6</sub>)S/(β<sub>1</sub>E<sub>f</sub><sup>0.5</sup>+β<sub>2</sub>)   (4)
 
 where B = berm height (m); S = sea level rise (m); α = foreshore slope; η<sub>ave</sub> = sea level (m); η<sub>ave</sub> = mean sea level (m); and β<sub>1</sub> to β<sub>6</sub> = model parameters.
 
