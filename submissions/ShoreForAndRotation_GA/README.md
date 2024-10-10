@@ -55,10 +55,10 @@ A data assimilation routine has been used to keep the model in track during the 
 
 #### Model mechanics
 - [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
-- [ ] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
+- [.] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
 - [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
 #### Model elements
-- [ ] Cross-shore: model the shoreline position for each transect independently.
+- [.] Cross-shore: model the shoreline position for each transect independently.
 - [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
 
