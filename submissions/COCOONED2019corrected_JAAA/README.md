@@ -14,9 +14,12 @@ Further details on the model and its implementation are given in: [Antolínez et
 :man_technologist: [Jose A. A. Antolinez](https://www.tudelft.nl/staff/j.a.a.antolinez/) @ [![Linkedin](https://i.sstatic.net/gVE0j.png) LinkedIn](https://www.linkedin.com/in/jaaantolinez/)
 ### Contributors
 :man_technologist: [Camilo Jaramillo Cardona](https://ihcantabria.com/directorio-personal/camilo-jaramillo/) @ [![Linkedin](https://i.sstatic.net/gVE0j.png) LinkedIn](https://www.linkedin.com/in/camilo-jaramillo-cardona-05b64789/)
+
 :man_technologist: [Lucas de Freitas Pereira](https://ihcantabria.com/directorio-personal/lucas-de-freitas-pereira/) @ [![Linkedin](https://i.sstatic.net/gVE0j.png) LinkedIn](https://www.linkedin.com/in/lucas-de-freitas-pereira-a64a0879/)
-:man_technologist: [Jakob C. Christiaanse]
-:man_technologist: [Fernando J. Méndez]
+
+:man_technologist: Jakob C. Christiaanse
+
+:man_technologist: Fernando J. Méndez
 ### Model implementation
 COCOONED was applied to **Task1.Short-term prediction**, **Task2.Medium-term prediction** and **Task3.Long-term prediction**. The model was set-up on the given transects and it was forced with the provided daily wave and water level data as boundary conditions. The predictions submitted were produced with the original python code including longshore and cross-shore terms in the shoreline evolution equation but excluding the foredune erosion equation. The numerical scheme was set to semi-implicit (0.25). The calibration was done as originally through grid search, choosing the best simulation out of 50 different model parameterisations. The predictions provided here were obtained by bias correction of the predictions in the folder COCOONED2019_JAAA based on the satellite observations in the calibration period. 
 
