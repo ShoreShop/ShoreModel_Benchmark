@@ -55,10 +55,10 @@ A data assimilation routine has been used to keep the model in track during the 
 
 #### Model mechanics
 - [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
-- [.] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
+- . Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
 - [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
 #### Model elements
-- [.] Cross-shore: model the shoreline position for each transect independently.
+- . Cross-shore: model the shoreline position for each transect independently.
 - [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
 
@@ -68,4 +68,4 @@ A data assimilation routine has been used to keep the model in track during the 
 
 [[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)] Davidson, M.A., Splinter, K.D. and Turner, I.L. (2013), A simple equilibrium model for predicting shoreline change.  _Coastal Engineering_, 73, pp.191-202.  
 
-[[2](https://doi.org/10.1016/j.coastaleng.2020.103789) Jaramillo C., Gonzalez, M., Medina R. and Turki I.  (2021), An equilibrium-based shoreline rotation model, _Coastal Engineering_ 163, 103789 ]
+[[2](https://doi.org/10.1016/j.coastaleng.2020.103789)] Jaramillo C., Gonzalez, M., Medina R. and Turki I.  (2021), An equilibrium-based shoreline rotation model, _Coastal Engineering_ 163, 103789.
