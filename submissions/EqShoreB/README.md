@@ -4,15 +4,15 @@ Equilibrium shoreline change model with Bruun rule influence (provisionally, **E
 
 dy/dt = β<sub>1</sub>E<sub>f</sub><sup>0.5</sup>(y<sub>eq</sub>-y)+ε (1)
 
-where dy/dt = cross-shore shoreline change at a reference level (m/day); β<sub>1</sub> = model parameter; E<sub>f</sub> = offshore wave energy flux (N/s); y<sub>eq</sub> = equilibrium profile position (m); y = present profile position (m); and ε = residual error (m/day).
+where dy/dt = cross-shore shoreline change at a reference level (m/day); β<sub>1</sub> = model parameter; E<sub>f</sub> = offshore wave energy flux (N/s); y<sub>eq</sub> = equilibrium shoreline position (m); y = present shoreline position (m); and ε = residual error (m/day).
 
-The equilibrium shoreline position comprises the basic profile position determined by the wave regime and the profile change due to the sea level rise based on the Bruun rule (Bruun, 1962):
+The equilibrium shoreline position comprises the basic shoreline position determined by the wave regime and the shoreline change due to the sea level rise based on the Bruun rule (Bruun, 1962):
 
 y<sub>eq</sub> = y<sub>0</sub>+Δy<sub>SLR</sub>   (2)
 
 where y<sub>0</sub> = basic equilibrium shoreline position (m) corresponding to the mean sea level; and Δy<sub>eq</sub> = change in the equilibrium shoreline position from y0 due to a sea level rise (m).
 
-The basic equilibrium profile position y<sub>0</sub> is approximated by a linear combination of the root of the wave energy flux to avoid the model becoming too complicated:
+The basic equilibrium shoreline position y<sub>0</sub> is approximated by a linear combination of the root of the wave energy flux to avoid the model becoming too complicated:
 
 y<sub>0</sub> ~ A<sup>-1.5</sup> = W<sub>\*</sub>/h<sub>\*</sub><sup>1.5</sup> ~ (β<sub>3</sub>E<sub>f</sub><sup>0.5</sup>+β<sub>4</sub>)/(β<sub>1</sub>E<sub>f</sub><sup>0.5</sup>+β<sub>2</sub>)   (3)
 
