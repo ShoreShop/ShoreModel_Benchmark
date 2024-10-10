@@ -29,6 +29,8 @@ Long-term uncertainty in the equilibrium shoreline position was considered in th
 
 The EqShoreB was applied to ***Task1.Short-term prediction*** and ***Task3.Long-term prediction***. The input data is waves, water levels, tides and previous shoreline positions. The output data is the shoreline positions. The coefficients were calibrated for each transect. The calculated shoreline positions were calibrated with the measured shoreline positions from 1987 to 2018. The time interval of the calculation is 1 day. The lack of input data was linearly interpolated.
 
+Since the model parameters could not be estimated successfully for some transects, only the results for Transects 5 and 8 are shown for reference.
+
 #### Model mechanics
 - [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
 - [x] Hybrid Models (HM): use observational data to calibrate free parameters in the equilibrium configuration of a system.
