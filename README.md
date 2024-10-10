@@ -23,7 +23,7 @@ The following notebooks are available in this repo:
 ## Task description
 ### Beach_X
 A real-world Beach_X serves as the target site for this workshop. To ensure a blind test, all geographical information regarding this beach has been intentionally removed. \
-What we do know is that Beach_X is an east-facing embayed sandy beach with a mean grain size ***D50 ≈ 0.3 mm***.\
+What we do know is that Beach_X is an east-facing embayed sandy beach with a mean grain size ***D50 ≈ 0.3 mm***. The depth of closure for this beach is 11 m and the corresponding slope of the active beach profile is about 0.022.\
 9 shore-normal transects are established from North to South with a 100-meter longshore distance to measure shoreline position. The coordinates for the landward and seaward ends of transects are provided in `transects_coords.csv`.
 These coordinates are in a local coordinate system, deliberately shifted (not distorted or rotated), and are expressed in easting (x) and northing (y) with a unit of meters. They do not reveal the actual geographical location of Beach_X.
 
@@ -74,6 +74,8 @@ The following files are provided for shoreline predictions.
 The following constants are also provided.
 - `Depth of wave data`: 10 (m)
 - `Mean grain size D50`: 0.3 (mm)
+- `Depth of closure`: 11 (m)
+- `Slope of the active beach profile`: 0.022
 
 
 ### Shoreline
@@ -162,7 +164,7 @@ If you need any help with this submission, please post on the [GitHub Issues](ht
 
 ### Deadline
 
-The deadline for the submission is the end of the year (**01/10/2024**).
+The deadline for the submission is **10/Oct/2024**  <s>01/Oct/2024</s>.
 
 ## Questions and Comments
 
