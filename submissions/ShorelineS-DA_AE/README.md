@@ -30,6 +30,7 @@ $$ dn/dt = -1/Dc * dQs/ds - RSLR/tan(beta) + 1/Dc * Σ(qi) $$
 where n is the cross-shore coordinate, s the longshore coordinate, t is time, Dc is the active profile height, Qs is the longshore transport (m3/yr), tan β is the average profile slope between the dune or barrier crest and the depth of closure, RSLR is the relative sea-level rise (m/yr) and qi is the source/sink term (m3/m/yr) due to cross-shore transport, overwashing, nourishments, sand mining and exchanges with rivers and tidal inlets.
 
 For Qs, we used CERC 3:
+
 $$ QS = Q_cal * b * √g * γ^-0.52 * HS_{br}^{2.5} * (sin(2 * ΔPHIbr) - 2 * cos(ΔPHIbr) * ΔHS)  $$
 
 where Hs_br is the significant wave height at the point of breaking (m), ΔPHIbr is the relative angle of waves at the breaking point, Q_cal is a calibration parameter, γ is the breaker criterion, b is:
