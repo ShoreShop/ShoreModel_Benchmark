@@ -1,13 +1,12 @@
 
 Notes.docx
-datasets/shorelines/shorelines_target_hidden.csv
 algorithms/ShoreFor/__pycache__/shorefor.cpython-311.pyc
-datasets/shorelines/shorelines_hidden_long.csv
-datasets/shorelines/shorelines_hidden_medium.csv
-datasets/shorelines/shorelines_hidden_short.csv
-/algorithms/ShoreFor/figures
 /submissions/ShoreFor/retrain
 /datasets/hindcast_waves/ERA5
 /datasets/hindcast_waves/CAWCR
 algorithms/ShoreFor/check_results.py
 .Rproj.user
+/algorithms/ShoreFor/figures
+/.ipynb_checkpoints
+Results summary.docx
+/src/__pycache__
