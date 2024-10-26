@@ -406,7 +406,7 @@ def vis_ensemble(datetime, ensemble_mean, ensemble_min, ensemble_max, ensemble_s
         ax.fill_between(index, ensemble_min[:, i], ensemble_max[:, i], color='grey', edgecolor='none', alpha=0.2)
         ax.fill_between(index, ensemble_mean[:, i]+ensemble_std[:, i], 
                         ensemble_mean[:, i]-ensemble_std[:, i], color='grey', edgecolor='none', alpha=0.4)
-        ax.plot(index, ensemble_mean[:, i], color='r', label='Ensemble mean', zorder=100, alpha=0.6)
+        ax.plot(index, ensemble_mean[:, i], color='grey', label='Ensemble mean', zorder=100, alpha=0.8)
         for model in top_models:
             ax.plot(dfs_pred[model].index, dfs_pred[model][tran_id], 
             linestyle='-', color=MODEL_COLORS[model], label=model, alpha=1, zorder=zorders[model])
