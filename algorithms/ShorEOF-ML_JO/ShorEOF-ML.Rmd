@@ -16,6 +16,8 @@ This model is named **ShorEOF-ML** (pronounced "shore of ML") to reflect its foc
 
 In this analysis, we explore the use of [**Principal Component Analysis (PCA)**](https://www.coastalwiki.org/wiki/Analysis_of_coastal_processes_with_Empirical_Orthogonal_Functions#Applications_of_Empirical_Orthogonal_Functions_.28EOF.29), specifically through **Empirical Orthogonal Functions (EOFs)**, to model and predict **shoreline change** [Short and Trembanis 2004](https://bioone.org/journals/journal-of-coastal-research/volume-20/issue-2/1551-5036(2004)020%5b0523%3aDSPIBO%5d2.0.CO%3b2/Decadal-Scale-Patterns-in-Beach-Oscillation-and-Rotation-Narrabeen-Beach/10.2112/1551-5036(2004)020[0523:DSPIBO]2.0.CO;2.short). The goal is to identify key patterns in coastal variability—both spatial (e.g., entire beach retreat/advance or shoreline rotation) and temporal (e.g. changing ocean conditions)—and use these patterns to create a predictive model of shoreline change driven by ocean conditions.
 
+**Update/corrected after reviewing first submission 1) to use the cost function used to compare modes 2) fix the wave directions 3) smooth the shoreline transects**
+
 ## What is EOF Analysis?
 
 EOF analysis is a powerful tool for decomposing complex spatial-temporal data into simpler patterns. In this case, we use EOFs to capture the primary modes of shoreline variability. These modes may represent large-scale changes, such as:
@@ -53,7 +55,7 @@ require(terra)
 require(tidyverse)
 require(fields)
 require(xgboost)
-
+library(Metrics)  # For calculating RMSE, correlation, etc.
 
 ```
 
@@ -61,30 +63,32 @@ require(xgboost)
 
 ```{r}
 
-transects_coords = read.csv("../../../datasets/transects_coords.csv")
-slope = read.csv("../../../datasets/slope.csv")
+datadir = "../../datasets/"
 
-shorelines_groundtruth = read.csv("../../../datasets/shorelines/shorelines_groundtruth.csv")
-shorelines_obs = read.csv("../../../datasets/shorelines/shorelines_obs.csv")
-shorelines_target_short = read.csv("../../../datasets/shorelines/shorelines_target_short.csv")
-shorelines_target_medium = read.csv("../../../datasets/shorelines/shorelines_target_medium.csv")
+transects_coords = read.csv(paste0(datadir,"transects_coords.csv"))
+slope = read.csv(paste0(datadir,"slope.csv"))
 
-tide = read.csv("../../../datasets/tide/tide.csv")
+shorelines_groundtruth = read.csv(paste0(datadir,"shorelines/shorelines_groundtruth.csv"))
+shorelines_obs = read.csv(paste0(datadir,"shorelines/shorelines_obs.csv"))
+shorelines_target_short = read.csv(paste0(datadir,"shorelines/shorelines_target_short.csv"))
+shorelines_target_medium = read.csv(paste0(datadir,"shorelines/shorelines_target_medium.csv"))
 
-sealevel_obs = read.csv("../../../datasets/sealevel/sealevel_obs.csv")
-sealevel_proj = read.csv("../../../datasets/sealevel/sealevel_proj.csv")
+tide = read.csv(paste0(datadir,"tide/tide.csv"))
 
-Hs_hind = read.csv("../../../datasets/hindcast_waves/Hs.csv")
-Tp_hind = read.csv("../../../datasets/hindcast_waves/Tp.csv")
-Dir_hind = read.csv("../../../datasets/hindcast_waves/Dir.csv")
+sealevel_obs = read.csv(paste0(datadir,"sealevel/sealevel_obs.csv"))
+sealevel_proj = read.csv(paste0(datadir,"sealevel/sealevel_proj.csv"))
 
-Hs_rcp45 = read.csv("../../../datasets/forecast_waves/RCP45/Hs.csv")
-Tp_rcp45 = read.csv("../../../datasets/forecast_waves/RCP45/Tp.csv")
-Dir_rcp45 = read.csv("../../../datasets/forecast_waves/RCP45/Dir.csv")
+Hs_hind = read.csv(paste0(datadir,"hindcast_waves/Hs.csv"))
+Tp_hind = read.csv(paste0(datadir,"hindcast_waves/Tp.csv"))
+Dir_hind = read.csv(paste0(datadir,"hindcast_waves/Dir.csv"))
 
-Hs_rcp45 = read.csv("../../../datasets/forecast_waves/RCP45/Hs.csv")
-Tp_rcp45 = read.csv("../../../datasets/forecast_waves/RCP45/Tp.csv")
-Dir_rcp45 = read.csv("../../../datasets/forecast_waves/RCP45/Dir.csv")
+Hs_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Hs.csv"))
+Tp_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Tp.csv"))
+Dir_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Dir.csv"))
+
+Hs_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Hs.csv"))
+Tp_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Tp.csv"))
+Dir_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Dir.csv"))
 
 Hs_Depth = 10 #m
 D50 =  0.3 #mm
@@ -139,6 +143,10 @@ plot(gt_v,"year",type = "continuous")
 
 ```
 
+```{r, smooth the transects}
+
+```
+
 ## Check how similar the Hs and Dir between profiles using the Pearson correlation.
 
 ```{r}
@@ -159,10 +167,16 @@ data_df = data.frame(date = as.Date(c(Hs_hind[,1],Hs_rcp45[,1])),
                     Dir = apply(rbind(Dir_hind[,-1],Dir_rcp45[,-1]),1,"mean"))
 
 
+data_df$Dir = data_df$Dir- median(data_df$Dir)
+data_df$Dir[data_df$Dir > 180] = data_df$Dir[data_df$Dir > 180] -360
+data_df$Dir = data_df$Dir- median(data_df$Dir)
+
+detrend_vector <- function(x) x - lm(x ~ seq_along(x))$fitted.values
+data_df$Dir = detrend_vector(data_df$Dir)
 
 data_df <- data_df %>%
   mutate(
-    Dir_x = sin(Dir * pi / 180)*Hs,  # Convert direction to x component
+    Dir_x = sin((Dir) * pi / 180)*Hs,  # Convert direction to x component
     Dir_y = cos(Dir * pi / 180)*Hs,   # Convert direction to y component
     steepness = Hs/(Tp^2) # wave steepness (Hs/L))
   )
@@ -196,14 +210,49 @@ tide$date = as.Date(tide$Datetime)
 
 data_df$tide = approx(as.numeric(tide$date),tide$Tide..m.,as.numeric(data_df$date))$y
 
+
+
+```
+
+
+```{r}
+require(zoo)
+# Step 1: Fill NA values at the start and end using tidyr::fill
+shorelines_obs_i <- shorelines_obs[,-1] %>% fill(.direction = "downup")
+
+# Step 2: Interpolate remaining NA values using zoo::na.approx
+shorelines_obs_i <- as.data.frame(lapply(shorelines_obs_i, function(col) {
+  # Interpolate missing values
+  col <- zoo::na.approx(col, na.rm = FALSE)
+  # Fill any remaining boundary NA values with the closest non-NA value
+  col <- zoo::na.fill(col, fill = "extend")  # Forward and backward fill for boundary NAs
+  return(col)
+}))
+
+# Step 3: Apply smooth.spline to each column of the interpolated data
+tm = as.Date(shorelines_obs$Datetime)
+shorelines_obs_s <- as.data.frame(lapply(shorelines_obs_i, function(col) {
+  smooth_result <- smooth.spline(x = as.numeric(tm),y = col, spar = 0.4)  # Adjust spar for smoothness (0-1)
+  #smooth_result <- ksmooth(x = as.numeric(tm), y = col, kernel = "normal", bandwidth = 50)
+return(smooth_result$y)
+}))
+par(mfrow = c(9,1),mar= c(1,2,0,0))
+for(i in 1:9){
+plot(tm,shorelines_obs[,i+1])
+lines(tm,shorelines_obs_s[,i])
+}
+
+shorelines_obs_raw <- shorelines_obs
+shorelines_obs[,-1] <-  shorelines_obs_s # use the smoothed data
+
 ```
 
 
 ## Fit the EOFs by centreing the data, then plot a validation of the EOF reconstruction
 
+
 ```{r}
 
-data <- shorelines_obs
 shorelines_obs$date <- as.Date(shorelines_obs[, 1], format = "%Y-%m-%d") 
 # Convert the first column (date) to Date format (assuming it’s in the first column)
 shorelines_obs$date <- as.Date(shorelines_obs[, 1], format = "%Y-%m-%d")  # Adjust format as necessary
@@ -290,6 +339,52 @@ legend("topleft",paste0("EOF",1:4),col=1:4,lty=1,ncol=4)
 ## Use the ML model to fit the ocean conditions to the PC for a training **subset** and then predict the shoreline for the remainder of the observed shorelines.
 
 ```{r}
+# Custom loss function with the corrected formula
+custom_loss <- function(preds, dtrain) {
+  # Get the actual labels (observations/targets)
+  labels <- getinfo(dtrain, "label")
+  
+  # Calculate the standard deviation of the target (observation)
+  std_target <- sd(labels)
+  
+  if (std_target == 0) {
+    stop("The standard deviation of the labels (target) is zero. Correlation cannot be computed.")
+  }
+  
+  # Compute RMSE and normalize by the standard deviation of the target
+  rmse_value <- rmse(labels, preds)
+  rmse_norm <- rmse_value / std_target
+  
+  # Compute standard deviation of predictions and normalize it
+  std_pred <- sd(preds)
+  
+  # Handle case where the std of predictions is zero
+  if (std_pred == 0) {
+    std_norm <- 0  # Assign normalized STD as 0 if no variance in predictions
+  } else {
+    std_norm <- std_pred / std_target
+  }
+  
+  # Compute correlation between predictions and actual values
+  if (std_pred == 0 || std_target == 0) {
+    corr_value <- 0  # Assign correlation as 0 if no variance in either preds or labels
+  } else {
+    corr_value <- cor(preds, labels)
+  }
+  
+  # Compute loss L_i with the corrected formula
+  Li <- sqrt((0 - rmse_norm)^2 + (1 - corr_value)^2 + (1 - std_norm)^2)
+  
+  # For gradient (just a placeholder, real implementation needs analytical gradients)
+  grad <- 2 * (preds - labels)  # Simplified gradient placeholder
+  hess <- rep(1, length(preds))  # Simplified hessian placeholder
+  
+  return(list(grad = grad, hess = hess))
+}
+```
+
+
+```{r}
 
 # Split the data into training and test sets
 set.seed(123)  # For reproducibility
@@ -326,7 +421,7 @@ for (i in 1:9) {
   xgb_model <- xgboost(
     data = dtrain,
     nrounds = 1000,              # Number of boosting rounds
-    objective = "reg:squarederror", #"reg:absoluteerror",  # Regression task
+    objective = custom_loss, #"reg:absoluteerror",  # Regression task
     max_depth = 4,               # Depth of each tree
     eta = 0.01,                  # Learning rate (shrinkage)
     verbose = 0                  # Suppress output
@@ -396,7 +491,7 @@ for (i in 1:9) {
   xgb_model <- xgboost(
     data = dtrain,
     nrounds = 1000,              # Number of boosting rounds
-    objective = "reg:squarederror", #"reg:absoluteerror",  # Regression task
+    objective = custom_loss, #"reg:absoluteerror",  # Regression task
     max_depth = 4,               # Depth of each tree
     eta = 0.01,                  # Learning rate (shrinkage)
     verbose = 0                  # Suppress output
@@ -479,28 +574,31 @@ output_csv = function(period_dates,filename){
   write.csv(out,file = filename,row.names = FALSE,quote = FALSE)
 }
 
-output_csv(period_dates= as.Date(c("2019-01-01","2023-12-31")),filename = "../shorelines_prediction_short.csv")
-output_csv(period_dates= as.Date(c("1951-05-01","1998-12-31")),filename = "../shorelines_prediction_medium.csv")
-output_csv(period_dates= as.Date(c("2019-01-01","2100-12-31")),filename = "../shorelines_prediction_long.csv")
+output_csv(period_dates= as.Date(c("2019-01-01","2023-12-31")),filename = "../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_short.csv")
+output_csv(period_dates= as.Date(c("1951-05-01","1998-12-31")),filename = "../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_medium.csv")
+output_csv(period_dates= as.Date(c("2019-01-01","2100-12-31")),filename = "../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_long.csv")
 
-output_csv(period_dates= as.Date(c("1999-02-17","2018-12-30")),filename = "../shorelines_prediction_obs.csv")
+output_csv(period_dates= as.Date(c("1999-02-17","2018-12-30")),filename = "../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_obs.csv")
 
 ```
 
 
 ```{r}
-shorelines_prediction_obs = read.csv("../shorelines_prediction_obs.csv")
+shorelines_prediction_obs = read.csv("../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_obs.csv")
 shorelines_prediction_obs$date = as.Date(shorelines_prediction_obs$Datetime)
 
 par(mfrow = c(3,1),mar = c(3,3,1,1)+0.01)
 plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect2,type = "l")
 points(shorelines_obs$date,shorelines_obs$Transect2,col=4,pch=19)
+#points(shorelines_obs$date,shorelines_obs_raw$Transect2,col=2,pch=19)
 legend("topleft","Transect 2")
 plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect5,type = "l")
 points(shorelines_obs$date,shorelines_obs$Transect5,col=4,pch=19)
+#points(shorelines_obs$date,shorelines_obs_raw$Transect5,col=2,pch=19)
 legend("topleft","Transect 5")
 plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect8,type = "l")
 points(shorelines_obs$date,shorelines_obs$Transect8,col=4,pch=19)
+#points(shorelines_obs$date,shorelines_obs_raw$Transect8,col=2,pch=19)
 legend("topleft","Transect 8")
 
 ```
