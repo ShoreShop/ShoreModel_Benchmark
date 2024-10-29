@@ -161,10 +161,11 @@ cor(Dir_hind[,-1],use = "pairwise.complete.obs")
 
 
 ```{r}
-data_df = data.frame(date = as.Date(c(Hs_hind[,1],Hs_rcp45[,1])),
-                    Hs = apply(rbind(Hs_hind[,-1],Hs_rcp45[,-1]),1,"mean"),
-                    Tp = apply(rbind(Tp_hind[,-1],Tp_rcp45[,-1]),1,"mean"),
-                    Dir = apply(rbind(Dir_hind[,-1],Dir_rcp45[,-1]),1,"mean"))
+s = which(as.Date(Hs_rcp45[,1]) > max(as.Date(Hs_hind[,1])))
+data_df = data.frame(date = as.Date(c(Hs_hind[,1],Hs_rcp45[,1][s])),
+                    Hs = apply(rbind(Hs_hind[,-1],Hs_rcp45[,-1][s,]),1,"mean"),
+                    Tp = apply(rbind(Tp_hind[,-1],Tp_rcp45[,-1][s,]),1,"mean"),
+                    Dir = apply(rbind(Dir_hind[,-1],Dir_rcp45[,-1][s,]),1,"mean"))
 
 
 data_df$Dir = data_df$Dir- median(data_df$Dir)
@@ -589,15 +590,15 @@ shorelines_prediction_obs$date = as.Date(shorelines_prediction_obs$Datetime)
 
 par(mfrow = c(3,1),mar = c(3,3,1,1)+0.01)
 plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect2,type = "l")
-points(shorelines_obs$date,shorelines_obs$Transect2,col=4,pch=19)
+lines(shorelines_obs$date,shorelines_obs$Transect2,col=4,lwd=2)
 #points(shorelines_obs$date,shorelines_obs_raw$Transect2,col=2,pch=19)
 legend("topleft","Transect 2")
 plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect5,type = "l")
-points(shorelines_obs$date,shorelines_obs$Transect5,col=4,pch=19)
+lines(shorelines_obs$date,shorelines_obs$Transect5,col=4,lwd=2)
 #points(shorelines_obs$date,shorelines_obs_raw$Transect5,col=2,pch=19)
 legend("topleft","Transect 5")
 plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect8,type = "l")
-points(shorelines_obs$date,shorelines_obs$Transect8,col=4,pch=19)
+lines(shorelines_obs$date,shorelines_obs$Transect8,col=4,lwd=2)
 #points(shorelines_obs$date,shorelines_obs_raw$Transect8,col=2,pch=19)
 legend("topleft","Transect 8")
 
