@@ -210,7 +210,7 @@ def plot_ts_interactive(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_
 
     return fig
 
-def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=None, ax=None):
+def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=None, ax=None, SDS_RMS=None):
     
     '''
     This function plots Taylor diagram based metrics
@@ -280,6 +280,14 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
     legend_handles = []
 
     stdev0, ccoef0, crmse0, loss0 = list(metrics.values())[0].values()
+    if SDS_RMS is not None:
+        RMS_ticks = np.append(np.linspace(0.25, 1, 4), SDS_RMS)
+        colRMS = ['#AAAADD', '#AAAADD','#AAAADD','#AAAADD', 'Red']
+        colRMS = [x for _, x in sorted(zip(RMS_ticks, colRMS))]
+    else:
+        RMS_ticks = np.linspace(0.25, 1, 4)
+        colRMS = '#AAAADD'
+    
     sm.taylor_diagram(ax,
                       np.asarray((stdev0, stdev0)), 
                       np.asarray((crmse0, crmse0)), 
@@ -289,8 +297,8 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
                       styleOBS = ':', colOBS = "#000000", alpha = 1.0,
                       titleSTD = 'off', titleRMS = 'off',
                       showlabelsRMS = 'on',
-                      tickRMS = np.linspace(0.25, 1, 4),
-                      colRMS = STYLES_RMS['color'],
+                      tickRMS = RMS_ticks,
+                      colRMS = colRMS,
                       tickRMSangle = 125,
                       styleRMS = STYLES_RMS['linestyle'],
                       colscor = COLS_COR, colsstd = COLS_STD,
@@ -323,7 +331,6 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
                           overlay = 'on',
                           styleCOR = '-',
                           styleSTD = '-')
-        
 
         if (legend == 'Average')&(aver_scores is not None):
             score_label = aver_scores[model_id]
@@ -358,6 +365,10 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
                       color=STYLES_RMS['color'],
                       linestyle=STYLES_RMS['linestyle'],
                       label="Normalized CRMSE"))
+    legend_handles.append(mlines.Line2D([], [],
+                  color='red',
+                  linestyle=STYLES_RMS['linestyle'],
+                  label="Normalized CRMSE of SDS"))
     # add legend
     if legend == 'Individual':
         ax.legend(handles=legend_handles, bbox_to_anchor=[0,-0.2], loc=2, ncol=(i+1)//5+1)
