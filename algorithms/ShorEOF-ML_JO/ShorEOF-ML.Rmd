@@ -16,7 +16,7 @@ This model is named **ShorEOF-ML** (pronounced "shore of ML") to reflect its foc
 
 In this analysis, we explore the use of [**Principal Component Analysis (PCA)**](https://www.coastalwiki.org/wiki/Analysis_of_coastal_processes_with_Empirical_Orthogonal_Functions#Applications_of_Empirical_Orthogonal_Functions_.28EOF.29), specifically through **Empirical Orthogonal Functions (EOFs)**, to model and predict **shoreline change** [Short and Trembanis 2004](https://bioone.org/journals/journal-of-coastal-research/volume-20/issue-2/1551-5036(2004)020%5b0523%3aDSPIBO%5d2.0.CO%3b2/Decadal-Scale-Patterns-in-Beach-Oscillation-and-Rotation-Narrabeen-Beach/10.2112/1551-5036(2004)020[0523:DSPIBO]2.0.CO;2.short). The goal is to identify key patterns in coastal variability—both spatial (e.g., entire beach retreat/advance or shoreline rotation) and temporal (e.g. changing ocean conditions)—and use these patterns to create a predictive model of shoreline change driven by ocean conditions.
 
-**Update/corrected after reviewing first submission 1) to use the cost function used to compare modes 2) fix the wave directions 3) smooth the shoreline transects**
+**Update/corrected after reviewing first submission 1) to use the cost function used to compare modes 2) fix the wave directions 3) smooth the shoreline transects 4) use interpolate transect data 5) add month of the year as a training variable**
 
 ## What is EOF Analysis?
 
@@ -175,6 +175,8 @@ data_df$Dir = data_df$Dir- median(data_df$Dir)
 detrend_vector <- function(x) x - lm(x ~ seq_along(x))$fitted.values
 data_df$Dir = detrend_vector(data_df$Dir)
 
+data_df$Dir[abs(data_df$Dir) > 45] = 45 
+
 data_df <- data_df %>%
   mutate(
     Dir_x = sin((Dir) * pi / 180)*Hs,  # Convert direction to x component
@@ -212,7 +214,7 @@ tide$date = as.Date(tide$Datetime)
 data_df$tide = approx(as.numeric(tide$date),tide$Tide..m.,as.numeric(data_df$date))$y
 
 
-
+data_df$month = as.numeric(substr(data_df$date,6,7))
 ```
 
 
@@ -232,22 +234,53 @@ shorelines_obs_i <- as.data.frame(lapply(shorelines_obs_i, function(col) {
 
 # Step 3: Apply smooth.spline to each column of the interpolated data
 tm = as.Date(shorelines_obs$Datetime)
+dx_1mSLR= 15
+dx = approx(as.numeric(data_df$date),dx_1mSLR*data_df$SL,as.numeric(tm))$y 
+
+si = data_df$date >= min(tm) & data_df$date <= max(tm) 
+tmi = data_df$date[si]
+
 shorelines_obs_s <- as.data.frame(lapply(shorelines_obs_i, function(col) {
-  smooth_result <- smooth.spline(x = as.numeric(tm),y = col, spar = 0.4)  # Adjust spar for smoothness (0-1)
+  smooth_result <- smooth.spline(x = as.numeric(tm),y = col, spar = 0.01)  # Adjust spar for smoothness (0-1)
+  out <- smooth_result$y
+  out <- predict(smooth_result,as.numeric(tmi))$y
   #smooth_result <- ksmooth(x = as.numeric(tm), y = col, kernel = "normal", bandwidth = 50)
-return(smooth_result$y)
+return(out)
 }))
 par(mfrow = c(9,1),mar= c(1,2,0,0))
-for(i in 1:9){
-plot(tm,shorelines_obs[,i+1])
-lines(tm,shorelines_obs_s[,i])
+for(i in  1:9){
+  plot(tm,shorelines_obs[,i+1])
+  points(tm,shorelines_obs[,i+1],col=2)
+  lines(tmi,shorelines_obs_s[,i])
 }
 
+
 shorelines_obs_raw <- shorelines_obs
-shorelines_obs[,-1] <-  shorelines_obs_s # use the smoothed data
+#shorelines_obs[,-1] <-  shorelines_obs_s # use the smoothed data
+shorelines_obs = cbind(tmi,shorelines_obs_s)
+names(shorelines_obs)[1] = "date"
 
 ```
 
+# how do the transects change with SLR
+
+```{r}
+par(mfrow = c(3,3),mar = c(4,4,1,1)+0.01)
+dX_dWL = array(dim = 9)
+for(i in 1:9) {
+  x = approx(as.numeric(data_df$date),data_df$SL,as.numeric(shorelines_obs$date))$y 
+  y = shorelines_obs[,i+1]
+  plot(x,y,xlim = c(0,.2))
+  m = lm(y~x)
+  dX_dWL[i] = round(m$coefficients[2],2)
+  abline(m,col=2)
+  legend("topright",legend = dX_dWL[i])
+}
+dx_1mSLR = median(c(1/tan(slope$Slope),dX_dWL))
+
+
+data_df$SL[si] = detrend_vector(data_df$SL)
+```
 
 ## Fit the EOFs by centreing the data, then plot a validation of the EOF reconstruction
 
@@ -566,7 +599,7 @@ output_csv = function(period_dates,filename){
   
   rcon_pred <- as.matrix(predicted_PCs_xgb) %*% D %*% t(EOFs)
   
-  for(i in 1:9) rcon_pred[,i] = rcon_pred[,i] +center_values[i] 
+  for(i in 1:9) rcon_pred[,i] = rcon_pred[,i] + center_values[i] #+ test_data$SL*dx_1mSLR
   
   out = as.data.frame(cbind(format(test_data$date,"%Y-%m-%d"),rcon_pred))
   
@@ -589,17 +622,17 @@ shorelines_prediction_obs = read.csv("../../submissions/ShorEOF-ML_corrected_JO/
 shorelines_prediction_obs$date = as.Date(shorelines_prediction_obs$Datetime)
 
 par(mfrow = c(3,1),mar = c(3,3,1,1)+0.01)
-plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect2,type = "l")
+plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect2,type = "l",ylim = c(160,240))
 lines(shorelines_obs$date,shorelines_obs$Transect2,col=4,lwd=2)
-#points(shorelines_obs$date,shorelines_obs_raw$Transect2,col=2,pch=19)
+points(as.Date(shorelines_obs_raw$Datetime),shorelines_obs_raw$Transect2,col="red",pch=19)
 legend("topleft","Transect 2")
-plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect5,type = "l")
+plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect5,type = "l",ylim = c(160,220))
 lines(shorelines_obs$date,shorelines_obs$Transect5,col=4,lwd=2)
-#points(shorelines_obs$date,shorelines_obs_raw$Transect5,col=2,pch=19)
+points(as.Date(shorelines_obs_raw$Datetime),shorelines_obs_raw$Transect5,col="red",pch=19)
 legend("topleft","Transect 5")
-plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect8,type = "l")
+plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect8,type = "l",ylim = c(140,220))
 lines(shorelines_obs$date,shorelines_obs$Transect8,col=4,lwd=2)
-#points(shorelines_obs$date,shorelines_obs_raw$Transect8,col=2,pch=19)
+points(as.Date(shorelines_obs_raw$Datetime),shorelines_obs_raw$Transect8,col="red",pch=19)
 legend("topleft","Transect 8")
 
 ```
