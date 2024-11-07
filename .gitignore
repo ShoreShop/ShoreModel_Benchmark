@@ -10,3 +10,5 @@ algorithms/ShoreFor/check_results.py
 /.ipynb_checkpoints
 Results summary.docx
 /src/__pycache__
+/datasets/shorelines/shorelines_hidden_short.csv
+/datasets/shorelines/shorelines_hidden_medium.csv
