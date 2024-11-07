@@ -1,8 +1,8 @@
 # Submission of prediction results
 
-This folder contains the shoreline prediction results from the different participants.
+This folder contains the resubmitted shoreline prediction results after ShoreShop2.0.
 
-Examples of submission are provided in the `ShoreFor`, `Chronos` and  `lag-llama` folders. There is one folder per model and each folder contains the files below:
+Examples of submission are provided in the `ShoreFor`. There is one folder per model and each folder contains the files below:
 - `README.md`: contains the description of the model
 - `shorelines_prediction_short.csv`: contains the short-term shoreline prediction.
 - `shorelines_prediction_medium.csv`: contains the medium-term shoreline prediction.
@@ -50,7 +50,7 @@ An example of csv file is provided for ShoreFor under `/submissions/ShoreFor/sho
 1. [fork](https://github.com/yongjingmao/ShoreModel_Benchmark/fork) this repository;
    - Begin by forking the original workshop repository to your GitHub account.
 2. Create a Submission Folder:
-   - Inside the submission folder, create a subfolder named ModelName_AuthorInitials. Replace ModelName with the name of your model and AuthorInitials with your initials.
+   - Inside the resubmission folder, create a subfolder named ModelName_AuthorInitials. Replace ModelName with the name of your model and AuthorInitials with your initials.
 3. Place Your Prediction Files:
    - Copy your completed prediction files (`shorelines_prediction_short.csv`, `shorelines_prediction_medium.csv` and/or `shorelines_prediction_long.csv`) into the subfolder created in Step 2.
 4. Provide Your Model Description (an example is [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md)):
