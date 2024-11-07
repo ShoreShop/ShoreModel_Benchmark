@@ -49,7 +49,7 @@ $$ \mathcal{L_i} = \sqrt{(0-RMSE_{norm})^2+(1-Corr)^2+(1-STD_{norm})^2} $$
 $$ \mathcal{L_avg} = \frac{1}{n} \sum_{i=1}^n \mathcal{L_i} $$
   
   
-<img src="figures/TaylorDiagram.jpg" width="1500">
+<img src="figures/Short/TaylorDiagram.jpg" width="1500">
 
 ### Modeling rules
 - Participants should not attempt to locate and retrieve extra shoreline information beyond that provided for Beach_X.
