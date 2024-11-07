@@ -140,14 +140,14 @@ Participants should copy and check the boxes below in the model description to a
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
  
 
-## How to submit
+## How to submit (Post ShoreShop2.0)
 
 To submit your results, please:
 
 1. [fork](https://github.com/yongjingmao/ShoreModel_Benchmark/fork) this repository;
    - Begin by forking the original workshop repository to your GitHub account.
 2. Create a Submission Folder:
-   - Inside the submission folder, create a subfolder named **"ModelName_AuthorInitials"**. Replace ModelName with the name of your model and AuthorInitials with your initials.
+   - Inside the resubmission folder, create a subfolder named **"ModelName_AuthorInitials"**. Replace ModelName with the name of your model and AuthorInitials with your initials.
 3. Place Your Prediction Files:
    - Copy your completed prediction files (`shorelines_prediction_short.csv`, `shorelines_prediction_medium.csv` and/or `shorelines_prediction_long.csv`) into the subfolder created in Step 2.
 4. Provide Your Model Description (an example is [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md)):
