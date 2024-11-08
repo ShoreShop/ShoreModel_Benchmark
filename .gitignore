@@ -12,3 +12,6 @@ Results summary.docx
 /src/__pycache__
 datasets/shorelines/shorelines_hidden_short.csv
 datasets/shorelines/shorelines_hidden_medium.csv
+algorithms/CoSMoS-COAST-CONV/fconv2.m
+algorithms/CoSMoS-COAST-CONV/smoothn.m
+datasets/bathymetry/bathymetry.tif.aux.xml
