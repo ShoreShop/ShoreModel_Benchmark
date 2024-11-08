@@ -1,7 +1,7 @@
 # ShoreShop 2.0: Advancements in Shoreline Change Prediction Models
 This repository is a testbed for shoreline modelling algorithms. It contains all benchmark datasets, input files, codes, and results.
 ## ShoreShop 2.0 updates
-:triangular_flag_on_post:**News** (2024.11) Additional datasets including [beach_profile](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), [bathymetry](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/bathymetry.tif), [transect_coords (real)](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), and [smoothed shorelines](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/shorelines/shorelines_obs_smoothed.csv) have been released for model resubmission.Please refer to [Input data (Post workshop)](#data2) for details.
+:triangular_flag_on_post:**News** (2024.11) Additional datasets including [beach_profile](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), [bathymetry](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/bathymetry.tif), [transect_coords (real)](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), [nearshore wave coords](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/nearshorewave_coords.geojson), and [smoothed shorelines](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/shorelines/shorelines_obs_smoothed.csv) have been released for model resubmission.Please refer to [Input data (Post workshop)](#data2) for details.
 
 :triangular_flag_on_post:**News** (2024.11) Based on the discussion during the workshop, resubmission has been opened. All submissions after ShoreShop 2.0 should be placed in the resubmit folder. Please refer to [How to submit](#submit) for details.
 
@@ -70,6 +70,7 @@ $$ \mathcal{L_avg} = \frac{1}{n} \sum_{i=1}^n \mathcal{L_i} $$
 ## Input data (Post workshop) <a name="data2"></a>
 After the workshop, the following files are provided as extra inputs for resubmission.:
 - `transect_coords.geojson`: The real coordinates for transects.
+- `nearshorewave_coords.geojson`: The real coordinates for nearshore wave points.
 - `shorelines_obs_smoothed.csv`: The smoothed shoreline position between 1999 and 2018 for model calibration/training for each transect, following the method used by [CoSMoS-COAST-CONV](https://github.com/ShoreShop/ShoreModel_Benchmark/tree/main/algorithms/CoSMoS-COAST-CONV).
 - `bathymetry.tif`: The bathymetry data from Lidar survey.
 - `beach_profile.csv`: Beach profile data from photogrametry and Lidar survey retrieved from [NSW Beach Profile Database](http://www.nswbpd.wrl.unsw.edu.au/photogrammetry/nsw/).
