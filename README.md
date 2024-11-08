@@ -8,9 +8,9 @@ This repository is a testbed for shoreline modelling algorithms. It contains all
 :triangular_flag_on_post:**News** (2024.10) The ShoreShop 2.0 workshop was sucessfully held at WRL, Sydney, Australia from 28th Oct to 31st Oct. Leader board has been released.
 
 ## Leaderboard for initial submissions
-<img src="figures/Short/TaylorDiagram.jpg" height="500">
-<img src="figures/Medium_pre1986/TaylorDiagram.jpg" height="500">
-<img src="figures/Medium_post1986/TaylorDiagram.jpg" height="500">
+<img src="figures/Short/TaylorDiagram.jpg" height="400">
+<img src="figures/Medium_pre1986/TaylorDiagram.jpg" height="400">
+<img src="figures/Medium_post1986/TaylorDiagram.jpg" height="400">
 
 ## Background and Objectives <a name="Background"></a>
 ### Background
@@ -72,7 +72,7 @@ After the workshop, the following files are provided as extra inputs for resubmi
 - `transect_coords.geojson`: The real coordinates for transects.
 - `shorelines_obs_smoothed.csv`: The smoothed shoreline position between 1999 and 2018 for model calibration/training for each transect, following the method used by [CoSMoS-COAST-CONV](https://github.com/ShoreShop/ShoreModel_Benchmark/tree/main/algorithms/CoSMoS-COAST-CONV).
 - `bathymetry.tif`: The bathymetry data from Lidar survey.
-- `beach_profile.csv`: Beach profile data from photogrametry and Lidar survey.
+- `beach_profile.csv`: Beach profile data from photogrametry and Lidar survey retrieved from [NSW Beach Profile Database](http://www.nswbpd.wrl.unsw.edu.au/photogrammetry/nsw/).
 
 
 ## Input data (Prior workshop) <a name="data1"></a>
