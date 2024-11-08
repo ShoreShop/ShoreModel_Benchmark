@@ -1,7 +1,18 @@
 # ShoreShop 2.0: Advancements in Shoreline Change Prediction Models
 This repository is a testbed for shoreline modelling algorithms. It contains all benchmark datasets, input files, codes, and results.
+## ShoreShop 2.0 updates
+:triangular_flag_on_post:**News** (2024.11) Additional datasets including `beach_profile`, `bathymetry`, `transect_coords (real)`, and `smoothed shorelines` have been released for model resubmission.Please refer to [Input data](#data) for details.
 
-## Background and Objectives
+:triangular_flag_on_post:**News** (2024.11) Based on the discussion during the workshop, resubmission has been opened. All submissions after ShoreShop 2.0 should be placed in the resubmit folder. Please refer to [How to submit](#submit) for details.
+
+:triangular_flag_on_post:**News** (2024.10) The ShoreShop 2.0 workshop was sucessfully held at WRL, Sydney, Australia from 28th Oct to 31st Oct. Leader board has been released.
+
+## Leaderboard for initial submissions
+<img src="figures/Short/TaylorDiagram.jpg" height="500">
+<img src="figures/Medium_pre1986/TaylorDiagram.jpg" height="500">
+<img src="figures/Medium_post1986/TaylorDiagram.jpg" height="500">
+
+## Background and Objectives <a name="Background"></a>
 ### Background
 Shoreline change prediction has witnessed the evolution of both hybrid and data-driven models, offering valuable insights into how coastlines respond to varying wave conditions across different timescales. Building on the success of the ShoreShop 1.0 ([Blind testing of shoreline evolution models](https://www.nature.com/articles/s41598-020-59018-y)) in 2018, which tested 19 shoreline models in predicting shoreline positions over a four-year period, ShoreShop 2.0 aims to further explore and showcase the evolution of predictive methods.
 ### Objectives
@@ -47,9 +58,6 @@ $$ RMSE_{norm} = \frac{RMSE_{pred}}{STD_{targ}},   STD_{norm} = \frac{STD_{pred}
 $$ \mathcal{L_i} = \sqrt{(0-RMSE_{norm})^2+(1-Corr)^2+(1-STD_{norm})^2} $$
   
 $$ \mathcal{L_avg} = \frac{1}{n} \sum_{i=1}^n \mathcal{L_i} $$
-  
-  
-<img src="figures/Short/TaylorDiagram.jpg" width="1500">
 
 ### Modeling rules
 - Participants should not attempt to locate and retrieve extra shoreline information beyond that provided for Beach_X.
@@ -59,7 +67,7 @@ $$ \mathcal{L_avg} = \frac{1}{n} \sum_{i=1}^n \mathcal{L_i} $$
 - Code submission is optional.
 - Each participant can have multiple submissions.
 
-## Input data
+## Input data <a name="data"></a>
 The following files are provided for shoreline predictions.
 - `transects_coords.csv`: Coordinates for transects.
 - `slope.csv`: Beach-face slope for transects.
@@ -140,7 +148,7 @@ Participants should copy and check the boxes below in the model description to a
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
  
 
-## How to submit (Post ShoreShop2.0)
+## How to submit (Resubmission after ShoreShop2.0)<a name="submit"></a>
 
 To submit your results, please:
 
@@ -164,7 +172,7 @@ If you need any help with this submission, please post on the [GitHub Issues](ht
 
 ### Deadline
 
-The deadline for the submission is **10/Oct/2024**  <s>01/Oct/2024</s>.
+The deadline for the resubmission is **17/Dec/2024**.
 
 ## Questions and Comments
 
