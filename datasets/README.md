@@ -2,6 +2,20 @@
 
 This folder contains all the input datasets for shoreline models. Each folder contains a README.md file that further describes the dataset
 
+### Beach profile
+The collection of beach profiles from stereo photogrammetry and Lidar survey. The coordinates projection is GDA94/MGA Zone 56.
+Columns:
+- **Block**: Block of survey.
+- **Profile**: Profile ID of survey.
+- **Year/Date**: Date of survey
+- **Chainage**:	The distance along a line from an arbitrary starting point [m]
+- **Elevation**:Height above the Australian Height Datum [m]
+- **Easting**:Eastings of survey point [m]
+- **Northing**:Northinings of survey point [m]
+- **Survey Type**:Type of survey
+
+
+
 ### Coordinates
 The coordinates for the landward and seaward ends of transects are provided in `transects_coords.csv`.
 These coordinates are in a local coordinate system, deliberately shifted (not distorted or rotated), and are expressed in easting and northing with a unit of meters. \

@@ -1,16 +1,16 @@
 # ShoreShop 2.0: Advancements in Shoreline Change Prediction Models
 This repository is a testbed for shoreline modelling algorithms. It contains all benchmark datasets, input files, codes, and results.
 ## ShoreShop 2.0 updates
-:triangular_flag_on_post:**News** (2024.11) Additional datasets including `beach_profile`, `bathymetry`, `transect_coords (real)`, and `smoothed shorelines` have been released for model resubmission.Please refer to [Input data](#data) for details.
+:triangular_flag_on_post:**News** (2024.11) Additional datasets including [beach_profile](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), [bathymetry](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/bathymetry.tif), [transect_coords (real)](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), and [smoothed shorelines](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/shorelines/shorelines_obs_smoothed.csv) have been released for model resubmission.Please refer to [Input data (Post workshop)](#data2) for details.
 
 :triangular_flag_on_post:**News** (2024.11) Based on the discussion during the workshop, resubmission has been opened. All submissions after ShoreShop 2.0 should be placed in the resubmit folder. Please refer to [How to submit](#submit) for details.
 
 :triangular_flag_on_post:**News** (2024.10) The ShoreShop 2.0 workshop was sucessfully held at WRL, Sydney, Australia from 28th Oct to 31st Oct. Leader board has been released.
 
 ## Leaderboard for initial submissions
-<img src="figures/Short/TaylorDiagram.jpg" height="500">
-<img src="figures/Medium_pre1986/TaylorDiagram.jpg" height="500">
-<img src="figures/Medium_post1986/TaylorDiagram.jpg" height="500">
+<img src="figures/Short/TaylorDiagram.jpg" height="400">
+<img src="figures/Medium_pre1986/TaylorDiagram.jpg" height="400">
+<img src="figures/Medium_post1986/TaylorDiagram.jpg" height="400">
 
 ## Background and Objectives <a name="Background"></a>
 ### Background
@@ -67,8 +67,16 @@ $$ \mathcal{L_avg} = \frac{1}{n} \sum_{i=1}^n \mathcal{L_i} $$
 - Code submission is optional.
 - Each participant can have multiple submissions.
 
-## Input data <a name="data"></a>
-The following files are provided for shoreline predictions.
+## Input data (Post workshop) <a name="data2"></a>
+After the workshop, the following files are provided as extra inputs for resubmission.:
+- `transect_coords.geojson`: The real coordinates for transects.
+- `shorelines_obs_smoothed.csv`: The smoothed shoreline position between 1999 and 2018 for model calibration/training for each transect, following the method used by [CoSMoS-COAST-CONV](https://github.com/ShoreShop/ShoreModel_Benchmark/tree/main/algorithms/CoSMoS-COAST-CONV).
+- `bathymetry.tif`: The bathymetry data from Lidar survey.
+- `beach_profile.csv`: Beach profile data from photogrametry and Lidar survey retrieved from [NSW Beach Profile Database](http://www.nswbpd.wrl.unsw.edu.au/photogrammetry/nsw/).
+
+
+## Input data (Prior workshop) <a name="data1"></a>
+The following files are initially provided for shoreline predictions.
 - `transects_coords.csv`: Coordinates for transects.
 - `slope.csv`: Beach-face slope for transects.
 - `shorelines_obs.csv`: Shoreline position between 1999 and 2018 for model calibration/training for each transect. 
@@ -124,7 +132,8 @@ The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.
 <img src="figures/SLR_ts.jpg" width="500">
 
 ### Bathymetry and slope data
-Similar to the vast majority of beaches worldwide, Beach_X does not have nearshore bathymetry data available. Instead, `slope.csv` contains the beach-face slope for each transect derived from SDS with the [CoastSat.slope](https://github.com/kvos/CoastSat.slope) tool. Therefore, participants are challenged to adapt their models accordingly to address the model applicability under data poor scenarios with only freely accessible datasets.
+`slope.csv` contains the beach-face slope for each transect derived from SDS with the [CoastSat.slope](https://github.com/kvos/CoastSat.slope) tool. 
+
 
 ## Outputs and Deliverables
 
