@@ -15,3 +15,5 @@ datasets/shorelines/shorelines_hidden_medium.csv
 algorithms/CoSMoS-COAST-CONV/fconv2.m
 algorithms/CoSMoS-COAST-CONV/smoothn.m
 datasets/bathymetry/bathymetry.tif.aux.xml
+worshop summary.docx
+/datasets/hidden
