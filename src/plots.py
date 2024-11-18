@@ -243,7 +243,7 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
     MARKERS = {
     'HM': '*',
     'DDM':'o',
-    'PBM': 'd',
+    'OLM': 'd',
     'ENS': 's',
     }
 
