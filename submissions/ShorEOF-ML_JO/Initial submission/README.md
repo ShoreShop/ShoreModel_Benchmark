@@ -1,10 +1,8 @@
 ## ShorEOF-ML model
 ### Model description
-This model is named **ShorEOF-ML** (pronounced "shore of ML") to reflect its focus on shoreline prediction using Empirical Orthogonal Functions (EOF) and Machine Learning (ML). [Click here for the Rmarkdown code presenting the analysis.](https://htmlpreview.github.io/?https://github.com/JulianOG/ShoreModel_Benchmark/blob/main/algorithms/ShorEOF-ML_JO/ShorEOF-ML.html) 
+This model is named **ShorEOF-ML** (pronounced "shore of ML") to reflect its focus on shoreline prediction using Empirical Orthogonal Functions (EOF) and Machine Learning (ML). [Click here for the Rmarkdown code presenting the analysis.](https://htmlpreview.github.io/?https://github.com/JulianOG/ShoreModel_Benchmark/blob/main/submissions/ShorEOF-ML_JO/code/ShorEOF-ML.html) 
 
 In this analysis, we explore the use of [**Principal Component Analysis (PCA)**](https://www.coastalwiki.org/wiki/Analysis_of_coastal_processes_with_Empirical_Orthogonal_Functions#Applications_of_Empirical_Orthogonal_Functions_.28EOF.29), specifically through **Empirical Orthogonal Functions (EOFs)**, to model and predict **shoreline change** [Short and Trembanis 2004](https://bioone.org/journals/journal-of-coastal-research/volume-20/issue-2/1551-5036(2004)020%5b0523%3aDSPIBO%5d2.0.CO%3b2/Decadal-Scale-Patterns-in-Beach-Oscillation-and-Rotation-Narrabeen-Beach/10.2112/1551-5036(2004)020[0523:DSPIBO]2.0.CO;2.short). The goal is to identify key patterns in coastal variability—both spatial (e.g., entire beach retreat/advance or shoreline rotation) and temporal (e.g. changing ocean conditions)—and use these patterns to create a predictive model of shoreline change driven by ocean conditions.
-
-**Update/corrected after reviewing first submission 1) to use the cost function used to compare modes 2) fix the wave directions 3) smooth the shoreline transects**
 
 #### What is EOF Analysis?
 

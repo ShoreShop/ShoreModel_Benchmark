@@ -297,6 +297,8 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
                       styleOBS = ':', colOBS = "#000000", alpha = 1.0,
                       titleSTD = 'off', titleRMS = 'off',
                       showlabelsRMS = 'on',
+                      tickSTD = np.linspace(0, 1.2, 4),
+                      axismax = 1.2,
                       tickRMS = RMS_ticks,
                       colRMS = colRMS,
                       tickRMSangle = 125,
@@ -310,7 +312,8 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
 
 
     # add label below the marker
-    ax.set_xlim(0, 1.1)
+#     ax.set_xlim(0, 1.2)
+#     ax.set_ylim(0, 1.2)
     ax.text(stdev0-0.075, 0.05, list(metrics.keys())[0][0:4]+'.', verticalalignment="top",
             horizontalalignment="center", fontweight="bold")
 
