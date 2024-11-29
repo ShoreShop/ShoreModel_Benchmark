@@ -18,7 +18,7 @@ $$ b = 1/16 * 0.35 * ρ_w / ((ρ_s - ρ_w) * (1 - p)) $$
 where ρ_w the density of the water (kg/m3), ρ_s the density of the sediment (kg/m3), and g is the acceleration of gravity (m/s2).
    
 ### Model implementation
-The ShorelineS model + Data assimilation were applied to ***Task1.Short-term prediction***, and ***Task2.Medium-term prediction***. Using the data assimilation (ensemble Kalman filter) considering the data between 1999 to 2018 to and the model to calibrate the longshore sediment transport and the wave direction. The calibrated parameter was then used to predict the short and medium-terms.  
+The ShorelineS model + Data assimilation were applied to ***Task1.Short-term prediction***, and ***Task2.Medium-term prediction***. Using the data assimilation (ensemble Kalman filter) considering the data between 1999 to 2018 to and the model to calibrate the longshore sediment transport. The calibrated parameter was then used to predict the short and medium-terms.  
 
 ### Model classification
 #### Model mechanics
