@@ -79,7 +79,7 @@ B_{5(7)} \\
 B_{5(8)} \\ 
 B_{5(9)} \end{bmatrix}$$
 
-$$month = \begin{bmatrix} seas_{jan} & seas_{feb} & seas_{mar} & seas_{apr} & season_{may} & seas_{jun} & seas_{jul} & season_{aug} & season_{sep} & season_{oct} & seas_{nov} & seas_{dec}  \end{bmatrix} $$
+$$month = \begin{bmatrix} seas_{jan} & seas_{feb} & seas_{mar} & seas_{apr} & seas_{may} & seas_{jun} & seas_{jul} & seas_{aug} & seas_{sep} & seas_{oct} & seas_{nov} & seas_{dec}  \end{bmatrix} $$
 
 Where NINO3.4 is the climate index describing changes in the El Niño Southern Oscillation (ENSO), DMI is the climate index describing changes in the Indian Ocean Dipole (IOD) and $H_{S,150,i(t)}$ is the monthly 150-day rolling mean of nearshore significant wave height at transect i.
 
