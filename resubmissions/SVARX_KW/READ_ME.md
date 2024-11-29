@@ -98,7 +98,7 @@ The SVARX model was applied to ***Task1.Short-term prediction***, ***Task2.Mediu
 [[1](([https://doi.org/10.1257/jep.15.4.101]))]
 Stock, J., & Watson, M. (2001) Vector Autoregressions. Journal of Economic Perspectives, 15 (4): 101–115.
 
-[[2]]
+[2]
 Seabold, Skipper, and Josef Perktold. “statsmodels: Econometric and statistical modeling with python.” Proceedings of the 9th Python in Science Conference. 2010.
 
 [[3](([https://doi.org/10.1016/0304-4076(92)90104-Y]))]
