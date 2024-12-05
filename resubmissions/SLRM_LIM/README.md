@@ -21,10 +21,10 @@ $$
 - $m_b$ : the beach slope
 
 ### Model implementation (Pre ShoreShop 2.0 WorkShop)
-The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Medium-term prediction***. The SLRM was implemented by calibrating free parameters ($μ$ and $k_r$) from the provided observation data. Since the sand grain size was given as one value, we implemented using the unified free parameters for all intersections. However, the model implementation for each intersection may be differentiated based on beach slope, wave data, etc.
+The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Medium-term prediction***. The SLRM was implemented by calibrating free parameters ($μ$ and $k_r$) from the provided observation data. *Since the sand grain size was given as one value, we implemented using the unified free parameters for all intersections.* However, the model implementation for each intersection may be differentiated based on beach slope, wave data, etc.
 
 ### Model implementation (Post ShoreShop 2.0 WorkShop)
-The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Medium-term prediction***. The SLRM was implemented by calibrating free parameters ($μ$ and $k_r$) from the provided observation data. After the workshop, the model implemented cross-shore evolution using optimal free parameters for each intersection. The model also implemented longshore sediment transport caused by the wave direction.
+The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Medium-term prediction***. The SLRM was implemented by calibrating free parameters ($μ$ and $k_r$) from the provided observation data. *After the workshop, the model implemented cross-shore evolution using optimal free parameters for each intersection. The model also implemented longshore sediment transport caused by the wave direction.*
 
 ### Model classification
 #### Model mechanics
