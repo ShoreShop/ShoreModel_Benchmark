@@ -33,7 +33,7 @@ The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Me
 - [ ] Data-Driven Models (DDM): use observational data to train regression models (e.g. machine learning, statistical downscaling).
 #### Model elements (multiple choices)
 - [x] Cross-shore: model the shoreline position for each transect independently.
-- [ ] Long-shore: incorporate the interaction of shoreline position across different transects.
+- [x] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
 
 ### References
