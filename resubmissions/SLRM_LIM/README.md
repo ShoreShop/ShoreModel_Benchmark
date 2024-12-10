@@ -36,6 +36,9 @@ The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Me
 - [x] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
 
+### Modeller
+- Changbin Lim, IHCantabria (art3440@naver.com; limc@unican.es)
+
 ### References
 [[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)]
 Lim, C., Kim, T.K. and Lee, J.L. (2022). Evolution model of shoreline position on sandy, wave-dominated beaches. *Geomorphology*. 108409.
