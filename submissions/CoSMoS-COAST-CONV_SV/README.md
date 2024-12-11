@@ -24,7 +24,7 @@ $$Corr$$ are the normalized root mean square error, the normalized standard devi
 
 During the calibration period, the model obtains a respectable RMS error of ~5.4 m (when compared against the smoothed shoreline data and averaged across all transects).  
 
-**External Matlab functions and toolboxes:**
+**Reqired external Matlab functions and toolboxes:**
 
 Some external functions/toolboxes are need to run the model and for plotting.  Download the following codes and place them in the "CoSMoS-COAST-CONV" folder of the repository (or somewhere in the Matlab path).
 
