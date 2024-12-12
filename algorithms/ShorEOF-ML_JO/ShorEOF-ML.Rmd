@@ -1,0 +1,647 @@
+---
+title: "Predicting Shoreline Change Using EOF Analysis and Machine Learning for ShoreShop2"
+author: "Julian O'Grady, CSIRO ORCID = 'http://orcid.org/0000-0003-3552-9193'"
+date: "`r Sys.Date()`"
+output: html_document 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=10, fig.height=7)
+```
+
+## Introduction
+
+This model is named **ShorEOF-ML** (pronounced "shore of ML") to reflect its focus on shoreline prediction using Empirical Orthogonal Functions (EOF) and Machine Learning (ML). 
+
+In this analysis, we explore the use of [**Principal Component Analysis (PCA)**](https://www.coastalwiki.org/wiki/Analysis_of_coastal_processes_with_Empirical_Orthogonal_Functions#Applications_of_Empirical_Orthogonal_Functions_.28EOF.29), specifically through **Empirical Orthogonal Functions (EOFs)**, to model and predict **shoreline change** [Short and Trembanis 2004](https://bioone.org/journals/journal-of-coastal-research/volume-20/issue-2/1551-5036(2004)020%5b0523%3aDSPIBO%5d2.0.CO%3b2/Decadal-Scale-Patterns-in-Beach-Oscillation-and-Rotation-Narrabeen-Beach/10.2112/1551-5036(2004)020[0523:DSPIBO]2.0.CO;2.short). The goal is to identify key patterns in coastal variability—both spatial (e.g., entire beach retreat/advance or shoreline rotation) and temporal (e.g. changing ocean conditions)—and use these patterns to create a predictive model of shoreline change driven by ocean conditions.
+
+**Update/corrected after reviewing first submission 1) to use the cost function used to compare modes 2) fix the wave directions 3) smooth the shoreline transects 4) use interpolate transect data 5) add month of the year as a training variable**
+
+## What is EOF Analysis?
+
+EOF analysis is a powerful tool for decomposing complex spatial-temporal data into simpler patterns. In this case, we use EOFs to capture the primary modes of shoreline variability. These modes may represent large-scale changes, such as:
+
+- **Beach retreat** (the entire shoreline moving landward for positive PC time series values or seaward for negative values).
+- **Shoreline rotation** (one side of the shoreline retreats while another advances and vice versa for negative values).
+
+By breaking down the shoreline data into its nine principal components (PCs), we can better understand how the coastline responds to environmental factors like wave energy and water levels. These PCs form the backbone of our model, summarizing the most significant patterns of variability in a compact and interpretable way.
+
+## Machine Learning to Predict Shoreline Change
+
+Once we have the principal components, the next step is to predict these PCs using **machine learning**. We use a variety of oceanographic inputs, such as wave height, wave direction, and water levels, to train a model that can predict future shoreline positions based on these inputs.
+
+The machine learning model attempts to forecast the **PC time series**, which can then be mapped back to the physical shoreline changes using the EOFs. While the predictions show some promise, we are still evaluating the overall accuracy and robustness of the model. The analysis identifies the important ocean factors that drive each of the PCs related to the EOF of shoreline retreat or rotation. 
+
+## Inspiration for the Analysis
+
+This work draws inspiration from a range of recent work in coastal modelling:
+
+- **James Thompson**'s [conference presentation](https://scholar.google.com.au/citations?view_op=view_citation&hl=en&user=4vwRMF8AAAAJ&sortby=pubdate&citation_for_view=4vwRMF8AAAAJ:ldfaerwXgEUC), which uses EOF analysis to link shoreline rotation with the **Southern Annular Mode** (a key climate variability driver).
+- **Emilio Echevarria**'s [conference presentation](https://ics2024.exordo.com/programme/presentation/175), which combines EOF-based data reduction with machine learning to predict shoreline change from **XBeach** hindcast numerical simulations.
+- Discussion with **Stephanie-Contardo** on using lag data (delta changes in conditions) for prediction.
+
+## Ongoing work
+
+While we are still refining the model, this approach offers a promising path forward for predicting coastal change. By combining EOF analysis with machine learning, we can capture complex patterns in coastal systems and link them to oceanographic drivers. The ongoing challenge is to ensure the accuracy and generalizability of the model, especially in the face of dynamic environmental conditions.
+
+Stay tuned as we continue to refine this method and explore its potential for coastal management and shoreline prediction!
+
+## load the packages
+
+```{r, echo=FALSE}
+require(gbm)
+require(terra)
+require(tidyverse)
+require(fields)
+require(xgboost)
+library(Metrics)  # For calculating RMSE, correlation, etc.
+
+```
+
+## Read in the data
+
+```{r}
+
+datadir = "../../datasets/"
+
+transects_coords = read.csv(paste0(datadir,"transects_coords.csv"))
+slope = read.csv(paste0(datadir,"slope.csv"))
+
+shorelines_groundtruth = read.csv(paste0(datadir,"shorelines/shorelines_groundtruth.csv"))
+shorelines_obs = read.csv(paste0(datadir,"shorelines/shorelines_obs.csv"))
+shorelines_target_short = read.csv(paste0(datadir,"shorelines/shorelines_target_short.csv"))
+shorelines_target_medium = read.csv(paste0(datadir,"shorelines/shorelines_target_medium.csv"))
+
+tide = read.csv(paste0(datadir,"tide/tide.csv"))
+
+sealevel_obs = read.csv(paste0(datadir,"sealevel/sealevel_obs.csv"))
+sealevel_proj = read.csv(paste0(datadir,"sealevel/sealevel_proj.csv"))
+
+Hs_hind = read.csv(paste0(datadir,"hindcast_waves/Hs.csv"))
+Tp_hind = read.csv(paste0(datadir,"hindcast_waves/Tp.csv"))
+Dir_hind = read.csv(paste0(datadir,"hindcast_waves/Dir.csv"))
+
+Hs_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Hs.csv"))
+Tp_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Tp.csv"))
+Dir_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Dir.csv"))
+
+Hs_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Hs.csv"))
+Tp_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Tp.csv"))
+Dir_rcp45 = read.csv(paste0(datadir,"forecast_waves/RCP45/Dir.csv"))
+
+Hs_Depth = 10 #m
+D50 =  0.3 #mm
+DoC =  11 # m
+S2c = 0.022 #
+dist2DoC = 11/0.022 # m
+
+```
+
+### Plot the transects
+
+```{r}
+nt =dim(transects_coords)[1]
+tm = as.matrix(transects_coords)
+trans_v = vect(lapply(1:nt, function(x) vect(rbind(as.numeric(tm[x,][c(2,3)]),
+                                                   as.numeric(tm[x,][c(4,5)])),"lines")))
+plot(trans_v)
+transects_coords 
+
+ng = dim(shorelines_obs)[1]
+d = c(0,400)
+gtx = array(dim = nt)
+gty = array(dim = nt)
+gt_l = list()
+for(j in 1:ng){
+  for(i in 1:nt){
+    gtx[i] = approx(d,as.numeric(tm[i,][c(2,4)]),shorelines_obs[j,i+1])$y
+    gty[i] = approx(d,as.numeric(tm[i,][c(3,5)]),shorelines_obs[j,i+1])$y
+  }
+  gt_l[[j]] = vect(cbind(gtx,gty),"lines")
+}
+obs_v = vect(gt_l)
+obs_v$Datetime = shorelines_obs$Datetime
+obs_v$year = as.numeric(substr(shorelines_obs$Datetime,1,4))
+plot(obs_v,"year",type = "continuous")
+
+ng = dim(shorelines_groundtruth)[1]
+gt_l = list()
+for(j in 1:ng){
+  for(i in 1:nt){
+    gtx[i] = approx(d,as.numeric(tm[i,][c(2,4)]),shorelines_groundtruth[j,i+1])$y
+    gty[i] = approx(d,as.numeric(tm[i,][c(3,5)]),shorelines_groundtruth[j,i+1])$y
+  }
+  gt_l[[j]] = vect(cbind(gtx,gty),"lines")
+}
+gt_v = vect(gt_l)
+gt_v$Datetime = shorelines_groundtruth$Datetime
+gt_v$year = as.numeric(substr(shorelines_groundtruth$Datetime,1,4))
+plot(gt_v,"year",type = "continuous")
+
+
+
+```
+
+```{r, smooth the transects}
+
+```
+
+## Check how similar the Hs and Dir between profiles using the Pearson correlation.
+
+```{r}
+#check if transect waves are Correlated
+cor(Hs_hind[,-1],use = "pairwise.complete.obs")
+cor(Dir_hind[,-1],use = "pairwise.complete.obs")
+
+
+```
+
+## Combine all the data
+
+
+```{r}
+s = which(as.Date(Hs_rcp45[,1]) > max(as.Date(Hs_hind[,1])))
+data_df = data.frame(date = as.Date(c(Hs_hind[,1],Hs_rcp45[,1][s])),
+                    Hs = apply(rbind(Hs_hind[,-1],Hs_rcp45[,-1][s,]),1,"mean"),
+                    Tp = apply(rbind(Tp_hind[,-1],Tp_rcp45[,-1][s,]),1,"mean"),
+                    Dir = apply(rbind(Dir_hind[,-1],Dir_rcp45[,-1][s,]),1,"mean"))
+
+
+data_df$Dir = data_df$Dir- median(data_df$Dir)
+data_df$Dir[data_df$Dir > 180] = data_df$Dir[data_df$Dir > 180] -360
+data_df$Dir = data_df$Dir- median(data_df$Dir)
+
+detrend_vector <- function(x) x - lm(x ~ seq_along(x))$fitted.values
+data_df$Dir = detrend_vector(data_df$Dir)
+
+data_df$Dir[abs(data_df$Dir) > 45] = 45 
+
+data_df <- data_df %>%
+  mutate(
+    Dir_x = sin((Dir) * pi / 180)*Hs,  # Convert direction to x component
+    Dir_y = cos(Dir * pi / 180)*Hs,   # Convert direction to y component
+    steepness = Hs/(Tp^2) # wave steepness (Hs/L))
+  )
+
+data_df <- data_df %>%
+  mutate(
+    # Lag features (previous time step)
+    lag_Hs = lag(Hs, 1),
+    lag_Tp = lag(Tp, 1),
+    lag_Dir_x = lag(Dir_x*Hs, 1),
+    lag_Dir_y = lag(Dir_y*Hs, 1),
+    lag_steepness = lag(Hs/(Tp^2),1)
+  )
+data_df <- data_df %>% filter(!is.na(lag_Hs))
+
+sealevel_p = sealevel_proj[,c(1,2)]
+names(sealevel_p) = names(sealevel_obs)
+sealevel_df = rbind(sealevel_obs,sealevel_p)
+sealevel_df$date = as.Date(paste0(sealevel_df$Year,"-06-01"))
+sealevel_df = rbind(sealevel_df[1,],sealevel_df)
+sealevel_df = rbind(sealevel_df,sealevel_df[dim(sealevel_df)[1],])
+
+sealevel_df$date[1] = as.Date(paste0(sealevel_df$Year[1],"-01-01"))
+nsl = dim(sealevel_df)[1]
+sealevel_df$date[nsl] = as.Date(paste0(sealevel_df$Year[nsl]+1,"-01-01"))
+sealevel_df$Year[nsl] = sealevel_df$Year[nsl]+1
+
+data_df$SL = approx(as.numeric(sealevel_df$date),sealevel_df$Sealevel..m.,as.numeric(data_df$date))$y
+
+tide$date = as.Date(tide$Datetime)
+
+data_df$tide = approx(as.numeric(tide$date),tide$Tide..m.,as.numeric(data_df$date))$y
+
+
+data_df$month = as.numeric(substr(data_df$date,6,7))
+```
+
+
+```{r}
+require(zoo)
+# Step 1: Fill NA values at the start and end using tidyr::fill
+shorelines_obs_i <- shorelines_obs[,-1] %>% fill(.direction = "downup")
+
+# Step 2: Interpolate remaining NA values using zoo::na.approx
+shorelines_obs_i <- as.data.frame(lapply(shorelines_obs_i, function(col) {
+  # Interpolate missing values
+  col <- zoo::na.approx(col, na.rm = FALSE)
+  # Fill any remaining boundary NA values with the closest non-NA value
+  col <- zoo::na.fill(col, fill = "extend")  # Forward and backward fill for boundary NAs
+  return(col)
+}))
+
+# Step 3: Apply smooth.spline to each column of the interpolated data
+tm = as.Date(shorelines_obs$Datetime)
+dx_1mSLR= 15
+dx = approx(as.numeric(data_df$date),dx_1mSLR*data_df$SL,as.numeric(tm))$y 
+
+si = data_df$date >= min(tm) & data_df$date <= max(tm) 
+tmi = data_df$date[si]
+
+shorelines_obs_s <- as.data.frame(lapply(shorelines_obs_i, function(col) {
+  smooth_result <- smooth.spline(x = as.numeric(tm),y = col, spar = 0.01)  # Adjust spar for smoothness (0-1)
+  out <- smooth_result$y
+  out <- predict(smooth_result,as.numeric(tmi))$y
+  #smooth_result <- ksmooth(x = as.numeric(tm), y = col, kernel = "normal", bandwidth = 50)
+return(out)
+}))
+par(mfrow = c(9,1),mar= c(1,2,0,0))
+for(i in  1:9){
+  plot(tm,shorelines_obs[,i+1])
+  points(tm,shorelines_obs[,i+1],col=2)
+  lines(tmi,shorelines_obs_s[,i])
+}
+
+
+shorelines_obs_raw <- shorelines_obs
+#shorelines_obs[,-1] <-  shorelines_obs_s # use the smoothed data
+shorelines_obs = cbind(tmi,shorelines_obs_s)
+names(shorelines_obs)[1] = "date"
+
+```
+
+# how do the transects change with SLR
+
+```{r}
+par(mfrow = c(3,3),mar = c(4,4,1,1)+0.01)
+dX_dWL = array(dim = 9)
+for(i in 1:9) {
+  x = approx(as.numeric(data_df$date),data_df$SL,as.numeric(shorelines_obs$date))$y 
+  y = shorelines_obs[,i+1]
+  plot(x,y,xlim = c(0,.2))
+  m = lm(y~x)
+  dX_dWL[i] = round(m$coefficients[2],2)
+  abline(m,col=2)
+  legend("topright",legend = dX_dWL[i])
+}
+dx_1mSLR = median(c(1/tan(slope$Slope),dX_dWL))
+
+
+data_df$SL[si] = detrend_vector(data_df$SL)
+```
+
+## Fit the EOFs by centreing the data, then plot a validation of the EOF reconstruction
+
+
+```{r}
+
+shorelines_obs$date <- as.Date(shorelines_obs[, 1], format = "%Y-%m-%d") 
+# Convert the first column (date) to Date format (assuming it’s in the first column)
+shorelines_obs$date <- as.Date(shorelines_obs[, 1], format = "%Y-%m-%d")  # Adjust format as necessary
+
+# Step 2: Ensure shorelines_data only contains numeric columns (excluding date)
+shorelines_data <- shorelines_obs %>% select_if(is.numeric)
+
+# Step 3: Center the numeric data by subtracting the mean of each column (transect data)
+shorelines_centered <- scale(shorelines_data, center = TRUE, scale = FALSE)
+
+# Step 4: Check for and handle missing or infinite values
+# Replace missing values (NA) with the column mean
+shorelines_centered[is.na(shorelines_centered)] <- apply(shorelines_centered, 2, function(col) mean(col, na.rm = TRUE))
+
+# Handle infinite values by replacing them with the column mean
+shorelines_centered[is.infinite(shorelines_centered)] <- apply(shorelines_centered, 2, function(col) mean(col[is.finite(col)], na.rm = TRUE))
+
+center_values <- attr(shorelines_centered, "scaled:center")
+
+
+# Perform SVD on the centered data
+svd_result <- svd(shorelines_centered)
+
+# Extract the EOFs (spatial patterns) and PCs (time series)
+EOFs <- svd_result$v   # Eigenvectors corresponding to spatial patterns (EOFs)
+PCs <- svd_result$u     # PCs are stored in the 'u' matrix (time series)
+D <- diag(svd_result$d) # Diagonal matrix of singular values
+
+# Reconstruct the original data using all PCs and EOFs
+# The full reconstruction formula should use the singular values as well
+rcon_full <- PCs %*% D %*% t(EOFs)
+
+# If shorelines_centered was centered (mean subtracted), add the mean back
+rcon_full <- rcon_full #+ attr(shorelines_centered, "scaled:center")
+
+# Compare the first column of the reconstructed data with the original centered data
+plot(rcon_full[, 1], shorelines_centered[, 1],
+     xlab = "Reconstructed Data (First Transect)",
+     ylab = "Original Centered Data (First Transect)",
+     main = "Original vs Reconstructed Data",
+     pch = 19, cex = 0.6,asp=1)
+abline(0, 1, col = "red", lwd = 2)  # Perfect prediction line
+
+
+PCs_with_date <- data.frame(date = shorelines_obs$date, PCs)
+
+names(PCs_with_date) = c("date",paste("PC",1:nt,sep=""))
+
+data_with_PCs <- merge(data_df, PCs_with_date, by = "date")
+
+data_with_PCs_trans = merge(data_with_PCs,shorelines_obs,by = "date")
+
+```
+
+## Plot the spatial EOFs
+
+The first EOF is all positive, the second shows a rotated beach, the third looks like a standing wave with two nodes, and the forth has three nodes.
+
+```{r}
+# Define the custom color palette (red -> white -> blue, centered at zero)
+custom_palette <- colorRampPalette(c("blue", "white", "red"))(100)
+
+# Get the range of values in EOFs to center the colors around zero
+zlim <- range(EOFs)
+
+# Define x and y axis values from 1 to 9 (assuming 9x9 grid for EOFs)
+x_vals <- 1:9
+y_vals <- 1:9
+
+# Plot the first EOF with x and y axes ranging from 1 to 9
+image.plot(x_vals, y_vals, EOFs,  # Reshape EOF to a 9x9 grid
+           col = custom_palette,                        # Custom color palette
+           xlab = "transect X", 
+           ylab = "EOF", 
+           main = "EOF 1", 
+           zlim = zlim)                                 # Ensure color scale is centered on zero
+  
+plot(EOFs[,1],ylim = c(-1,1),type="l",ylab = "amplitude",xlab = "transect")
+for(i in 2:4) lines(EOFs[,i],col = i)
+grid()
+legend("topleft",paste0("EOF",1:4),col=1:4,lty=1,ncol=4)
+```
+
+## Use the ML model to fit the ocean conditions to the PC for a training **subset** and then predict the shoreline for the remainder of the observed shorelines.
+
+```{r}
+# Custom loss function with the corrected formula
+custom_loss <- function(preds, dtrain) {
+  # Get the actual labels (observations/targets)
+  labels <- getinfo(dtrain, "label")
+  
+  # Calculate the standard deviation of the target (observation)
+  std_target <- sd(labels)
+  
+  if (std_target == 0) {
+    stop("The standard deviation of the labels (target) is zero. Correlation cannot be computed.")
+  }
+  
+  # Compute RMSE and normalize by the standard deviation of the target
+  rmse_value <- rmse(labels, preds)
+  rmse_norm <- rmse_value / std_target
+  
+  # Compute standard deviation of predictions and normalize it
+  std_pred <- sd(preds)
+  
+  # Handle case where the std of predictions is zero
+  if (std_pred == 0) {
+    std_norm <- 0  # Assign normalized STD as 0 if no variance in predictions
+  } else {
+    std_norm <- std_pred / std_target
+  }
+  
+  # Compute correlation between predictions and actual values
+  if (std_pred == 0 || std_target == 0) {
+    corr_value <- 0  # Assign correlation as 0 if no variance in either preds or labels
+  } else {
+    corr_value <- cor(preds, labels)
+  }
+  
+  # Compute loss L_i with the corrected formula
+  Li <- sqrt((0 - rmse_norm)^2 + (1 - corr_value)^2 + (1 - std_norm)^2)
+  
+  # For gradient (just a placeholder, real implementation needs analytical gradients)
+  grad <- 2 * (preds - labels)  # Simplified gradient placeholder
+  hess <- rep(1, length(preds))  # Simplified hessian placeholder
+  
+  return(list(grad = grad, hess = hess))
+}
+```
+
+
+```{r}
+
+# Split the data into training and test sets
+set.seed(123)  # For reproducibility
+train_indices <- sample(1:nrow(data_with_PCs), 0.8 * nrow(data_with_PCs))
+train_data <- data_with_PCs[train_indices, ]
+test_data <- data_with_PCs[-train_indices, ]
+
+shorelines_test = data_with_PCs_trans[-train_indices,]
+
+# Initialize a data.frame to store the predictions for all 9 PCs
+predicted_PCs_xgb <- data.frame(matrix(ncol = 9, nrow = nrow(test_data)))
+colnames(predicted_PCs_xgb) <- paste0("PC", 1:9)  # Name the columns PC1, PC2, ..., PC9
+
+# Loop over all 9 PCs (PC1 to PC9) to train and predict each one using XGBoost
+imp.l = list()
+
+all_pcs <- paste0("PC", 1:9)
+
+# Loop over all 9 PCs (PC1 to PC9) to train and predict each one using XGBoost
+for (i in 1:9) {
+  
+  # Get the current PC name (PC1, PC2, ..., PC9)
+  pc_name <- paste0("PC", i)
+  
+  # Prepare the data for XGBoost: remove all other PCs and the date column from the feature matrix
+  train_matrix <- as.matrix(train_data[, !names(train_data) %in% c(all_pcs, "date")])
+  test_matrix  <- as.matrix(test_data[, !names(test_data) %in% c(all_pcs, "date")])
+  
+  # Create DMatrix for XGBoost
+  dtrain <- xgb.DMatrix(data = train_matrix, label = train_data[[pc_name]])
+  dtest  <- xgb.DMatrix(data = test_matrix)
+  
+  # Train the XGBoost model for the current PC
+  xgb_model <- xgboost(
+    data = dtrain,
+    nrounds = 1000,              # Number of boosting rounds
+    objective = custom_loss, #"reg:absoluteerror",  # Regression task
+    max_depth = 4,               # Depth of each tree
+    eta = 0.01,                  # Learning rate (shrinkage)
+    verbose = 0                  # Suppress output
+  )
+   
+  # Predict the current PC on the test data
+  predicted_pc_xgb <- predict(xgb_model, newdata = dtest)
+  
+  # Store the predictions in the corresponding column of the data.frame
+  predicted_PCs_xgb[, pc_name] <- predicted_pc_xgb
+  
+  importance_matrix <- xgb.importance(model = xgb_model)
+  imp.l[[i]] = importance_matrix
+}
+
+# View the first few rows of predicted PCs
+#head(predicted_PCs_xgb)
+
+par(mfrow = c(3,3),mar = c(4,4,1,1)+0.01)
+for(i in 1:9) plot(predicted_PCs_xgb[[paste0("PC",i)]],test_data[[paste0("PC",i)]],asp=1,xlab = "pred_PC",ylab = "Obs_PC")
+
+rcon_pred <- as.matrix(predicted_PCs_xgb) %*% D %*% t(EOFs)
+
+r2 = round(sapply(1:9, function(i) cor(rcon_pred[,i],shorelines_test[[paste0("Transect",i)]],use = "pairwise.complete.obs"))^2,2)
+
+rmse <- function(actual, predicted) {
+  sqrt(mean((actual - predicted) ^ 2,na.rm=TRUE))
+}
+
+fitscale = sapply(1:9, function(i) mean((shorelines_test[[paste0("Transect",i)]]-center_values[i])/
+                                   (rcon_pred[,i]),na.rm=TRUE))
+RMSE = round(sapply(1:9, function(i) rmse(shorelines_test[[paste0("Transect",i)]],rcon_pred[,i]+center_values[i])),2)
+
+
+par(mfrow = c(3,3),mar = c(4,4,1,1)+0.01)
+for(i in 1:9) plot(rcon_pred[,i],shorelines_test[[paste0("Transect",i)]],asp=1,main = paste0("transect ",i," r2=",r2[i]),xlab = "pred_trans",ylab = "Obs_trans")
+```
+
+## plot the importance of each factor when fitting a **subset** of the dataset to test the model
+
+```{r, }
+par(mfrow = c(3,3),mar = c(3,3,1,1)+0.01)
+
+for(i in 1:9) xgb.plot.importance(imp.l[[i]])
+
+```
+## Use the ML model to fit the ocean conditions to the PC for **all data**
+
+```{r}
+train_data_full <- data_with_PCs
+all_pcs <- paste0("PC", 1:9)
+xgb_models_l = list() 
+# Loop over all 9 PCs (PC1 to PC9) to train and predict each one using XGBoost
+imp_all.l = list()
+for (i in 1:9) {
+  
+  # Get the current PC name (PC1, PC2, ..., PC9)
+  pc_name <- paste0("PC", i)
+  
+  # Prepare the data for XGBoost: remove all other PCs and the date column from the feature matrix
+  train_matrix <- as.matrix(train_data_full[, !names(train_data_full) %in% c(all_pcs, "date")])
+
+  # Create DMatrix for XGBoost
+  dtrain <- xgb.DMatrix(data = train_matrix, label = train_data_full[[pc_name]])
+
+  # Train the XGBoost model for the current PC
+  xgb_model <- xgboost(
+    data = dtrain,
+    nrounds = 1000,              # Number of boosting rounds
+    objective = custom_loss, #"reg:absoluteerror",  # Regression task
+    max_depth = 4,               # Depth of each tree
+    eta = 0.01,                  # Learning rate (shrinkage)
+    verbose = 0                  # Suppress output
+  )
+  
+  xgb_models_l[[i]] = xgb_model
+  importance_matrix <- xgb.importance(model = xgb_model)
+  imp_all.l[[i]] = importance_matrix
+
+  
+}
+
+
+```
+
+## plot the importance of each factor when fitting **all** data
+
+```{r, }
+par(mfrow = c(3,3),mar = c(3,3,1,1)+0.01)
+
+for(i in 1:9) xgb.plot.importance(imp_all.l[[i]])
+
+```
+
+
+## Predict the short medium and long term daily transect data
+
+```{r}
+# Split the data into training and test sets
+set.seed(123)  # For reproducibility
+
+period_dates = as.Date(c("2019-01-01","2023-12-31"))
+
+output_csv = function(period_dates,filename){
+
+  test_data <- data_df[data_df$date >= period_dates[1] &  
+                       data_df$date <= period_dates[2] , ]
+  
+  shorelines_test = data_with_PCs_trans[-train_indices,]
+  
+  # Initialize a data.frame to store the predictions for all 9 PCs
+  predicted_PCs_xgb <- data.frame(matrix(ncol = 9, nrow = nrow(test_data)))
+  colnames(predicted_PCs_xgb) <- paste0("PC", 1:9)  # Name the columns PC1, PC2, ..., PC9
+  
+  all_pcs <- paste0("PC", 1:9)
+  
+  # Loop over all 9 PCs (PC1 to PC9) to train and predict each one using XGBoost
+  for (i in 1:9) {
+    
+    # Get the current PC name (PC1, PC2, ..., PC9)
+    pc_name <- paste0("PC", i)
+    
+    # Prepare the data for XGBoost: remove all other PCs and the date column from the feature matrix
+    test_matrix  <- as.matrix(test_data[, !names(test_data) %in% c(all_pcs, "date")])
+    
+    # Create DMatrix for XGBoost
+    dtest  <- xgb.DMatrix(data = test_matrix)
+    
+    # Train the XGBoost model for the current PC
+    xgb_model <- xgb_models_l[[i]]
+     
+    # Predict the current PC on the test data
+    predicted_pc_xgb <- predict(xgb_model, newdata = dtest)
+    
+    # Store the predictions in the corresponding column of the data.frame
+    predicted_PCs_xgb[, pc_name] <- predicted_pc_xgb
+  }
+  
+  # View the first few rows of predicted PCs
+  #head(predicted_PCs_xgb)
+  
+  rcon_pred <- as.matrix(predicted_PCs_xgb) %*% D %*% t(EOFs)
+  
+  for(i in 1:9) rcon_pred[,i] = rcon_pred[,i] + center_values[i] #+ test_data$SL*dx_1mSLR
+  
+  out = as.data.frame(cbind(format(test_data$date,"%Y-%m-%d"),rcon_pred))
+  
+  
+  names(out) = c("Datetime",paste0("Transect",1:9))
+  write.csv(out,file = filename,row.names = FALSE,quote = FALSE)
+}
+
+output_csv(period_dates= as.Date(c("2019-01-01","2023-12-31")),filename = "../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_short.csv")
+output_csv(period_dates= as.Date(c("1951-05-01","1998-12-31")),filename = "../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_medium.csv")
+output_csv(period_dates= as.Date(c("2019-01-01","2100-12-31")),filename = "../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_long.csv")
+
+output_csv(period_dates= as.Date(c("1999-02-17","2018-12-30")),filename = "../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_obs.csv")
+
+```
+
+
+```{r}
+shorelines_prediction_obs = read.csv("../../submissions/ShorEOF-ML_corrected_JO/shorelines_prediction_obs.csv")
+shorelines_prediction_obs$date = as.Date(shorelines_prediction_obs$Datetime)
+
+par(mfrow = c(3,1),mar = c(3,3,1,1)+0.01)
+plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect2,type = "l",ylim = c(160,240))
+lines(shorelines_obs$date,shorelines_obs$Transect2,col=4,lwd=2)
+points(as.Date(shorelines_obs_raw$Datetime),shorelines_obs_raw$Transect2,col="red",pch=19)
+legend("topleft","Transect 2")
+plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect5,type = "l",ylim = c(160,220))
+lines(shorelines_obs$date,shorelines_obs$Transect5,col=4,lwd=2)
+points(as.Date(shorelines_obs_raw$Datetime),shorelines_obs_raw$Transect5,col="red",pch=19)
+legend("topleft","Transect 5")
+plot(shorelines_prediction_obs$date,shorelines_prediction_obs$Transect8,type = "l",ylim = c(140,220))
+lines(shorelines_obs$date,shorelines_obs$Transect8,col=4,lwd=2)
+points(as.Date(shorelines_obs_raw$Datetime),shorelines_obs_raw$Transect8,col="red",pch=19)
+legend("topleft","Transect 8")
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+

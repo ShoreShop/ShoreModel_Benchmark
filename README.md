@@ -1,7 +1,18 @@
 # ShoreShop 2.0: Advancements in Shoreline Change Prediction Models
 This repository is a testbed for shoreline modelling algorithms. It contains all benchmark datasets, input files, codes, and results.
+## ShoreShop 2.0 updates
+:triangular_flag_on_post:**News** (2024.11) Additional datasets including [beach_profile](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), [bathymetry](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/bathymetry.tif), [transect_coords (real)](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), [nearshore wave coords](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/nearshorewave_coords.geojson), and [smoothed shorelines](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/shorelines/shorelines_obs_smoothed.csv) have been released for model resubmission.Please refer to [Input data (Post workshop)](#data2) for details.
 
-## Background and Objectives
+:triangular_flag_on_post:**News** (2024.11) Based on the discussion during the workshop, resubmission has been opened. All submissions after ShoreShop 2.0 should be placed in the resubmit folder. Please refer to [How to submit](#submit) for details.
+
+:triangular_flag_on_post:**News** (2024.10) The ShoreShop 2.0 workshop was sucessfully held at WRL, Sydney, Australia from 28th Oct to 31st Oct. Leader board has been released.
+
+## Leaderboard for initial submissions
+<img src="figures/Short/TaylorDiagram.jpg" height="400">
+<img src="figures/Medium_pre1986/TaylorDiagram.jpg" height="400">
+<img src="figures/Medium_post1986/TaylorDiagram.jpg" height="400">
+
+## Background and Objectives <a name="Background"></a>
 ### Background
 Shoreline change prediction has witnessed the evolution of both hybrid and data-driven models, offering valuable insights into how coastlines respond to varying wave conditions across different timescales. Building on the success of the ShoreShop 1.0 ([Blind testing of shoreline evolution models](https://www.nature.com/articles/s41598-020-59018-y)) in 2018, which tested 19 shoreline models in predicting shoreline positions over a four-year period, ShoreShop 2.0 aims to further explore and showcase the evolution of predictive methods.
 ### Objectives
@@ -47,9 +58,6 @@ $$ RMSE_{norm} = \frac{RMSE_{pred}}{STD_{targ}},   STD_{norm} = \frac{STD_{pred}
 $$ \mathcal{L_i} = \sqrt{(0-RMSE_{norm})^2+(1-Corr)^2+(1-STD_{norm})^2} $$
   
 $$ \mathcal{L_avg} = \frac{1}{n} \sum_{i=1}^n \mathcal{L_i} $$
-  
-  
-<img src="figures/TaylorDiagram.jpg" width="1500">
 
 ### Modeling rules
 - Participants should not attempt to locate and retrieve extra shoreline information beyond that provided for Beach_X.
@@ -59,8 +67,17 @@ $$ \mathcal{L_avg} = \frac{1}{n} \sum_{i=1}^n \mathcal{L_i} $$
 - Code submission is optional.
 - Each participant can have multiple submissions.
 
-## Input data
-The following files are provided for shoreline predictions.
+## Input data (Post workshop) <a name="data2"></a>
+After the workshop, the following files are provided as extra inputs for resubmission.:
+- `transect_coords.geojson`: The real coordinates for transects.
+- `nearshorewave_coords.geojson`: The real coordinates for nearshore wave points.
+- `shorelines_obs_smoothed.csv`: The smoothed shoreline position between 1999 and 2018 for model calibration/training for each transect, following the method used by [CoSMoS-COAST-CONV](https://github.com/ShoreShop/ShoreModel_Benchmark/tree/main/algorithms/CoSMoS-COAST-CONV).
+- `bathymetry.tif`: The bathymetry data from Lidar survey.
+- `beach_profile.csv`: Beach profile data from photogrametry and Lidar survey retrieved from [NSW Beach Profile Database](http://www.nswbpd.wrl.unsw.edu.au/photogrammetry/nsw/).
+
+
+## Input data (Prior workshop) <a name="data1"></a>
+The following files are initially provided for shoreline predictions.
 - `transects_coords.csv`: Coordinates for transects.
 - `slope.csv`: Beach-face slope for transects.
 - `shorelines_obs.csv`: Shoreline position between 1999 and 2018 for model calibration/training for each transect. 
@@ -116,7 +133,8 @@ The projection data is from NASA's [SEA LEVEL PROJECTION TOOL](https://sealevel.
 <img src="figures/SLR_ts.jpg" width="500">
 
 ### Bathymetry and slope data
-Similar to the vast majority of beaches worldwide, Beach_X does not have nearshore bathymetry data available. Instead, `slope.csv` contains the beach-face slope for each transect derived from SDS with the [CoastSat.slope](https://github.com/kvos/CoastSat.slope) tool. Therefore, participants are challenged to adapt their models accordingly to address the model applicability under data poor scenarios with only freely accessible datasets.
+`slope.csv` contains the beach-face slope for each transect derived from SDS with the [CoastSat.slope](https://github.com/kvos/CoastSat.slope) tool. 
+
 
 ## Outputs and Deliverables
 
@@ -140,14 +158,14 @@ Participants should copy and check the boxes below in the model description to a
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
  
 
-## How to submit
+## How to submit (Resubmission after ShoreShop2.0)<a name="submit"></a>
 
 To submit your results, please:
 
 1. [fork](https://github.com/yongjingmao/ShoreModel_Benchmark/fork) this repository;
    - Begin by forking the original workshop repository to your GitHub account.
 2. Create a Submission Folder:
-   - Inside the submission folder, create a subfolder named **"ModelName_AuthorInitials"**. Replace ModelName with the name of your model and AuthorInitials with your initials.
+   - Inside the resubmission folder, create a subfolder named **"ModelName_AuthorInitials"**. Replace ModelName with the name of your model and AuthorInitials with your initials.
 3. Place Your Prediction Files:
    - Copy your completed prediction files (`shorelines_prediction_short.csv`, `shorelines_prediction_medium.csv` and/or `shorelines_prediction_long.csv`) into the subfolder created in Step 2.
 4. Provide Your Model Description (an example is [here](https://github.com/yongjingmao/ShoreModel_Benchmark/blob/main/submissions/ShoreFor/README.md)):
@@ -164,7 +182,7 @@ If you need any help with this submission, please post on the [GitHub Issues](ht
 
 ### Deadline
 
-The deadline for the submission is the end of the year (**01/Oct/2024**).
+The deadline for the resubmission is **17/Dec/2024**.
 
 ## Questions and Comments
 

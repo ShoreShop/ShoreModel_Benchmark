@@ -1,12 +1,28 @@
 
 Notes.docx
-datasets/shorelines/shorelines_target_hidden.csv
 algorithms/ShoreFor/__pycache__/shorefor.cpython-311.pyc
-datasets/shorelines/shorelines_hidden_long.csv
-datasets/shorelines/shorelines_hidden_medium.csv
-datasets/shorelines/shorelines_hidden_short.csv
-/algorithms/ShoreFor/figures
 /submissions/ShoreFor/retrain
 /datasets/hindcast_waves/ERA5
 /datasets/hindcast_waves/CAWCR
 algorithms/ShoreFor/check_results.py
+.Rproj.user
+/algorithms/ShoreFor/figures
+/.ipynb_checkpoints
+Results summary.docx
+/src/__pycache__
+datasets/shorelines/shorelines_hidden_short.csv
+datasets/shorelines/shorelines_hidden_medium.csv
+algorithms/CoSMoS-COAST-CONV/fconv2.m
+algorithms/CoSMoS-COAST-CONV/smoothn.m
+datasets/bathymetry/bathymetry.tif.aux.xml
+worshop summary.docx
+/datasets/hidden
+Figure1.ipynb
+Figure2.ipynb
+Figure5.ipynb
+Figure6.ipynb
+figures/model_loss.csv
+/figures/Paper
+datasets/hindcast_waves/Spec_ERA5_sydney.nc
+Figure3.ipynb
+Figure4.ipynb

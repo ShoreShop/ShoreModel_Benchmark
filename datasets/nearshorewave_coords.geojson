@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"name": "nearshorewave_coords",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::28356" } },
+"features": [
+{ "type": "Feature", "properties": { "TransectId": "Transect1", "Labels": "Point", "Distances": 306.3441525882119, "Angles": 75.586287326573341 }, "geometry": { "type": "Point", "coordinates": [ 342728.498390013643075, 6261920.365477565675974 ] } },
+{ "type": "Feature", "properties": { "TransectId": "Transect2", "Labels": "Point", "Distances": 314.41588467911845, "Angles": 81.529228577803252 }, "geometry": { "type": "Point", "coordinates": [ 342701.139061304449569, 6261878.339851106517017 ] } },
+{ "type": "Feature", "properties": { "TransectId": "Transect3", "Labels": "Point", "Distances": 308.44492201458741, "Angles": 86.045037943171437 }, "geometry": { "type": "Point", "coordinates": [ 342660.393454508914147, 6261831.219421092420816 ] } },
+{ "type": "Feature", "properties": { "TransectId": "Transect4", "Labels": "Point", "Distances": 297.54204335278922, "Angles": 87.572061602477618 }, "geometry": { "type": "Point", "coordinates": [ 342604.746275201847311, 6261766.866004263050854 ] } },
+{ "type": "Feature", "properties": { "TransectId": "Transect5", "Labels": "Point", "Distances": 282.25262742891482, "Angles": 87.360670713540173 }, "geometry": { "type": "Point", "coordinates": [ 342536.132933149405289, 6261687.517813463695347 ] } },
+{ "type": "Feature", "properties": { "TransectId": "Transect6", "Labels": "Point", "Distances": 277.50050213811858, "Angles": 87.885111833630432 }, "geometry": { "type": "Point", "coordinates": [ 342480.227481489011552, 6261614.865169710479677 ] } },
+{ "type": "Feature", "properties": { "TransectId": "Transect7", "Labels": "Point", "Distances": 285.37110378885126, "Angles": 88.189506024818115 }, "geometry": { "type": "Point", "coordinates": [ 342455.176535226404667, 6261556.794700746424496 ] } },
+{ "type": "Feature", "properties": { "TransectId": "Transect8", "Labels": "Point", "Distances": 287.77914828694782, "Angles": 85.425382638385784 }, "geometry": { "type": "Point", "coordinates": [ 342434.830316657782532, 6261509.630236715078354 ] } },
+{ "type": "Feature", "properties": { "TransectId": "Transect9", "Labels": "Point", "Distances": 281.55398886121543, "Angles": 85.467870995487047 }, "geometry": { "type": "Point", "coordinates": [ 342406.654039214772638, 6261444.314953706227243 ] } }
+]
+}
