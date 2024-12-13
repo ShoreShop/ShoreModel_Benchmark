@@ -4,9 +4,10 @@
 CNN-LSTM hybrid neural networks can be viewed as an array of two submodels: a CNN unit followed by an LSTM one. The CNN component is used to extract features of the input data, while the LSTM component is used to learn how those features change with time. The architecture as presented in Gomez-de la Pena et al. [[1](https://doi.org/10.5194/esurf-11-1145-2023)] was used, where the CNN unit consists of two convolutional layers followed by a max-pooling layer. Dropout was then applied as a regularization techinique. The distilled feature vector obtained with the CNN unit was then used in the LSTM layer.
 
 The changes in this revised version are:
-	-The learning rate and dropout hyperparameters were optimized using an open source hyperparameter optimization framework [[2](https://optuna.org/)]. 
-	-The loss function was changed to the Shoreshop metric. 
-	-Input smoothing with Garcia (2010) smoother [[3](https://doi.org/10.1016/j.csda.2009.09.020)], following the smoothing carried out by Sean Vitousek in CoSMoS-Conv.
+
+- The learning rate and dropout hyperparameters were optimized using an open source hyperparameter optimization framework [[2](https://optuna.org/)]. 
+- The loss function was changed to the Shoreshop metric. 
+- Input smoothing with Garcia (2010) smoother [[3](https://doi.org/10.1016/j.csda.2009.09.020)], following the smoothing carried out by Sean Vitousek in CoSMoS-Conv.
 
 
 ### Model implementation
