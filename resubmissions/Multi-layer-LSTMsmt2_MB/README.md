@@ -1,6 +1,6 @@
 ## Multiple layer LSTM network for discrete data
 ### Resubmission using smoothed shorelines
-This model was trained using **all** the smoothed shoreline positions between 1999 and 2018. The other settings are the same as those for Multi-layer LSTM below, which was submitted first.
+This model was trained using **all the smoothed shoreline positions** between 1999 and 2018. The other settings are the same as those for Multi-layer LSTM below, which was submitted first.
 
 ### Model description
 **LSTM (Long Short-Term Memory) network** is one of the recurrent neural networks (RNNs) specifically designed to learn long-term dependencies in sequential data. LSTM networks have a memory cell that can retain information for extended periods, making it exceptionally well-suited for tasks involving sequences such as natural language processing, speech recognition, and time series forecasting. LSTM networks employ gates to control the flow of information into and out of the memory cell: input, forget, and output gates. LSTMs are more powerful tool for modeling sequential data than traditional RNNs.
