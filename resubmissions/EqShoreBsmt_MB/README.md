@@ -1,6 +1,6 @@
 ## Equilibrium shoreline change model with Bruun rule influence
 ### Resubmission using smoothed shorelines
-This model was calibrated using smoothe shoreline positions between 1999 and 2018.
+This model was calibrated using smoothe shoreline positions between 1999 and 2018. The other settings are the same as those for EqShoreB, which was submitted first.
 
 ### Model description
 Equilibrium shoreline change model with Bruun rule influence (provisionally, **EqShoreB**) is an equilibrium-based cross-shore shoreline change model presented by by Banno et al. (2015). This model is based on the concept of an equilibrium shoreline change model, and the model calculates shoreline changes from disequilibrium between current shoreline position and the equilibrium shoreline position, which is determined uniquely by waves and sea level. The square root of wave energy flux, that is H*T<sup>0.5</sup>, is used as the wave force term.
