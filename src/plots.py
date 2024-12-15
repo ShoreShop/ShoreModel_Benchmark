@@ -98,7 +98,7 @@ def plot_ts(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_pred=None, t
 
         # Add legend and ylabel for first plot
         if i == 2: 
-            ax.legend(ncol=3, bbox_to_anchor=[1, -0.15], loc=1,
+            ax.legend(ncol=4, bbox_to_anchor=[1, -0.15], loc=1,
                       edgecolor='k', fontsize=8);
             ax.set_ylabel('Shoreline Position (m)')
             
@@ -366,7 +366,7 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
     legend_handles.append(mlines.Line2D([], [],
                       color=STYLES_RMS['color'],
                       linestyle=STYLES_RMS['linestyle'],
-                      label="Normalized CRMSE"))
+                      label="Normalized CRMSE Grid"))
     legend_handles.append(mlines.Line2D([], [],
                   color='red',
                   linestyle=STYLES_RMS['linestyle'],

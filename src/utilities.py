@@ -30,7 +30,7 @@ def cal_metrics(df_ref, df_model, norm=True):
     
     # Extract the model result at time points fo reference
     df_ref = df_ref.loc[(~df_ref.isna()).any(1), :]
-    df_model = df_model.reindex(df_ref.index, method='Nearest')
+    df_model = df_model.resample('1D').interpolate().reindex(df_ref.index, method='nearest')
     #m_idx = df_model.index.intersection(df_ref.index)
 
     # Take average for transects
