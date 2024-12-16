@@ -1,6 +1,7 @@
 # ShoreShop 2.0: Advancements in Shoreline Change Prediction Models
 This repository is a testbed for shoreline modelling algorithms. It contains all benchmark datasets, input files, codes, and results.
 ## ShoreShop 2.0 updates
+:triangular_flag_on_post:**News** (2024.12) The leaderboard has been updated to incorporate resubmissions.
 :triangular_flag_on_post:**News** (2024.11) Additional datasets including [beach_profile](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), [bathymetry](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/bathymetry.tif), [transect_coords (real)](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/beach_profile.csv), [nearshore wave coords](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/nearshorewave_coords.geojson), and [smoothed shorelines](https://github.com/ShoreShop/ShoreModel_Benchmark/blob/main/datasets/shorelines/shorelines_obs_smoothed.csv) have been released for model resubmission.Please refer to [Input data (Post workshop)](#data2) for details.
 
 :triangular_flag_on_post:**News** (2024.11) Based on the discussion during the workshop, resubmission has been opened. All submissions after ShoreShop 2.0 should be placed in the resubmit folder. Please refer to [How to submit](#submit) for details.
