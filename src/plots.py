@@ -85,13 +85,14 @@ def plot_ts(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_pred=None, t
             n_items = len(dfs_pred.keys())
            
             for j, model in enumerate(dfs_pred.keys()):
-                if loss is None:
-                    model_label =  model
-                else:
-                    model_label = '{} (Loss:{:.2f})'.format(model, loss[model])
-                ax.plot(dfs_pred[model].index, dfs_pred[model][tran_id], 
-                        linestyle='-', color=colors[model], label=model_label, 
-                        zorder=zorders[model], alpha=1)
+                if '*' not in model:
+                    if loss is None:
+                        model_label =  model
+                    else:
+                        model_label = '{} (Loss:{:.2f})'.format(model, loss[model])
+                    ax.plot(dfs_pred[model].index, dfs_pred[model][tran_id], 
+                            linestyle='-', color=colors[model], label=model_label, 
+                            zorder=zorders[model], alpha=1)
                 
             ax.set_xlim(dfs_pred[model].index[0], dfs_pred[model].index[-1])
 
@@ -176,18 +177,19 @@ def plot_ts_interactive(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_
         # Plot prediction
         if dfs_pred is not None:
             for model in dfs_pred.keys():
-                if loss is None:
-                    model_label =  model
-                else:
-                    model_label = '{} (Loss:{:.2f})'.format(model, loss[model])
-                color_hex = mcolors.to_hex(colors[model])  # Convert RGBA to hex
-                fig.add_trace(
-                    go.Scatter(x=dfs_pred[model].index, y=dfs_pred[model][tran_id], 
-                               mode='lines', name=f'{model_label}', 
-                               line=dict(color=color_hex),
-                               legendgroup=f'{model}', showlegend=show_legend, visible='legendonly'),
-                    row=i+1, col=1
-                )
+                if '*' not in model:
+                    if loss is None:
+                        model_label =  model
+                    else:
+                        model_label = '{} (Loss:{:.2f})'.format(model, loss[model])
+                    color_hex = mcolors.to_hex(colors[model])  # Convert RGBA to hex
+                    fig.add_trace(
+                        go.Scatter(x=dfs_pred[model].index, y=dfs_pred[model][tran_id], 
+                                   mode='lines', name=f'{model_label}', 
+                                   line=dict(color=color_hex),
+                                   legendgroup=f'{model}', showlegend=show_legend, visible='legendonly'),
+                        row=i+1, col=1
+                    )
 
     # Update layout for better visualization
     fig.update_layout(
@@ -319,13 +321,17 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
     # create one overlay for each model marker
     for i, (model_id, metric_dict) in enumerate(list(metrics.values())[1].items()):
         stdev, ccoef, crmse, loss = metric_dict.values()
+        if '*' in model_id:
+            facecolor = 'White'
+        else:
+            facecolor = MODEL_COLORS[model_id]
         sm.taylor_diagram(ax,
                           np.asarray((stdev0, stdev)),
                           np.asarray((crmse0, crmse)),
                           np.asarray((ccoef0, ccoef)),
                           markersymbol = MARKERS[MODEL_TYPES[model_id]],
                           markercolors = {
-                            "face": MODEL_COLORS[model_id],
+                            "face": facecolor,
                             "edge": MODEL_COLORS[model_id]
                           },
                           markersize = 9,
@@ -342,7 +348,7 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
         marker = mlines.Line2D([], [], 
                            marker=MARKERS[MODEL_TYPES[model_id]],
                            markersize=9,
-                           markerfacecolor=MODEL_COLORS[model_id],
+                           markerfacecolor=facecolor,
                            markeredgecolor=MODEL_COLORS[model_id],
                            linestyle='None',
                            label='{} (Loss:{:.2f})'.format(model_id,score_label))
