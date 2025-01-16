@@ -85,14 +85,20 @@ def plot_ts(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_pred=None, t
             n_items = len(dfs_pred.keys())
            
             for j, model in enumerate(dfs_pred.keys()):
+                if loss is None:
+                    model_label =  model
+                else:
+                    model_label = '{} (Loss:{:.2f})'.format(model, loss[model])
+                        
                 if '*' not in model:
-                    if loss is None:
-                        model_label =  model
-                    else:
-                        model_label = '{} (Loss:{:.2f})'.format(model, loss[model])
                     ax.plot(dfs_pred[model].index, dfs_pred[model][tran_id], 
                             linestyle='-', color=colors[model], label=model_label, 
                             zorder=zorders[model], alpha=1)
+                else:
+                    ax.plot(dfs_pred[model].index, dfs_pred[model][tran_id], 
+                            linestyle='--', color=colors[model], label=model_label, 
+                            zorder=zorders[model], alpha=1)                    
+                    
                 
             ax.set_xlim(dfs_pred[model].index[0], dfs_pred[model].index[-1])
 
@@ -177,12 +183,13 @@ def plot_ts_interactive(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_
         # Plot prediction
         if dfs_pred is not None:
             for model in dfs_pred.keys():
-                if '*' not in model:
-                    if loss is None:
-                        model_label =  model
-                    else:
-                        model_label = '{} (Loss:{:.2f})'.format(model, loss[model])
-                    color_hex = mcolors.to_hex(colors[model])  # Convert RGBA to hex
+                color_hex = mcolors.to_hex(colors[model])  # Convert RGBA to hex
+                if loss is None:
+                    model_label =  model
+                else:
+                    model_label = '{} (Loss:{:.2f})'.format(model, loss[model])
+                    
+                if '*' not in model:                    
                     fig.add_trace(
                         go.Scatter(x=dfs_pred[model].index, y=dfs_pred[model][tran_id], 
                                    mode='lines', name=f'{model_label}', 
@@ -190,11 +197,20 @@ def plot_ts_interactive(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_
                                    legendgroup=f'{model}', showlegend=show_legend, visible='legendonly'),
                         row=i+1, col=1
                     )
+                else:
+                    formatted_label = model_label.replace('$^*$', '<sup>*</sup>')
+                    fig.add_trace(
+                        go.Scatter(x=dfs_pred[model].index, y=dfs_pred[model][tran_id], 
+                                   mode='lines', name=formatted_label, 
+                                   line=dict(color=color_hex, dash='dash'),
+                                   legendgroup=f'{model}', showlegend=show_legend, visible='legendonly'),
+                        row=i+1, col=1 
+                    )
 
     # Update layout for better visualization
     fig.update_layout(
-        height=300 * len(tran_ids), width=1000,
-        title_text=f"Time Series for {task.capitalize()} Task",
+        height=300 * len(tran_ids), width=1500,
+        title_text=f"Time Series for {task.capitalize()}",
         hovermode="x unified",
         showlegend=True
     )
@@ -335,7 +351,7 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
                             "edge": MODEL_COLORS[model_id]
                           },
                           markersize = 9,
-                          alpha = 1.0,
+                          #alpha = 1.0,
                           overlay = 'on',
                           styleCOR = '-',
                           styleSTD = '-')
