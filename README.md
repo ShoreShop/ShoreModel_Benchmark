@@ -14,6 +14,8 @@ This repository is a testbed for shoreline modelling algorithms. It contains all
 <img src="figures/Medium_pre1986/TaylorDiagram.jpg" height="400">
 <img src="figures/Medium_post1986/TaylorDiagram.jpg" height="400">
 
+Please use the [interactive plots](https://shoreshop.github.io/ShoreModel_Benchmark/plots.html) to check the performance of each individual model.
+
 ## Background and Objectives <a name="Background"></a>
 ### Background
 Shoreline change prediction has witnessed the evolution of both hybrid and data-driven models, offering valuable insights into how coastlines respond to varying wave conditions across different timescales. Building on the success of the ShoreShop 1.0 ([Blind testing of shoreline evolution models](https://www.nature.com/articles/s41598-020-59018-y)) in 2018, which tested 19 shoreline models in predicting shoreline positions over a four-year period, ShoreShop 2.0 aims to further explore and showcase the evolution of predictive methods.
