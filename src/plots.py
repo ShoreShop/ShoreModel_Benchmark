@@ -310,7 +310,7 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
                       np.asarray((crmse0, crmse0)), 
                       np.asarray((ccoef0, ccoef0)),
                       markercolors = {"face": "#000000","edge": "#000000"},
-                      markersize = 9, markersymbol = '^',
+                      markersize = 20, markersymbol = '^',
                       styleOBS = ':', colOBS = "#000000", alpha = 1.0,
                       titleSTD = 'off', titleRMS = 'off',
                       showlabelsRMS = 'on',
@@ -331,7 +331,7 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
     # add label below the marker
 #     ax.set_xlim(0, 1.2)
 #     ax.set_ylim(0, 1.2)
-    ax.text(stdev0-0.075, 0.05, list(metrics.keys())[0][0:4]+'.', verticalalignment="top",
+    ax.text(stdev0-0.1, 0.05, list(metrics.keys())[0][0:4]+'.', verticalalignment="top",
             horizontalalignment="center", fontweight="bold")
 
     # create one overlay for each model marker
@@ -553,4 +553,150 @@ def loss_boxplot(df_loss, df_meta, transects, colors):
     ax.legend(handles=legend_patches, loc='upper right')
     
     return fig
+
+def QQ_plot(df_targ, dfs_pred, df_loss, colors):
+    quantiles = np.linspace(0, 1, 100) 
+    lims = {
+        'Transect2':[165, 238],
+        'Transect5':[165, 218],
+        'Transect8':[145, 225],
+
+    }
+
+
+    fig, axes = plt.subplots(1, 3, figsize=(12, 8))
+    letters = string.ascii_lowercase # Letters used to label subplots
+
+    count = 0
+    for i, tran_id in enumerate(lims.keys()):
+        ax = axes[i]
+        ax.text(0.01,0.95, letters[count] + ')', ha='left',va='top', transform=ax.transAxes, zorder=10)
+        count += 1
+
+
+        for k, model_name in enumerate(df_loss.index):
+            targ = df_targ[tran_id]
+            if model_name in dfs_pred.keys():
+
+                model = dfs_pred[model_name][tran_id]
+
+                targ_quantiles = np.nanquantile(targ, quantiles)
+                model_quantiles = np.nanquantile(model, quantiles)
+
+                if '*' in model_name:
+                    line_style = '--'
+                    k = k+1
+                else:
+                    line_style = '-'
+
+                ax.plot(targ_quantiles, model_quantiles, label=model_name, color=colors[model_name],
+                       linestyle = line_style)
+
+
+
+        ax.plot(lims[tran_id], lims[tran_id], 'k--')
+        ax.set_aspect('equal')
+    #         ax.set_xlim(min(targ_quantiles)-5, max(targ_quantiles)+5)
+    #         ax.set_ylim(min(targ_quantiles)-5, max(targ_quantiles)+5)
+        ax.set_xlim(lims[tran_id])
+        ax.set_ylim(lims[tran_id])
+        ax.set_ylabel('Model (m)')
+        ax.set_xlabel('Target (m)')
+        ax.set_title(tran_id)
+
+
+        if i == 0:
+            ax.legend(bbox_to_anchor=[-0.2, -0.15], loc=2, ncol=5, fontsize=9)
+
+    plt.subplots_adjust(wspace=0.3)
+    return fig
+
+
+def QQ_plot_interactive(df_targ, dfs_pred, df_loss, colors):
+    quantiles = np.linspace(0, 1, 100)
+    lims = {
+        'Transect2': [165, 238],
+        'Transect5': [165, 218],
+        'Transect8': [145, 225],
+    }
+
+    # Create subplots layout (3 rows, 1 column)
+    fig = make_subplots(
+        rows=3, cols=1,
+        shared_xaxes=False, shared_yaxes=False,
+        vertical_spacing=0.1,
+        subplot_titles=list(lims.keys())
+    )
+
+    for i, (tran_id, lim) in enumerate(lims.items()):
+        show_legend = i == 0  # Only show the legend for the first subplot
+
+        for model_name in df_loss.index:
+            if model_name in dfs_pred.keys():
+                targ = df_targ[tran_id]
+                model = dfs_pred[model_name][tran_id]
+
+                targ_quantiles = np.nanquantile(targ, quantiles)
+                model_quantiles = np.nanquantile(model, quantiles)
+
+                line_dash = 'dash' if '*' in model_name else 'solid'
+                color_hex = mcolors.to_hex(colors[model_name])  # Convert RGBA to hex
+                
+                # Format model name with superscript
+                formatted_label = model_name.replace('$^*$', '<sup>*</sup>')
+
+                # Add traces
+                fig.add_trace(go.Scatter(
+                    x=targ_quantiles,
+                    y=model_quantiles,
+                    mode='lines',
+                    name=formatted_label,
+                    line=dict(color=color_hex, dash=line_dash),
+                    legendgroup=formatted_label,  # Group traces by model name
+                    showlegend=show_legend,
+                    visible='legendonly'  # Hidden by default
+                ), row=i + 1, col=1)
+
+        # Add the diagonal line for each subplot
+        fig.add_trace(go.Scatter(
+            x=lim,
+            y=lim,
+            mode='lines',
+            line=dict(color='black', dash='dash'),
+            showlegend=False
+        ), row=i + 1, col=1)
+
+        # Set xrange and yrange based on the lims
+        fig.update_xaxes(range=lim, row=i + 1, col=1)
+        fig.update_yaxes(range=lim, row=i + 1, col=1)
+
+        # Generate tick values: round limits to nearest multiple of 5, and generate ticks from min to max
+        tick_min = np.floor(lim[0] / 10) * 10
+        tick_max = np.ceil(lim[1] / 10) * 10
+        tick_values = np.arange(tick_min, tick_max + 1, 10)  # Generate ticks in steps of 5
+        
+        # Set identical xticks and yticks
+        fig.update_xaxes(tickmode='array', tickvals=tick_values, row=i + 1, col=1)
+        fig.update_yaxes(tickmode='array', tickvals=tick_values, row=i + 1, col=1)
+
+    # Update layout for the subplots
+    fig.update_layout(
+        title="Quantile-Quantile (QQ) Plots",
+        height=1000, width=700,  # Adjust plot size
+        legend=dict(
+            title="Models",
+            x=1.05, y=1, xanchor="left", yanchor="top",
+            bgcolor="rgba(255,255,255,0.5)"
+        ),
+        template="plotly_white"
+    )
+
+    # Fix aspect ratio (square plots)
+    for i in range(3):
+        fig.update_xaxes(title="Target (m)", scaleanchor=f'y{i + 1}', row=i + 1, col=1)
+        fig.update_yaxes(title="Model (m)", row=i + 1, col=1)
+
+    return fig
+
+    
     
