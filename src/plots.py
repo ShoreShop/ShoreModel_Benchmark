@@ -121,7 +121,7 @@ def plot_ts(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_pred=None, t
 
 
 def plot_ts_interactive(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_pred=None, task='cali', 
-                        output_path=None, zorders=None, colors=None, loss=None):
+                        output_path=None, zorders=None, colors=None, loss=None, title=''):
     '''
     This function plots interactive time series of observation, calibration, target, and prediction.
     
@@ -210,7 +210,7 @@ def plot_ts_interactive(tran_ids, df_obs=None, dfs_cali=None, df_targ=None, dfs_
     # Update layout for better visualization
     fig.update_layout(
         height=300 * len(tran_ids), width=1500,
-        title_text=f"Time Series for {task.capitalize()}",
+        title_text=f"Time Series for {title}",
         hovermode="x unified",
         showlegend=True
     )
@@ -612,7 +612,7 @@ def QQ_plot(df_targ, dfs_pred, df_loss, colors):
     return fig
 
 
-def QQ_plot_interactive(df_targ, dfs_pred, df_loss, colors):
+def QQ_plot_interactive(df_targ, dfs_pred, df_loss, colors, title=''):
     quantiles = np.linspace(0, 1, 100)
     lims = {
         'Transect2': [165, 238],
@@ -681,7 +681,7 @@ def QQ_plot_interactive(df_targ, dfs_pred, df_loss, colors):
 
     # Update layout for the subplots
     fig.update_layout(
-        title="Quantile-Quantile (QQ) Plots",
+        title=f"Quantile-Quantile Plots for {title}",
         height=1000, width=700,  # Adjust plot size
         legend=dict(
             title="Models",
