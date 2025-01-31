@@ -1,6 +1,6 @@
 ## SLRM model
 ### Model description
-The SLRM is based on the horizontal behavior concept of suspended sediment from storms to derive an ordinary differential equation that describes temporal changes in shoreline position (Lim et al. [1]). The SLRM is also improved the model performance by considering the effect of the wave setup on shoreline changes. The model formulation is described as follows:
+The SLRM is based on the horizontal behavior concept of suspended sediment from storms to derive an ordinary differential equation that describes temporal changes in shoreline position (Lim et al. [1][2][3]). The SLRM is also improved the model performance by considering the effect of the wave setup on shoreline changes. The model formulation is described as follows:
 
 $$
 \frac{∂S(t)}{∂t}=k_r (\frac{E_b}{a_r} -S(t))
@@ -9,6 +9,8 @@ $$
 - $S(t)$ : the shoreline position at time $t$
 - $E_b$ : the incident wave energy
 - $k_r,a_r$ : the beach recovery and response factors
+- $D_s$ : the depth of closure
+- $Q_l$ : the longshore sediment transport. Here, Q_l is predicted from the suspended sediment transport. 
 
 In addition, the SLRM also takes into account the effect of wave setup, as follows:
 
@@ -26,7 +28,7 @@ The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Me
 ### Model implementation (Post ShoreShop 2.0 WorkShop)
 The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Medium-term prediction***. The SLRM was implemented by calibrating free parameters ($μ$ and $k_r$) from the provided observation data. *After the workshop, the model implemented cross-shore evolution using optimal free parameters for each intersection. The model also implemented longshore sediment transport caused by the wave direction.*
 
-Here, shoreline change caused by longshore sediment transport is simulated using a simplified version of the numerical model proposed by Lim et al. [2][3].
+Here, shoreline change caused by longshore sediment transport was simulated using a simplified version of the numerical model proposed by Lim et al. [2][3].
 
 ### Model classification
 #### Model mechanics
