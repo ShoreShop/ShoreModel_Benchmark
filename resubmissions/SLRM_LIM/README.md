@@ -26,6 +26,8 @@ The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Me
 ### Model implementation (Post ShoreShop 2.0 WorkShop)
 The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Medium-term prediction***. The SLRM was implemented by calibrating free parameters ($μ$ and $k_r$) from the provided observation data. *After the workshop, the model implemented cross-shore evolution using optimal free parameters for each intersection. The model also implemented longshore sediment transport caused by the wave direction.*
 
+Here, shoreline change caused by longshore sediment transport is simulated using a simplified version of the numerical model proposed by Lim et al. [2][3].
+
 ### Model classification
 #### Model mechanics
 - [ ] Process-Based Models (PBM): couple hydrodynamics, waves, and morphodynamics through mass and momentum conservation laws.
@@ -42,3 +44,8 @@ The SLRM model was applied to ***Task1.Short-term prediction***, and ***Task2.Me
 ### References
 [[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)]
 Lim, C., Kim, T.K. and Lee, J.L. (2022). Evolution model of shoreline position on sandy, wave-dominated beaches. *Geomorphology*. 108409.
+[[2](https://doi.org/10.3389/fmars.2023.1179598)]
+Lim, C. and Lee, J.L. (2023). Derivation of governing equation for short-term shoreline response due to episodic storm
+wave incidence: comparative verification in terms of longshore sediment transport. *Front. Mar. Sci.* 10:1179598.
+[[3](https://doi.org/10.1016/j.apor.2024.104288)]
+Lim, C., González, M. and Lee, J.L. (2024). Estimating cross-shore and longshore sediment transport from shoreline observation data. *Applied Ocean Research*. 104288.
