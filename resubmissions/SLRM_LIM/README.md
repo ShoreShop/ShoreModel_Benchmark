@@ -42,7 +42,7 @@ Here, shoreline change caused by longshore sediment transport was simulated usin
 - Changbin Lim, IHCantabria (art3440@naver.com; limc@unican.es)
 
 ### References
-[[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)]
+[[1](https://doi.org/10.1016/j.geomorph.2022.108409)]
 Lim, C., Kim, T.K. and Lee, J.L. (2022). Evolution model of shoreline position on sandy, wave-dominated beaches. *Geomorphology*. 108409.
 
 [[2](https://doi.org/10.3389/fmars.2023.1179598)]
