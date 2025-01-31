@@ -3,7 +3,7 @@
 The SLRM is based on the horizontal behavior concept of suspended sediment from storms to derive an ordinary differential equation that describes temporal changes in shoreline position (Lim et al. [1][2][3]). The SLRM is also improved the model performance by considering the effect of the wave setup on shoreline changes. The model formulation is described as follows:
 
 $$
-\frac{∂y(t)}{∂t}=k_r (\frac{E_b}{a_r} -S(t)) + \frac{∂y_l(t)}{∂t}
+\frac{∂y(t)}{∂t} = \frac{∂y_c(t)}{∂t} + \frac{∂y_l(t)}{∂t} = k_r (\frac{E_b}{a_r} -S(t)) + \frac{∂y_l(t)}{∂t}
 $$
 
 - $y(t)$ : the shoreline position at time $t$
