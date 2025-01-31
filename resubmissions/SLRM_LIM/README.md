@@ -44,8 +44,10 @@ Here, shoreline change caused by longshore sediment transport is simulated using
 ### References
 [[1](https://doi.org/10.1016/j.coastaleng.2012.11.002)]
 Lim, C., Kim, T.K. and Lee, J.L. (2022). Evolution model of shoreline position on sandy, wave-dominated beaches. *Geomorphology*. 108409.
+
 [[2](https://doi.org/10.3389/fmars.2023.1179598)]
 Lim, C. and Lee, J.L. (2023). Derivation of governing equation for short-term shoreline response due to episodic storm
 wave incidence: comparative verification in terms of longshore sediment transport. *Front. Mar. Sci.* 10:1179598.
+
 [[3](https://doi.org/10.1016/j.apor.2024.104288)]
 Lim, C., González, M. and Lee, J.L. (2024). Estimating cross-shore and longshore sediment transport from shoreline observation data. *Applied Ocean Research*. 104288.
