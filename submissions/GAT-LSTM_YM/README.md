@@ -17,6 +17,9 @@ Subsequently, the trained model was employed to predict shoreline positions from
 - [x] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [ ] Sea level: consider the impact of sea level rise on shoreline position.
 
+### Modelers
+:man_technologist: [Yongjing Mao](yongjing.mao@unsw.edu.au)
+
 ### References
 [[1](https://doi.org/10.48550/arXiv.1710.10903)]
 Veličković, P., Cucurull, G., Casanova, A., Romero, A., Lio, P. and Bengio, Y., 2017. Graph attention networks. arXiv preprint arXiv:1710.10903.\
