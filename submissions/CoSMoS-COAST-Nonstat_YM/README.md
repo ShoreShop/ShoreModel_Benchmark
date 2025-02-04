@@ -6,8 +6,8 @@ The future states of nonstationary parameters are predicted following [[1]( http
 
 ### Model implementation
 The CoSMoS-COAST model was applied to ***Task1.Short-term prediction***, ***Task2.Medium-term prediction***, and ***Task3.Long-term prediction***. 
-For all transects togeather, the model parameters were calibrated using wave ($H_s$, $T_p$, $\theta$) and smoothed shoreline data from 1940 to 2018 using the littoral-cell-based Ensemble Kalman Filter Algorithm (EnKF).  
-For nonstationary parameters of the cross-shore component, based on the correlation between calibrated parameters and long-term wave climates, future states were predicted following [[1]( https://doi.org/10.3389/fmars.2022.1012041)].
+For all transects togeather, the model parameters were calibrated using wave ($H_s$, $T_p$, $\theta$) and shoreline data from 1999 to 2018 using the littoral-cell-based Ensemble Kalman Filter Algorithm (EnKF).  
+For nonstationary parameters for cross-shore sediment transport of the cross-shore component, based on the correlation between calibrated parameters and long-term wave climates, future states were predicted following [[1]( https://doi.org/10.3389/fmars.2022.1012041)].
 The model with calibrated stationary parameters and predicted nonstationary parameters was then used to predict shoreline positions from 2019 to 2100.
 
 ### Model classification
@@ -19,6 +19,9 @@ The model with calibrated stationary parameters and predicted nonstationary para
 - [x] Cross-shore: model the shoreline position for each transect independently.
 - [x] Long-shore: incorporate the interaction of shoreline position across different transects.
 - [x] Sea level: consider the impact of sea level rise on shoreline position.
+
+### Modelers
+:man_technologist: Yongjing Mao (yongjing.mao@unsw.edu.au)
 
 ### References
 [[1]( https://doi.org/10.3389/fmars.2022.1012041)]
