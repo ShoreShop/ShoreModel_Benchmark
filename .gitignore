@@ -10,19 +10,11 @@ algorithms/ShoreFor/check_results.py
 /.ipynb_checkpoints
 Results summary.docx
 /src/__pycache__
-datasets/shorelines/shorelines_hidden_short.csv
-datasets/shorelines/shorelines_hidden_medium.csv
 algorithms/CoSMoS-COAST-CONV/fconv2.m
 algorithms/CoSMoS-COAST-CONV/smoothn.m
 datasets/bathymetry/bathymetry.tif.aux.xml
 worshop summary.docx
-/datasets/hidden
-Figure1.ipynb
-Figure2.ipynb
-Figure5.ipynb
-Figure6.ipynb
 figures/model_loss.csv
 /figures/Paper
 datasets/hindcast_waves/Spec_ERA5_sydney.nc
-Figure3.ipynb
-Figure4.ipynb
+
