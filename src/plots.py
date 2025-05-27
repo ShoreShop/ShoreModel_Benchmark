@@ -331,7 +331,7 @@ def plot_taylor(metrics, model_types, colors, legend='Invidivual',  aver_scores=
     # add label below the marker
 #     ax.set_xlim(0, 1.2)
 #     ax.set_ylim(0, 1.2)
-    ax.text(stdev0-0.1, 0.05, list(metrics.keys())[0][0:4]+'.', verticalalignment="top",
+    ax.text(stdev0-0.2, 0.05, 'Observed', verticalalignment="top",
             horizontalalignment="center", fontweight="bold")
 
     # create one overlay for each model marker
