@@ -104,7 +104,7 @@ The shoreline data (`shorelines_obs.csv`) utilized in the ShoreShop 2.0 workshop
 The satellite-derived shoreline (SDS) data for model calibration/training starts from 1999 and ends at 2018 with 347 time steps. \
 The shoreline position (m) is defined as the distance from the landward end of a transect to the intersection of the shoreline and the transect. \
 All the shorelines have been corrected to reflect the instantaneous position at Mean Sea Level.\
-The satellite-derived shoreline position data exhibits a high level of accuracy and closely aligns with the ground truth data for Beach_X with RMSE (shown in the figure below) less than 7 (m) for transects 1~8 and 15 (m) for transect 9 which is close to the headland, ensuring reliable model calibration and training.
+The reported accuracy of CoastSat-derived shorelines is 8.9 m against ground-truth data at Narrabeen Beach. For Beach_X, based on validation against a limited number of photogrammetry data points, the RMSE of the SDS shoreline (as shown in the figure below) is less than 7 m for transects 1–8, and around 15 m for transect 9, which is located near the headland.
 
 <img src="figures/shorelines_temporal.jpg" width="800">
 
